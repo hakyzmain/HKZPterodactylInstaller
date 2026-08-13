@@ -1,6 +1,6 @@
 # HKZPterodactylInstaller
 
-v2.13.3 (rev 111)
+v2.13.4 (rev 112)
 
 ```bash
 curl -fsSL -o /tmp/run.sh "https://raw.githubusercontent.com/hakyzmain/HKZPterodactylInstaller/main/run.sh?t=$(date +%s)"

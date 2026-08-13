@@ -20,20 +20,13 @@ rm_panel_files() {
   rm -f /usr/local/bin/phkz 2>/dev/null || true
   hkz_rm_log "$(hkz_t rm_cron_update): /etc/cron.d/phkz-panel-update"
   rm -f /etc/cron.d/phkz-panel-update 2>/dev/null || true
+  hkz_cleanup_panel_nginx_sites
   case "$OS" in
     ubuntu|debian)
-      hkz_rm_log "$(hkz_t rm_nginx_site): /etc/nginx/sites-enabled/pterodactyl.conf"
-      rm -f /etc/nginx/sites-enabled/pterodactyl.conf 2>/dev/null || true
-      hkz_rm_log "$(hkz_t rm_nginx_site): /etc/nginx/sites-available/pterodactyl.conf"
-      rm -f /etc/nginx/sites-available/pterodactyl.conf 2>/dev/null || true
       if [ -f /etc/nginx/sites-available/default ]; then
         hkz_rm_log "$(hkz_t rm_nginx_default): /etc/nginx/sites-enabled/default"
         ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default 2>/dev/null || true
       fi
-      ;;
-    rocky|almalinux)
-      hkz_rm_log "$(hkz_t rm_nginx_site): /etc/nginx/conf.d/pterodactyl.conf"
-      rm -f /etc/nginx/conf.d/pterodactyl.conf 2>/dev/null || true
       ;;
   esac
   hkz_rm_log "$(hkz_t rm_pteroq_stop)"
@@ -67,7 +60,7 @@ rm_wings_files() {
   hkz_rm_log "$(hkz_t rm_wings_lib)"
   rm -rf /var/lib/pterodactyl 2>/dev/null || true
   hkz_rm_log "$(hkz_t rm_wings_bin): /usr/local/bin/wings"
-  rm -f /usr/local/bin/wings 2>/dev/null || true
+  rm -f /usr/local/bin/wings /usr/bin/wings 2>/dev/null || true
   hkz_rm_log "$(hkz_t rm_stamp_wings): $HKZ_STAMP_WINGS"
   rm -f "$HKZ_STAMP_WINGS" 2>/dev/null || true
   hkz_rm_log "$(hkz_t rm_docker_prune)"
@@ -77,30 +70,43 @@ rm_wings_files() {
 
 rm_database_ask() {
   [ "$RM_PANEL" != true ] && return 0
-  local dbs users
-  dbs=$(mariadb -u root -N -e "SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('information_schema','performance_schema','mysql','sys');" 2>/dev/null || true)
-  [ -z "$dbs" ] && return 0
+  local dbs users ans
+  hkz_ensure_mariadb_running 2>/dev/null || true
+  hkz_mysql_bin >/dev/null 2>&1 || {
+    msg_info "$(hkz_t db_no_mysql)"
+    hkz_cleanup_panel_redis ask || true
+    return 0
+  }
+
+  dbs=$(hkz_collect_ptero_databases 2>/dev/null | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+  users=$(hkz_collect_ptero_db_users 2>/dev/null | tr '\n' ' ' | sed 's/[[:space:]]*$//')
+
   echo ""
-  echo "  $(hkz_t db_title): $dbs"
-  echo -en "  $(hkz_t db_drop_panel) "
-  read -r dp
-  if [[ "$dp" =~ ^[Yy] ]]; then
-    hkz_rm_log "MariaDB: DROP DATABASE panel"
-    mariadb -u root -e "DROP DATABASE IF EXISTS panel;" 2>/dev/null || true
-    mariadb -u root -e "DROP DATABASE IF EXISTS \`panel\`;" 2>/dev/null || true
+  if [ -n "$dbs" ]; then
+    msg_info "$(hkz_t db_found): $dbs"
+  else
+    msg_info "$(hkz_t db_none)"
   fi
-  echo -en "  $(hkz_t db_drop_user) "
-  read -r du
-  if [[ "$du" =~ ^[Yy] ]]; then
-    hkz_rm_log "MariaDB: DROP USER pterodactyl"
-    mariadb -u root -e "DROP USER IF EXISTS 'pterodactyl'@'127.0.0.1';" 2>/dev/null || true
-    mariadb -u root -e "DROP USER IF EXISTS 'pterodactyl'@'localhost';" 2>/dev/null || true
+  if [ -n "$users" ]; then
+    msg_info "$(hkz_t db_users_found): $users"
   fi
-  mariadb -u root -e "FLUSH PRIVILEGES;" 2>/dev/null || true
+
+  if [ -n "$dbs" ] || [ -n "$users" ]; then
+    echo -en "  $(hkz_t db_drop_all) "
+    read -r ans
+    if [[ ! "$ans" =~ ^[Nn] ]]; then
+      [ -n "$dbs" ] && hkz_drop_databases $dbs
+      [ -n "$users" ] && hkz_drop_db_users $users
+      msg_ok "$(hkz_t db_drop_ok)"
+    fi
+  fi
+
+  hkz_cleanup_panel_redis ask || true
 }
 
 uninstall_main() {
   detect_os
+  hkz_resolve_panel_dir 2>/dev/null || true
   [ "$RM_PANEL" = true ] && rm_panel_files
   [ "$RM_WINGS" = true ] && rm_wings_files
   [ "$RM_PANEL" = true ] && rm_database_ask

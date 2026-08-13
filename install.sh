@@ -87,7 +87,7 @@ hkz_pre_sync_opt() {
   [ -f "${dir}/INSTALLER_REV" ] && lr=$(tr -d '[:space:]' <"${dir}/INSTALLER_REV")
   want=""
   [ -f "${_SCRIPT_DIR}/INSTALLER_REV" ] && want=$(tr -d '[:space:]' <"${_SCRIPT_DIR}/INSTALLER_REV")
-  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-111}"
+  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-112}"
   [ -n "$want" ] && [ "$lr" != "$want" ] && need=1
   [ "$need" = 1 ] && [ -f "${dir}/run.sh" ] && exec env HKZ_INSTALLER_SYNCED=1 bash "${dir}/run.sh" "$@"
 }
@@ -249,9 +249,15 @@ cmd_wings_deploy() {
 cmd_uninstall_panel() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   draw_logo
+  detect_os
   hkz_resolve_panel_dir 2>/dev/null || true
   if ! hkz_panel_files_exist; then
     msg_warn "$(hkz_t warn_nothing_panel)"
+    msg_info "$(hkz_t db_cleanup_orphan)"
+    echo -en "  $(hkz_t db_cleanup_orphan_q) "
+    read -r c
+    [[ ! "$c" =~ ^[Yy] ]] && return 0
+    env HKZ_LANG="${HKZ_LANG:-ru}" RM_PANEL=true RM_WINGS=false bash "$SCRIPT_DIR/installers/uninstall.sh"
     return 0
   fi
   hkz_panel_external_install && msg_info "$(hkz_t panel_external_manage)"
@@ -278,9 +284,15 @@ cmd_uninstall_wings() {
 cmd_uninstall_all() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   draw_logo
+  detect_os
   hkz_resolve_panel_dir 2>/dev/null || true
   if ! hkz_panel_files_exist && ! hkz_wings_files_exist; then
     msg_warn "$(hkz_t warn_nothing_all)"
+    msg_info "$(hkz_t db_cleanup_orphan)"
+    echo -en "  $(hkz_t db_cleanup_orphan_q) "
+    read -r c
+    [[ ! "$c" =~ ^[Yy] ]] && return 0
+    env HKZ_LANG="${HKZ_LANG:-ru}" RM_PANEL=true RM_WINGS=true bash "$SCRIPT_DIR/installers/uninstall.sh"
     return 0
   fi
   hkz_panel_files_exist && msg_info "$(hkz_t info_found_panel)"
@@ -291,6 +303,7 @@ cmd_uninstall_all() {
   local rp=false rw=false
   hkz_panel_files_exist && rp=true
   hkz_wings_files_exist && rw=true
+  [ "$rp" != true ] && rp=true
   env HKZ_LANG="${HKZ_LANG:-ru}" RM_PANEL="$rp" RM_WINGS="$rw" bash "$SCRIPT_DIR/installers/uninstall.sh"
 }
 

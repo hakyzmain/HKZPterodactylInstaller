@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-111}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-112}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -100,9 +100,17 @@ hkz_mark_wings() { mkdir -p "$HKZ_STAMP_DIR"; date -Iseconds >"$HKZ_STAMP_WINGS"
 
 hkz_panel_dir_from_nginx() {
   local f root d
-  for f in /etc/nginx/sites-enabled/pterodactyl.conf /etc/nginx/sites-available/pterodactyl.conf \
-    /etc/nginx/conf.d/pterodactyl.conf /etc/nginx/sites-enabled/*pterodactyl* \
-    /etc/nginx/sites-available/*pterodactyl*; do
+  for f in \
+    /etc/nginx/sites-enabled/pterodactyl.conf \
+    /etc/nginx/sites-available/pterodactyl.conf \
+    /etc/nginx/conf.d/pterodactyl.conf \
+    /etc/nginx/sites-enabled/*pterodactyl* \
+    /etc/nginx/sites-available/*pterodactyl* \
+    /etc/nginx/sites-enabled/panel.conf \
+    /etc/nginx/sites-available/panel.conf \
+    /etc/nginx/conf.d/panel.conf \
+    /etc/nginx/sites-enabled/*panel* \
+    /etc/nginx/sites-available/*panel*; do
     [ -f "$f" ] || continue
     root=$(grep -E '^\s*root\s+' "$f" 2>/dev/null | head -1 | awk '{print $2}' | tr -d ';"')
     [ -z "$root" ] && continue
@@ -120,8 +128,26 @@ hkz_resolve_panel_dir() {
     export PANEL_DIR
     return 0
   fi
-  for try in /var/www/pterodactyl /var/www/html/pterodactyl /srv/pterodactyl; do
+  for try in \
+    /var/www/pterodactyl \
+    /var/www/panel \
+    /var/www/html/pterodactyl \
+    /var/www/html/panel \
+    /srv/pterodactyl \
+    /srv/panel \
+    /opt/pterodactyl \
+    /opt/panel \
+    /var/www/Pterodactyl; do
     if [ -f "${try}/artisan" ]; then
+      PANEL_DIR="$(cd "$try" && pwd)"
+      export PANEL_DIR
+      return 0
+    fi
+  done
+  found=$(find /var/www /srv /opt -maxdepth 3 -type f -name artisan 2>/dev/null | head -20)
+  for try in $found; do
+    try=$(dirname "$try")
+    if hkz_is_pterodactyl_panel "$try" 2>/dev/null || [ -f "${try}/app/Models/Server.php" ]; then
       PANEL_DIR="$(cd "$try" && pwd)"
       export PANEL_DIR
       return 0
@@ -1236,10 +1262,238 @@ hkz_export_panel_env() {
 }
 
 hkz_panel_prepare_fresh_database() {
-  hkz_panel_external_install && return 0
+  local dbs users db
   msg_info "$(hkz_t panel_db_fresh)"
-  hkz_mysql_root_exec "DROP DATABASE IF EXISTS \`${MYSQL_DB}\`;" || return 1
+  hkz_ensure_mariadb_running 2>/dev/null || true
+  dbs=$(hkz_collect_ptero_databases 2>/dev/null || true)
+  [ -z "$dbs" ] && [ -n "${MYSQL_DB:-}" ] && dbs="$MYSQL_DB"
+  if [ -n "$dbs" ]; then
+    msg_info "$(hkz_t db_found): $dbs"
+    hkz_drop_databases "$dbs" || true
+  elif [ -n "${MYSQL_DB:-}" ]; then
+    hkz_mysql_root_exec "DROP DATABASE IF EXISTS \`${MYSQL_DB}\`;" || return 1
+  fi
+  users=$(hkz_collect_ptero_db_users 2>/dev/null || true)
+  [ -n "$users" ] && hkz_drop_db_users "$users" || true
+  hkz_cleanup_panel_redis auto || true
   return 0
+}
+
+hkz_env_file_val() {
+  local file="$1" key="$2" line
+  [ -f "$file" ] || return 1
+  line=$(grep -E "^${key}=" "$file" 2>/dev/null | tail -1) || return 1
+  line=${line#*=}
+  line=$(printf '%s' "$line" | sed -e 's/^["'\'']//' -e 's/["'\'']$//')
+  printf '%s' "$line"
+}
+
+hkz_panel_env_files() {
+  local d f seen=""
+  hkz_resolve_panel_dir 2>/dev/null || true
+  for d in \
+    "${PANEL_DIR:-}" \
+    /var/www/pterodactyl \
+    /var/www/panel \
+    /var/www/html/pterodactyl \
+    /var/www/html/panel \
+    /srv/pterodactyl \
+    /opt/pterodactyl; do
+    [ -n "$d" ] || continue
+    f="${d}/.env"
+    [ -f "$f" ] || continue
+    case " $seen " in
+      *" $f "*) continue ;;
+    esac
+    seen="$seen $f"
+    printf '%s\n' "$f"
+  done
+}
+
+hkz_mysql_list_schemas() {
+  hkz_mysql_root_query "SELECT schema_name FROM information_schema.schemata WHERE schema_name NOT IN ('information_schema','performance_schema','mysql','sys');" 2>/dev/null || true
+}
+
+hkz_mysql_root_query() {
+  local sql="$1" bin out
+  bin=$(hkz_mysql_bin) || return 1
+  out=$("$bin" -u root -N -B -e "$sql" 2>/dev/null) && { printf '%s\n' "$out"; return 0; }
+  out=$("$bin" -N -B -e "$sql" 2>/dev/null) && { printf '%s\n' "$out"; return 0; }
+  if command -v sudo >/dev/null 2>&1; then
+    out=$(sudo "$bin" -N -B -e "$sql" 2>/dev/null) && { printf '%s\n' "$out"; return 0; }
+  fi
+  return 1
+}
+
+hkz_mysql_schema_looks_like_panel() {
+  local db="$1" n
+  [ -n "$db" ] || return 1
+  n=$(hkz_mysql_root_query "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='${db}' AND table_name IN ('users','servers','eggs','nests','allocations','nodes','locations');" 2>/dev/null | tr -d '[:space:]')
+  [ -n "$n" ] && [ "$n" -ge 2 ] 2>/dev/null
+}
+
+hkz_collect_ptero_databases() {
+  local envf db schemas out="" name
+  for envf in $(hkz_panel_env_files); do
+    db=$(hkz_env_file_val "$envf" DB_DATABASE 2>/dev/null || true)
+    [ -n "$db" ] || continue
+    case " $out " in
+      *" $db "*) ;;
+      *) out="$out $db" ;;
+    esac
+  done
+  for name in panel pterodactyl pterodactyl_panel panel_db ptero paneldb; do
+    case " $out " in
+      *" $name "*) ;;
+      *) out="$out $name" ;;
+    esac
+  done
+  [ -n "${MYSQL_DB:-}" ] && case " $out " in *" $MYSQL_DB "*) ;; *) out="$out $MYSQL_DB" ;; esac
+  schemas=$(hkz_mysql_list_schemas 2>/dev/null || true)
+  for db in $out; do
+    echo "$schemas" | grep -qx "$db" || continue
+    printf '%s\n' "$db"
+  done
+  for db in $schemas; do
+    case " $out " in *" $db "*) continue ;; esac
+    if echo "$db" | grep -qiE 'ptero|panel'; then
+      printf '%s\n' "$db"
+      continue
+    fi
+    hkz_mysql_schema_looks_like_panel "$db" && printf '%s\n' "$db"
+  done | awk 'NF && !seen[$0]++'
+}
+
+hkz_collect_ptero_db_users() {
+  local envf user schemas_users out="" name host_user
+  for envf in $(hkz_panel_env_files); do
+    user=$(hkz_env_file_val "$envf" DB_USERNAME 2>/dev/null || true)
+    [ -n "$user" ] || continue
+    case " $out " in
+      *" $user "*) ;;
+      *) out="$out $user" ;;
+    esac
+  done
+  for name in pterodactyl pterodactyluser panel ptero; do
+    case " $out " in
+      *" $name "*) ;;
+      *) out="$out $name" ;;
+    esac
+  done
+  [ -n "${MYSQL_USER:-}" ] && case " $out " in *" $MYSQL_USER "*) ;; *) out="$out $MYSQL_USER" ;; esac
+  [ -n "${MYSQL_DBHOST_USER:-}" ] && case " $out " in *" $MYSQL_DBHOST_USER "*) ;; *) out="$out $MYSQL_DBHOST_USER" ;; esac
+  schemas_users=$(hkz_mysql_root_query "SELECT DISTINCT User FROM mysql.user WHERE User NOT IN ('root','mysql','mariadb.sys','debian-sys-maint') AND (User LIKE '%ptero%' OR User LIKE '%panel%');" 2>/dev/null || true)
+  for user in $out $schemas_users; do
+    [ -n "$user" ] || continue
+    host_user=$(hkz_mysql_root_query "SELECT COUNT(*) FROM mysql.user WHERE User='${user}';" 2>/dev/null | tr -d '[:space:]')
+    [ "$host_user" = "0" ] && continue
+    printf '%s\n' "$user"
+  done | awk 'NF && !seen[$0]++'
+}
+
+hkz_drop_databases() {
+  local db
+  for db in "$@"; do
+    [ -n "$db" ] || continue
+    for db in $db; do
+      hkz_rm_log "MariaDB: DROP DATABASE \`${db}\`" 2>/dev/null || log "[mysql] DROP DATABASE ${db}"
+      hkz_mysql_root_exec "DROP DATABASE IF EXISTS \`${db}\`;" || true
+    done
+  done
+}
+
+hkz_drop_db_users() {
+  local user hosts h
+  for user in "$@"; do
+    [ -n "$user" ] || continue
+    for user in $user; do
+      case "$user" in
+        root|mysql|mariadb.sys|debian-sys-maint) continue ;;
+      esac
+      hosts=$(hkz_mysql_root_query "SELECT Host FROM mysql.user WHERE User='${user}';" 2>/dev/null || true)
+      [ -z "$hosts" ] && hosts="localhost 127.0.0.1 %"
+      for h in $hosts localhost 127.0.0.1 % ::1; do
+        [ -n "$h" ] || continue
+        hkz_rm_log "MariaDB: DROP USER '${user}'@'${h}'" 2>/dev/null || log "[mysql] DROP USER ${user}@${h}"
+        hkz_mysql_root_exec "DROP USER IF EXISTS '${user}'@'${h}';" || true
+      done
+    done
+  done
+  hkz_mysql_root_exec "FLUSH PRIVILEGES;" || true
+}
+
+hkz_redis_is_present() {
+  command -v redis-server >/dev/null 2>&1 && return 0
+  command -v redis-cli >/dev/null 2>&1 && return 0
+  systemctl list-unit-files 2>/dev/null | grep -qE '^redis(-server)?\.service' && return 0
+  systemctl is-active --quiet redis-server 2>/dev/null && return 0
+  systemctl is-active --quiet redis 2>/dev/null && return 0
+  return 1
+}
+
+hkz_panel_used_redis() {
+  local envf driver val
+  for envf in $(hkz_panel_env_files); do
+    for driver in CACHE_DRIVER CACHE_STORE QUEUE_CONNECTION SESSION_DRIVER REDIS_HOST; do
+      val=$(hkz_env_file_val "$envf" "$driver" 2>/dev/null || true)
+      echo "$val" | grep -qiE 'redis' && return 0
+    done
+  done
+  return 1
+}
+
+hkz_cleanup_panel_redis() {
+  local mode="${1:-ask}" ans
+  hkz_redis_is_present || return 0
+  if [ "$mode" = ask ]; then
+    echo -en "  $(hkz_t db_drop_redis) "
+    read -r ans
+    [[ "$ans" =~ ^[Nn] ]] && return 0
+  fi
+  msg_step "$(hkz_t rm_redis)"
+  systemctl disable --now redis-server 2>/dev/null || true
+  systemctl disable --now redis 2>/dev/null || true
+  if [ "$mode" = auto ] && ! hkz_panel_used_redis; then
+    msg_ok "$(hkz_t rm_redis_stop)"
+    return 0
+  fi
+  if command -v apt-get >/dev/null 2>&1 || declare -F hkz_apt_get >/dev/null 2>&1; then
+    if declare -F hkz_apt_get >/dev/null 2>&1; then
+      hkz_apt_get -y remove --purge redis-server redis redis-tools 2>/dev/null || true
+      hkz_apt_get -y autoremove 2>/dev/null || true
+    else
+      DEBIAN_FRONTEND=noninteractive apt-get -y remove --purge redis-server redis redis-tools 2>/dev/null || true
+      DEBIAN_FRONTEND=noninteractive apt-get -y autoremove 2>/dev/null || true
+    fi
+  elif command -v dnf >/dev/null 2>&1; then
+    dnf -y remove redis 2>/dev/null || true
+  fi
+  rm -rf /etc/redis /var/lib/redis 2>/dev/null || true
+  msg_ok "$(hkz_t rm_redis_ok)"
+}
+
+hkz_cleanup_panel_nginx_sites() {
+  local f
+  for f in \
+    /etc/nginx/sites-enabled/pterodactyl.conf \
+    /etc/nginx/sites-available/pterodactyl.conf \
+    /etc/nginx/conf.d/pterodactyl.conf \
+    /etc/nginx/sites-enabled/panel.conf \
+    /etc/nginx/sites-available/panel.conf \
+    /etc/nginx/conf.d/panel.conf; do
+    [ -e "$f" ] || continue
+    hkz_rm_log "$(hkz_t rm_nginx_site): $f" 2>/dev/null || true
+    rm -f "$f" 2>/dev/null || true
+  done
+  for f in /etc/nginx/sites-enabled/*pterodactyl* /etc/nginx/sites-available/*pterodactyl* \
+    /etc/nginx/conf.d/*pterodactyl* /etc/nginx/sites-enabled/*panel* /etc/nginx/sites-available/*panel*; do
+    [ -e "$f" ] || continue
+    case "$f" in
+      *default*) continue ;;
+    esac
+    hkz_rm_log "$(hkz_t rm_nginx_site): $f" 2>/dev/null || true
+    rm -f "$f" 2>/dev/null || true
+  done
 }
 
 hkz_run_panel_installer() {
