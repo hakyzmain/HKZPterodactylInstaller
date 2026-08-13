@@ -194,6 +194,10 @@ hkz_t() {
       err_os_detect) echo "OS not detected" ;;
       err_arch) echo "x86_64 or arm64 required" ;;
       err_os_unsupported) echo "OS not supported:" ;;
+      apt_lock_wait) echo "waiting for apt/dpkg lock (unattended-upgrades)" ;;
+      apt_lock_still) echo "still waiting for apt lock" ;;
+      apt_lock_free) echo "apt lock free" ;;
+      apt_lock_timeout) echo "apt/dpkg lock timeout — retry later or: systemctl stop unattended-upgrades" ;;
       warn_virt) echo "virtualization:" ;;
       input_required) echo "value required" ;;
       db_tables) echo "cache / sessions / jobs tables for MySQL" ;;
@@ -516,6 +520,10 @@ hkz_t() {
       err_os_detect) echo "ОС не определена" ;;
       err_arch) echo "нужен x86_64 или arm64" ;;
       err_os_unsupported) echo "ОС не поддерживается:" ;;
+      apt_lock_wait) echo "ждём освобождения apt/dpkg (идёт unattended-upgrades)" ;;
+      apt_lock_still) echo "всё ещё ждём apt lock" ;;
+      apt_lock_free) echo "apt lock свободен" ;;
+      apt_lock_timeout) echo "таймаут apt/dpkg lock — повторите позже или: systemctl stop unattended-upgrades" ;;
       warn_virt) echo "виртуализация:" ;;
       input_required) echo "нужно ввести значение" ;;
       db_tables) echo "таблицы cache / sessions / jobs для MySQL" ;;

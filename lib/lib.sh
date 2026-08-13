@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-110}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-111}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -1433,6 +1433,81 @@ hkz_apt_prefer_ipv4() {
   printf '%s\n' 'Acquire::ForceIPv4 "true";' >/etc/apt/apt.conf.d/99hkz-force-ipv4
 }
 
+hkz_apt_lock_busy() {
+  local f p
+  for f in \
+    /var/lib/dpkg/lock-frontend \
+    /var/lib/dpkg/lock \
+    /var/lib/apt/lists/lock \
+    /var/cache/apt/archives/lock; do
+    [ -e "$f" ] || continue
+    if command -v fuser >/dev/null 2>&1; then
+      fuser "$f" >/dev/null 2>&1 && return 0
+    elif command -v lsof >/dev/null 2>&1; then
+      lsof "$f" >/dev/null 2>&1 && return 0
+    fi
+  done
+  for p in unattended-upgr unattended-upgrade apt-get apt dpkg; do
+    pgrep -x "$p" >/dev/null 2>&1 && return 0
+  done
+  return 1
+}
+
+hkz_wait_apt_lock() {
+  case "${OS:-}" in
+    ubuntu|debian) ;;
+    "")
+      [ -f /etc/debian_version ] || return 0
+      ;;
+    *) return 0 ;;
+  esac
+  local waited=0 max_wait="${HKZ_APT_LOCK_WAIT:-900}" step=5
+  if ! hkz_apt_lock_busy; then
+    return 0
+  fi
+  msg_info "$(hkz_t apt_lock_wait)"
+  while hkz_apt_lock_busy; do
+    if [ "$waited" -ge "$max_wait" ]; then
+      msg_err "$(hkz_t apt_lock_timeout)"
+      return 1
+    fi
+    sleep "$step"
+    waited=$((waited + step))
+    if [ $((waited % 30)) -eq 0 ]; then
+      msg_info "$(hkz_t apt_lock_still) (${waited}s)"
+    fi
+  done
+  sleep 2
+  msg_ok "$(hkz_t apt_lock_free)"
+  return 0
+}
+
+hkz_apt_get() {
+  local tries=0 max_tries=12 rc
+  hkz_wait_apt_lock || return 1
+  while true; do
+    tries=$((tries + 1))
+    set +e
+    DEBIAN_FRONTEND=noninteractive apt-get "$@"
+    rc=$?
+    set -e
+    [ "$rc" = 0 ] && return 0
+    if [ "$tries" -ge "$max_tries" ]; then
+      return "$rc"
+    fi
+    if hkz_apt_lock_busy; then
+      hkz_wait_apt_lock || return 1
+      continue
+    fi
+    sleep $((tries < 4 ? tries * 2 : 8))
+    if hkz_apt_lock_busy; then
+      hkz_wait_apt_lock || return 1
+      continue
+    fi
+    return "$rc"
+  done
+}
+
 hkz_apt_sanitize_stale_docker_repo() {
   case "${OS:-}" in
     ubuntu|debian) ;;
@@ -1458,7 +1533,7 @@ hkz_docker_apt_repo() {
   esac
   hkz_apt_prefer_ipv4
   hkz_apt_sanitize_stale_docker_repo
-  command -v curl >/dev/null || DEBIAN_FRONTEND=noninteractive apt-get install -y ca-certificates curl gnupg
+  command -v curl >/dev/null || hkz_apt_get install -y ca-certificates curl gnupg
   install -m 0755 -d /etc/apt/keyrings
   rm -f /etc/apt/sources.list.d/docker.list /etc/apt/sources.list.d/docker.sources
   rm -f /etc/apt/keyrings/docker.gpg /etc/apt/keyrings/docker.asc
@@ -1481,7 +1556,7 @@ update_repos() {
   case "$OS" in
     ubuntu|debian)
       hkz_apt_sanitize_stale_docker_repo
-      apt-get update -y "${@}"
+      hkz_apt_get update -y "${@}"
       ;;
     rocky|almalinux) true ;;
   esac
@@ -1489,7 +1564,7 @@ update_repos() {
 
 install_packages() {
   case "$OS" in
-    ubuntu|debian) DEBIAN_FRONTEND=noninteractive apt-get -y install "$@" ;;
+    ubuntu|debian) hkz_apt_get -y install "$@" ;;
     rocky|almalinux) dnf -y install "$@" ;;
     *) msg_err "$(hkz_t err_os_packages) ${OS:-?}"; return 1 ;;
   esac
