@@ -87,7 +87,7 @@ hkz_pre_sync_opt() {
   [ -f "${dir}/INSTALLER_REV" ] && lr=$(tr -d '[:space:]' <"${dir}/INSTALLER_REV")
   want=""
   [ -f "${_SCRIPT_DIR}/INSTALLER_REV" ] && want=$(tr -d '[:space:]' <"${_SCRIPT_DIR}/INSTALLER_REV")
-  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-112}"
+  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-113}"
   [ -n "$want" ] && [ "$lr" != "$want" ] && need=1
   [ "$need" = 1 ] && [ -f "${dir}/run.sh" ] && exec env HKZ_INSTALLER_SYNCED=1 bash "${dir}/run.sh" "$@"
 }
@@ -126,6 +126,7 @@ setup_auto_update_cron() {
 cmd_install() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
+  hkz_stop_unattended_upgrades
   hkz_resolve_panel_dir 2>/dev/null || true
   if hkz_panel_files_exist && hkz_panel_core_ok 2>/dev/null; then
     draw_logo
@@ -194,6 +195,7 @@ cmd_theme() {
 cmd_wings() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
+  hkz_stop_unattended_upgrades
   source "$SCRIPT_DIR/lib/ui-wings.sh"
   run_wings_ui || exit 1
   INSTALL_MARIADB=false

@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-112}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-113}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -1497,6 +1497,7 @@ hkz_cleanup_panel_nginx_sites() {
 }
 
 hkz_run_panel_installer() {
+  hkz_stop_unattended_upgrades 2>/dev/null || true
   hkz_panel_clear_install_secrets
   hkz_export_panel_env
   hkz_run_installer "$1"
@@ -1537,6 +1538,7 @@ hkz_wings_load_env() {
 
 hkz_run_wings_installer() {
   local script="$1" rc opt="${HKZ_INSTALL_DIR:-$HKZ_OPT_DIR}"
+  hkz_stop_unattended_upgrades 2>/dev/null || true
   hkz_wings_save_env
   set -o pipefail
   env \
@@ -1707,6 +1709,32 @@ hkz_apt_lock_busy() {
   return 1
 }
 
+hkz_stop_unattended_upgrades() {
+  case "${OS:-}" in
+    ubuntu|debian) ;;
+    "")
+      [ -f /etc/debian_version ] || return 0
+      ;;
+    *) return 0 ;;
+  esac
+  if [ "${HKZ_UNATTENDED_STOPPED:-0}" != 1 ]; then
+    msg_info "$(hkz_t apt_stop_unattended)"
+  fi
+  systemctl stop unattended-upgrades.service 2>/dev/null || true
+  systemctl stop unattended-upgrades.timer 2>/dev/null || true
+  systemctl stop apt-daily.service 2>/dev/null || true
+  systemctl stop apt-daily.timer 2>/dev/null || true
+  systemctl stop apt-daily-upgrade.service 2>/dev/null || true
+  systemctl stop apt-daily-upgrade.timer 2>/dev/null || true
+  pkill -f unattended-upgr 2>/dev/null || true
+  sleep 1
+  if [ "${HKZ_UNATTENDED_STOPPED:-0}" != 1 ]; then
+    export HKZ_UNATTENDED_STOPPED=1
+    msg_ok "$(hkz_t apt_stop_unattended_ok)"
+  fi
+  return 0
+}
+
 hkz_wait_apt_lock() {
   case "${OS:-}" in
     ubuntu|debian) ;;
@@ -1715,6 +1743,7 @@ hkz_wait_apt_lock() {
       ;;
     *) return 0 ;;
   esac
+  hkz_stop_unattended_upgrades
   local waited=0 max_wait="${HKZ_APT_LOCK_WAIT:-900}" step=5
   if ! hkz_apt_lock_busy; then
     return 0
@@ -1725,6 +1754,8 @@ hkz_wait_apt_lock() {
       msg_err "$(hkz_t apt_lock_timeout)"
       return 1
     fi
+    # keep trying to stop in case it respawned
+    [ $((waited % 60)) -eq 0 ] && [ "$waited" -gt 0 ] && hkz_stop_unattended_upgrades
     sleep "$step"
     waited=$((waited + step))
     if [ $((waited % 30)) -eq 0 ]; then
