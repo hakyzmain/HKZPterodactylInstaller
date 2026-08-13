@@ -1,0 +1,13 @@
+#app::before,
+#app::after {
+  pointer-events: none !important;
+}
+#app .xterm .xterm-viewport {
+  background-color: #0a0a0c !important;
+}
+#app .xterm .xterm-screen {
+  background-color: transparent !important;
+}
+#app .xterm canvas {
+  background-color: transparent !important;
+}

@@ -1,0 +1,233 @@
+:root {
+  --hkz-radius: 14px;
+  --hkz-radius-panel: 14px;
+  --hkz-blur: 14px;
+  --hkz-text-dim: color-mix(in srgb, var(--hkz-text, #e8ecf4) 72%, transparent);
+}
+
+@keyframes hkz-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hkz-glow {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hkz-accent, #a855f7) 0%, transparent); }
+  50% { box-shadow: 0 0 18px color-mix(in srgb, var(--hkz-accent, #a855f7) 28%, transparent); }
+}
+
+html,
+body,
+#app,
+body.bg-neutral-900 {
+  font-family: var(--hkz-font, 'DM Sans', system-ui, sans-serif) !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  min-height: 100vh !important;
+}
+
+body.bg-neutral-900,
+#app.bg-neutral-900,
+#app > div.bg-neutral-900,
+#app .min-h-screen.bg-neutral-900 {
+  background-color: transparent !important;
+}
+
+#app {
+  animation: hkz-fade-in 0.45s ease;
+}
+
+#app a {
+  transition: color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+#app > nav,
+#app nav[class*='Navigation'] {
+  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 88%, #000) !important;
+  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  backdrop-filter: blur(var(--hkz-blur));
+  -webkit-backdrop-filter: blur(var(--hkz-blur));
+}
+
+#app > nav a,
+#app nav[class*='Navigation'] a,
+#app > nav button {
+  color: var(--hkz-text, #e8ecf4) !important;
+  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#app > nav a.active,
+#app > nav a[aria-current='page'],
+#app nav[class*='Navigation'] a.active {
+  color: var(--hkz-accent-2, var(--hkz-accent, #22d3ee)) !important;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--hkz-accent-2, #22d3ee) 45%, transparent);
+}
+
+div[class*='SubNavigation'] {
+  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 80%, var(--hkz-input-bg, rgba(0, 0, 0, 0.35))) !important;
+  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 30;
+}
+
+div[class*='SubNavigation'] a {
+  color: var(--hkz-text-dim) !important;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+div[class*='SubNavigation'] a:hover,
+div[class*='SubNavigation'] a.active,
+div[class*='SubNavigation'] a[aria-current='page'] {
+  color: var(--hkz-text, #e8ecf4) !important;
+}
+
+[class*='GreyRowBox'],
+a[class*='GreyRowBox'] {
+  background: var(--hkz-glass, rgba(255, 255, 255, 0.07)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  border-radius: var(--hkz-radius) !important;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+[class*='GreyRowBox']:hover,
+a[class*='GreyRowBox']:hover {
+  border-color: var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
+  box-shadow: var(--hkz-shadow-hover, 0 12px 40px rgba(168, 85, 247, 0.2));
+}
+
+div[class*='ContentBox'],
+div[class*='InformationBox'],
+div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_container']) {
+  background: var(--hkz-glass, rgba(255, 255, 255, 0.07)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  border-radius: var(--hkz-radius-panel) !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+#app button:not(:disabled),
+#modal-portal button:not(:disabled),
+#app a[role='button']:not([aria-disabled='true']) {
+  transition: filter 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+#app button:not(:disabled):hover,
+#modal-portal button:not(:disabled):hover {
+  filter: brightness(1.08);
+}
+
+#app .bg-blue-500,
+#app .bg-blue-600,
+#app button.bg-blue-500,
+#app button.bg-blue-600,
+#modal-portal .bg-blue-500,
+#modal-portal .bg-blue-600 {
+  background: var(--hkz-btn, linear-gradient(135deg, #a855f7, #6366f1)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--hkz-accent, #a855f7) 28%, transparent);
+}
+
+#app input[type='text'],
+#app input[type='password'],
+#app input[type='email'],
+#app input[type='number'],
+#app input[type='search'],
+#app input[type='url'],
+#app textarea,
+#app select,
+#modal-portal input[type='text'],
+#modal-portal input[type='password'],
+#modal-portal input[type='email'],
+#modal-portal input[type='number'],
+#modal-portal input[type='search'],
+#modal-portal textarea,
+#modal-portal select,
+.Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']) {
+  background-color: var(--hkz-input-bg, rgba(0, 0, 0, 0.35)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  border-radius: 12px !important;
+  caret-color: var(--hkz-accent-2, #22d3ee);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+#app input:not([type='checkbox']):not([type='radio']):focus,
+#app textarea:focus,
+#app select:focus,
+#modal-portal input:not([type='checkbox']):not([type='radio']):focus,
+#modal-portal textarea:focus,
+#modal-portal select:focus {
+  border-color: var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
+  box-shadow: var(--hkz-focus-ring, 0 0 0 3px rgba(34, 211, 238, 0.2)) !important;
+  outline: none;
+}
+
+#app input::placeholder,
+#app textarea::placeholder,
+#modal-portal input::placeholder,
+#modal-portal textarea::placeholder {
+  color: var(--hkz-text-dim) !important;
+  opacity: 0.85;
+}
+
+#app [role='dialog'],
+#modal-portal [role='dialog'],
+#modal-portal [class*='Dialog'] {
+  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 92%, var(--hkz-input-bg, #000)) !important;
+  border: 1px solid var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
+  border-radius: 16px !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  box-shadow: var(--hkz-shadow-hover, 0 12px 40px rgba(0, 0, 0, 0.35));
+  animation: hkz-fade-in 0.2s ease;
+}
+
+#app [role='listbox'],
+#app [role='menu'],
+#modal-portal [role='listbox'],
+#modal-portal [role='menu'] {
+  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 90%, var(--hkz-input-bg, #000)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  border-radius: 12px !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  box-shadow: var(--hkz-shadow, 0 8px 32px rgba(0, 0, 0, 0.28));
+}
+
+#app [role='option'],
+#app [role='menuitem'],
+#modal-portal [role='option'],
+#modal-portal [role='menuitem'] {
+  color: var(--hkz-text, #e8ecf4) !important;
+  transition: background-color 0.15s ease;
+}
+
+#app [role='option']:hover,
+#app [role='menuitem']:hover,
+#app [role='option'][aria-selected='true'] {
+  background: var(--hkz-nav-hover, rgba(168, 85, 247, 0.18)) !important;
+}
+
+#app a.hkz-footer-brand,
+.hkz-footer-brand {
+  color: var(--hkz-accent, inherit);
+}
+
+#app .xterm .xterm-viewport {
+  background-color: #0a0a0c !important;
+}
+
+#app .xterm canvas {
+  background-color: transparent !important;
+}
+
+#app ::-webkit-scrollbar,
+#modal-portal ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#app ::-webkit-scrollbar-thumb,
+#modal-portal ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--hkz-accent, #a855f7) 45%, var(--hkz-bg-1, #0b0614));
+  border-radius: 999px;
+}

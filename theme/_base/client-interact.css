@@ -1,0 +1,33 @@
+#app::before,
+#app::after {
+  pointer-events: none !important;
+}
+#modal-portal {
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+#modal-portal > * {
+  pointer-events: auto;
+}
+#app button,
+#modal-portal button,
+#app input,
+#modal-portal input,
+#app select,
+#modal-portal select,
+#app textarea,
+#modal-portal textarea,
+#app a[role='button'],
+#modal-portal a[role='button'],
+#app [role='menuitem'],
+#modal-portal [role='menuitem'],
+#app [role='tab'],
+#app [role='switch'],
+#app label,
+div[class*='SubNavigation'] a {
+  pointer-events: auto !important;
+}
+#app button:not(:disabled),
+#modal-portal button:not(:disabled) {
+  cursor: pointer !important;
+}

@@ -1,0 +1,54 @@
+.wrapper::before,
+.wrapper::after,
+.content-wrapper::before,
+.content-wrapper::after,
+#app::before,
+#app::after {
+  pointer-events: none !important;
+}
+.content-wrapper,
+.content-wrapper .content,
+.content-wrapper .box,
+.content-wrapper .box-body,
+.content-wrapper .form-group,
+.content-wrapper .form-control,
+.content-wrapper input,
+.content-wrapper select,
+.content-wrapper textarea,
+.content-wrapper button,
+.content-wrapper .btn,
+.content-wrapper label,
+.content-wrapper a,
+.content-wrapper .select2-container,
+.content-wrapper .select2-container * {
+  pointer-events: auto !important;
+}
+.content-wrapper .content {
+  position: relative;
+  z-index: 3;
+}
+.select2-container {
+  position: relative;
+  z-index: 120 !important;
+}
+.select2-container--open {
+  z-index: 10060 !important;
+}
+.select2-dropdown {
+  z-index: 10070 !important;
+}
+.select2-container .select2-selection--single,
+.select2-container .select2-selection--multiple {
+  cursor: pointer !important;
+}
+input.form-control,
+textarea.form-control,
+select.form-control {
+  position: relative;
+  z-index: 2;
+  cursor: text !important;
+}
+input[type='checkbox'],
+input[type='radio'] {
+  cursor: pointer !important;
+}

@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Quicksand', system-ui, sans-serif;
+  --hkz-bg-1: #1a0814;
+  --hkz-bg-2: #3d1530;
+  --hkz-bg-3: #0f050c;
+  --hkz-glass: rgba(244, 114, 182, 0.14);
+  --hkz-input-bg: rgba(0,0,0,0.45);
+  --hkz-accent: #f472b6;
+  --hkz-accent-2: #fbcfe8;
+  --hkz-border: rgba(244, 114, 182, 0.35);
+  --hkz-border-hover: rgba(251, 207, 232, 0.5);
+  --hkz-text: #e8ecf4;
+  --hkz-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  --hkz-shadow-hover: 0 16px 48px rgba(244, 114, 182, 0.25);
+  --hkz-nav-active: linear-gradient(135deg, rgba(244, 114, 182, 0.4), rgba(251, 207, 232, 0.22));
+  --hkz-nav-hover: rgba(244, 114, 182, 0.15);
+  --hkz-nav-glow: 0 0 22px rgba(251, 207, 232, 0.35);
+  --hkz-btn: linear-gradient(135deg, #f472b6, #fbcfe8);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #22d3ee);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #f97316);
+  --hkz-focus-ring: 0 0 0 3px rgba(251, 207, 232, 0.3);
+  --hkz-scrollbar: linear-gradient(#f472b6, #fbcfe8);
+  --hkz-radius: 16px;
+  --hkz-blur: 16px;
+}
+@keyframes hkz-petalstorm-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-petalstorm-pulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.03); }
+}
+@keyframes hkz-petalstorm-twinkle {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+@keyframes hkz-petalstorm-scan {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+@keyframes hkz-petalstorm-rotate {
+  to { transform: rotate(360deg); }
+}
+@keyframes hkz-petalstorm-curtain {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-petalstorm-hue {
+  to { filter: hue-rotate(360deg); }
+}
+@keyframes hkz-petalstorm-flash {
+  0%, 92%, 100% { opacity: 0; }
+  93% { opacity: 0.85; }
+  95% { opacity: 0.1; }
+}
+@keyframes hkz-petalstorm-sweep {
+  0% { left: -200px; opacity: 0; }
+  8% { opacity: 1; }
+  18% { left: 110%; opacity: 0; }
+  100% { left: 110%; opacity: 0; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
+  background-size: 320% 320% !important;
+  animation: hkz-petalstorm-flow 18s ease infinite !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 25%, #fbcfe8, transparent),
+    radial-gradient(1.2px 1.2px at 45% 70%, #f472b6, transparent),
+    radial-gradient(1px 1px at 78% 35%, #fff, transparent),
+    radial-gradient(1px 1px at 62% 88%, #fbcfe8, transparent);
+  background-size: 100% 100%;
+  animation: hkz-petalstorm-twinkle 3.5s ease-in-out infinite alternate;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  width: 180px;
+  height: 2px;
+  top: 25%;
+  left: -200px;
+  background: linear-gradient(90deg, transparent, rgba(251, 207, 232, 0.7), transparent);
+  pointer-events: none;
+  z-index: 0;
+  animation: hkz-petalstorm-sweep 7s ease-in-out infinite;
+}

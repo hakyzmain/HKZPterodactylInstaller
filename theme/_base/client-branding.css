@@ -1,0 +1,23 @@
+footer,
+[class*='Footer'],
+[class*='footer'] {
+  position: relative !important;
+  width: 100% !important;
+  min-height: 2.5rem !important;
+  background: transparent !important;
+  color: var(--hkz-text) !important;
+  text-align: center !important;
+}
+footer p,
+footer span,
+footer a,
+footer div,
+[class*='Footer'] p,
+[class*='Footer'] span,
+[class*='copyright'],
+#app p[class*='text-center']:last-child {
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+  color: var(--hkz-accent-2, var(--hkz-text)) !important;
+  font-weight: 600 !important;
+}

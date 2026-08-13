@@ -1,0 +1,122 @@
+:root {
+  --hkz-admin-text: color-mix(in srgb, var(--hkz-text, #e8ecf4) 94%, #fff 6%) !important;
+  --hkz-admin-text-soft: color-mix(in srgb, var(--hkz-admin-text) 88%, #fff 12%) !important;
+  --hkz-admin-text-faint: color-mix(in srgb, var(--hkz-admin-text) 76%, var(--hkz-accent-2, #94a3b8) 24%) !important;
+  --hkz-admin-placeholder: color-mix(in srgb, var(--hkz-admin-text) 58%, var(--hkz-accent-2, #94a3b8) 42%) !important;
+}
+
+body,
+.wrapper,
+.content-wrapper,
+.content,
+.box,
+.box-body,
+.panel-body,
+.form-group,
+label,
+.control-label,
+.help-block,
+.text-muted,
+.description-block .description-text,
+.content-header > h1,
+.content-header > h1 > small,
+.breadcrumb > li,
+.breadcrumb > li > a,
+.breadcrumb > .active,
+.sidebar-menu > li > a,
+.treeview-menu > li > a,
+.table,
+.table > thead > tr > th,
+.table > tbody > tr > td,
+.nav-tabs-custom > .nav-tabs > li > a,
+.nav-tabs-custom > .tab-content,
+.alert,
+.callout,
+.login-box-msg,
+.register-box-msg,
+.select2-container--default .select2-selection__rendered,
+.select2-results__option {
+  color: var(--hkz-admin-text) !important;
+}
+
+.text-muted,
+.help-block,
+.description-block .description-text,
+.breadcrumb > li,
+.breadcrumb > li > a,
+.sidebar-menu > li.header,
+.login-box-msg,
+.register-box-msg,
+.nav-tabs-custom > .nav-tabs > li > a {
+  color: var(--hkz-admin-text-soft) !important;
+}
+
+input,
+select,
+textarea,
+.form-control,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple,
+.select2-search__field {
+  background: var(--hkz-admin-input) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  -webkit-text-fill-color: var(--hkz-admin-text) !important;
+  caret-color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+
+input::placeholder,
+textarea::placeholder,
+.form-control::placeholder {
+  color: var(--hkz-admin-placeholder) !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: var(--hkz-admin-placeholder) !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--hkz-admin-text) !important;
+  box-shadow: 0 0 0 1000px var(--hkz-admin-input) inset !important;
+  transition: background-color 99999s ease-out 0s;
+}
+
+.main-header .logo,
+.main-header .logo-lg,
+.main-header .logo-mini,
+.main-header .logo span,
+.main-header .logo b {
+  color: var(--hkz-admin-text) !important;
+}
+
+.skin-blue .main-header .logo,
+.skin-blue .main-header .logo:hover {
+  color: var(--hkz-admin-text) !important;
+  background: transparent !important;
+}
+
+.box.box-primary,
+.box.box-default,
+.box.box-solid,
+.content-header .bg-white {
+  background: var(--hkz-admin-card) !important;
+  color: var(--hkz-admin-text) !important;
+}
+
+.skin-blue .sidebar a,
+.skin-blue .sidebar-menu > li > a,
+.skin-blue .treeview-menu > li > a {
+  color: var(--hkz-admin-text) !important;
+}
+
+input[name='app:name'],
+input[name='app:locale'],
+select[name='app:locale'],
+select[name='pterodactyl:auth:2fa_required'] {
+  color: var(--hkz-admin-text) !important;
+  -webkit-text-fill-color: var(--hkz-admin-text) !important;
+  background: var(--hkz-admin-input) !important;
+  opacity: 1 !important;
+}

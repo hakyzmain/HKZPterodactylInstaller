@@ -1,0 +1,168 @@
+body.skin-blue,
+body.hold-transition.skin-blue {
+  background: var(--hkz-admin-bg) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.content-wrapper,
+.right-side {
+  background: transparent !important;
+  color: var(--hkz-admin-text) !important;
+}
+.content {
+  color: var(--hkz-admin-text) !important;
+}
+.box,
+.box.box-solid,
+.box.box-default,
+.box.box-primary,
+.box.box-success,
+.box.box-warning,
+.box.box-danger,
+.panel,
+.panel-default,
+.panel-primary,
+.well,
+.callout,
+.small-box,
+.info-box,
+.modal-content,
+.dropdown-menu,
+.select2-dropdown {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.box-body,
+.panel-body,
+.modal-body,
+.dropdown-menu > li > a {
+  color: var(--hkz-admin-text) !important;
+}
+.box-footer,
+.panel-footer,
+.modal-footer {
+  background: color-mix(in srgb, var(--hkz-admin-card) 88%, #000) !important;
+  border-top: 1px solid var(--hkz-admin-border) !important;
+}
+.table,
+.table > thead > tr > th,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  background: transparent !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.table-striped > tbody > tr:nth-of-type(odd) > td,
+.table-striped > tbody > tr:nth-of-type(odd) > th {
+  background: color-mix(in srgb, var(--hkz-admin-nav-hover) 65%, transparent) !important;
+}
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+  background: var(--hkz-admin-nav-hover) !important;
+}
+.form-control,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background: var(--hkz-admin-input) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.select2-container--default .select2-results__option {
+  background: var(--hkz-admin-card) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background: var(--hkz-admin-nav-active) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.nav-tabs-custom,
+.nav-tabs-custom > .tab-content {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+}
+.nav-tabs-custom > .nav-tabs > li > a {
+  color: color-mix(in srgb, var(--hkz-admin-text) 75%, transparent) !important;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a {
+  color: var(--hkz-admin-text) !important;
+  background: var(--hkz-admin-nav-hover) !important;
+}
+.navbar-nav > .notifications-menu > .dropdown-menu,
+.navbar-nav > .messages-menu > .dropdown-menu,
+.navbar-nav > .user-menu > .dropdown-menu,
+.navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
+  background: var(--hkz-admin-card) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.navbar-nav > .notifications-menu > .dropdown-menu > li > a,
+.navbar-nav > .user-menu > .dropdown-menu > li > a {
+  color: var(--hkz-admin-text) !important;
+}
+.navbar-nav > .notifications-menu > .dropdown-menu > li > a:hover,
+.navbar-nav > .user-menu > .dropdown-menu > li > a:hover {
+  background: var(--hkz-admin-nav-hover) !important;
+}
+.user-header,
+.user-footer {
+  background: var(--hkz-admin-card) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.login-box,
+.login-box-body,
+.register-box,
+.register-box-body {
+  background: var(--hkz-admin-card) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.bg-white,
+.bg-gray-light,
+.bg-light-blue-active,
+.content-header .bg-white {
+  background: var(--hkz-admin-card) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.text-muted,
+.help-block,
+.description-block .description-text {
+  color: var(--hkz-admin-text-soft, color-mix(in srgb, var(--hkz-admin-text) 88%, #fff 12%)) !important;
+}
+.label-default,
+.badge.bg-gray {
+  background: var(--hkz-admin-nav-hover) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.alert {
+  border: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.alert-success {
+  background: color-mix(in srgb, #10b981 22%, var(--hkz-admin-card)) !important;
+}
+.alert-danger {
+  background: color-mix(in srgb, #ef4444 22%, var(--hkz-admin-card)) !important;
+}
+.alert-warning {
+  background: color-mix(in srgb, #f59e0b 22%, var(--hkz-admin-card)) !important;
+}
+.alert-info {
+  background: color-mix(in srgb, var(--hkz-accent) 22%, var(--hkz-admin-card)) !important;
+}
+.pagination > li > a,
+.pagination > li > span {
+  background: var(--hkz-admin-input) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.pagination > .active > a,
+.pagination > .active > span {
+  background: var(--hkz-admin-nav-active) !important;
+  border-color: var(--hkz-accent) !important;
+}
+code,
+pre {
+  background: color-mix(in srgb, var(--hkz-admin-input) 90%, #000) !important;
+  color: var(--hkz-admin-text) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+}

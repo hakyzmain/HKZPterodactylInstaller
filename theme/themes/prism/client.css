@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Raleway', system-ui, sans-serif;
+  --hkz-bg-1: #0f0f18;
+  --hkz-bg-2: #181828;
+  --hkz-bg-3: #080810;
+  --hkz-glass: rgba(244, 114, 182, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #f472b6;
+  --hkz-accent-2: #38bdf8;
+  --hkz-border: rgba(244, 114, 182, 0.32);
+  --hkz-border-hover: rgba(56, 189, 248, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(244, 114, 182, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(244, 114, 182, 0.4), rgba(56, 189, 248, 0.22));
+  --hkz-nav-hover: rgba(244, 114, 182, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(56, 189, 248, 0.2);
+  --hkz-btn: linear-gradient(135deg, #f472b6, #38bdf8);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #38bdf8);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #f472b6);
+  --hkz-focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.25);
+  --hkz-scrollbar: linear-gradient(#f472b6, #38bdf8);
+}
+@keyframes hkz-prism-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-prism-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+@keyframes hkz-prism-rainbow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-prism-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(90deg, #f472b6, #38bdf8, #fbbf24, #34d399, #f472b6); background-size: 200% 100%; animation: hkz-prism-rainbow 6s linear infinite; opacity: 0.12;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  inset: 0; opacity: 0.15; background: linear-gradient(45deg, #f472b6, #38bdf8, #a78bfa, #f472b6); background-size: 400% 400%; animation: hkz-prism-rainbow 12s ease infinite;
+}

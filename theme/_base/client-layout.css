@@ -1,0 +1,13 @@
+#app > div,
+#app > .relative {
+  position: relative;
+  z-index: 1;
+}
+h1,
+h2,
+h3,
+h4,
+[class*='PageTitle'],
+[class*='Title'] {
+  text-shadow: none !important;
+}

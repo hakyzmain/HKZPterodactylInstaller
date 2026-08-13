@@ -1,0 +1,40 @@
+html,
+body,
+#app,
+body.bg-neutral-900 {
+  font-family: var(--hkz-font, 'DM Sans', system-ui, sans-serif) !important;
+  color: var(--hkz-text, #e8ecf4);
+}
+#app > div,
+#app > .relative {
+  position: relative;
+  z-index: 1;
+}
+#app .text-neutral-100,
+#app .text-neutral-50,
+#app .text-gray-50 {
+  color: var(--hkz-text) !important;
+}
+#app .text-neutral-200,
+#app .text-neutral-300,
+#app .text-neutral-400,
+#app .text-neutral-500 {
+  color: var(--hkz-text-dim, color-mix(in srgb, var(--hkz-text) 72%, transparent)) !important;
+}
+#app .text-primary-400,
+#app .text-blue-400,
+#app .text-cyan-400,
+#app .text-cyan-500 {
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+a[class*='GreyRowBox'],
+div[class*='GreyRowBox'] {
+  background: var(--hkz-glass) !important;
+  border-color: var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app .bg-neutral-900.rounded-t,
+#app .rounded-t.bg-neutral-900 {
+  background: color-mix(in srgb, var(--hkz-input-bg) 78%, var(--hkz-glass)) !important;
+  border-bottom-color: var(--hkz-border) !important;
+}

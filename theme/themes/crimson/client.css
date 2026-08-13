@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Source Sans 3', system-ui, sans-serif;
+  --hkz-bg-1: #140508;
+  --hkz-bg-2: #3f0d1a;
+  --hkz-bg-3: #1a0510;
+  --hkz-glass: rgba(60, 10, 25, 0.5);
+  --hkz-input-bg: rgba(20, 5, 10, 0.8);
+  --hkz-accent: #e11d48;
+  --hkz-accent-2: #fb7185;
+  --hkz-border: rgba(225, 29, 72, 0.32);
+  --hkz-border-hover: rgba(251, 113, 133, 0.45);
+  --hkz-text: #ffe4e6;
+  --hkz-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(225, 29, 72, 0.2);
+  --hkz-nav-active: linear-gradient(135deg, rgba(225, 29, 72, 0.4), rgba(159, 18, 57, 0.3));
+  --hkz-nav-hover: rgba(225, 29, 72, 0.15);
+  --hkz-nav-glow: 0 0 20px rgba(225, 29, 72, 0.25);
+  --hkz-btn: linear-gradient(135deg, #be123c, #9f1239);
+  --hkz-btn-success: linear-gradient(135deg, #16a34a, #e11d48);
+  --hkz-btn-danger: linear-gradient(135deg, #7f1d1d, #450a0a);
+  --hkz-focus-ring: 0 0 0 3px rgba(251, 113, 133, 0.3);
+  --hkz-scrollbar: linear-gradient(#e11d48, #fb7185);
+}
+@keyframes hkz-crimson-pulse {
+  0%, 100% { box-shadow: inset 0 0 80px rgba(225, 29, 72, 0.08); }
+  50% { box-shadow: inset 0 0 120px rgba(225, 29, 72, 0.16); }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: radial-gradient(ellipse at 50% 100%, #7f1d1d 0%, var(--hkz-bg-1) 55%) !important;
+  animation: hkz-crimson-pulse 6s ease-in-out infinite !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(225, 29, 72, 0.08), transparent 40%);
+}
+h1, h2 {
+  font-family: 'Libre Baskerville', serif !important;
+}

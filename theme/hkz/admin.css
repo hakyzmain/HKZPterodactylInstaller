@@ -1,0 +1,22 @@
+:root {
+  --hkz-accent: #a855f7;
+  --hkz-accent-2: #22d3ee;
+  --hkz-glass: rgba(15, 23, 42, 0.72);
+}
+body,
+.bg-neutral-800,
+.bg-neutral-900 {
+  background: linear-gradient(145deg, #0f0a1a 0%, #1a1035 45%, #0c1224 100%) !important;
+}
+.hkz-admin-card {
+  background: var(--hkz-glass);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+button.bg-blue-600,
+a.bg-blue-600 {
+  background: linear-gradient(135deg, var(--hkz-accent), #6366f1) !important;
+  border: none !important;
+}

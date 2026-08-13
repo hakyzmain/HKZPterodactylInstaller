@@ -1,0 +1,8 @@
+#app,
+body.bg-neutral-900 {
+  color: var(--hkz-text, inherit);
+}
+#app a.hkz-footer-brand,
+.hkz-footer-brand {
+  color: var(--hkz-accent, inherit);
+}

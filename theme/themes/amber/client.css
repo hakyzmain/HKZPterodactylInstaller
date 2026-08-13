@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Bitter', system-ui, sans-serif;
+  --hkz-bg-1: #1c1008;
+  --hkz-bg-2: #3d2208;
+  --hkz-bg-3: #120a04;
+  --hkz-glass: rgba(245, 158, 11, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #f59e0b;
+  --hkz-accent-2: #fcd34d;
+  --hkz-border: rgba(245, 158, 11, 0.32);
+  --hkz-border-hover: rgba(252, 211, 77, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(245, 158, 11, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(245, 158, 11, 0.4), rgba(252, 211, 77, 0.22));
+  --hkz-nav-hover: rgba(245, 158, 11, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(252, 211, 77, 0.2);
+  --hkz-btn: linear-gradient(135deg, #f59e0b, #fcd34d);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #fcd34d);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #f59e0b);
+  --hkz-focus-ring: 0 0 0 3px rgba(252, 211, 77, 0.25);
+  --hkz-scrollbar: linear-gradient(#f59e0b, #fcd34d);
+}
+@keyframes hkz-amber-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-amber-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+@keyframes hkz-amber-shimmer {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(15deg); }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-amber-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.35), transparent 55%); animation: hkz-amber-pulse 6s ease-in-out infinite;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  inset: 0; background: repeating-linear-gradient(105deg, transparent, transparent 40px, rgba(252, 211, 77, 0.04) 40px, rgba(252, 211, 77, 0.04) 41px); animation: hkz-amber-shimmer 12s linear infinite;
+}

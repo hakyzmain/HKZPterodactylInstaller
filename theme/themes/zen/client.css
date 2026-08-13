@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600&display=swap');
+:root {
+  --hkz-font: 'Noto Serif JP', system-ui, sans-serif;
+  --hkz-bg-1: #121210;
+  --hkz-bg-2: #1c1c18;
+  --hkz-bg-3: #0c0c0a;
+  --hkz-glass: rgba(168, 162, 158, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #a8a29e;
+  --hkz-accent-2: #d6d3d1;
+  --hkz-border: rgba(168, 162, 158, 0.32);
+  --hkz-border-hover: rgba(214, 211, 209, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(168, 162, 158, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(168, 162, 158, 0.4), rgba(214, 211, 209, 0.22));
+  --hkz-nav-hover: rgba(168, 162, 158, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(214, 211, 209, 0.2);
+  --hkz-btn: linear-gradient(135deg, #a8a29e, #d6d3d1);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #d6d3d1);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #a8a29e);
+  --hkz-focus-ring: 0 0 0 3px rgba(214, 211, 209, 0.25);
+  --hkz-scrollbar: linear-gradient(#a8a29e, #d6d3d1);
+}
+@keyframes hkz-zen-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-zen-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-zen-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(214, 211, 209, 0.08), transparent 50%);
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  inset: 0; border: 1px solid rgba(168, 162, 158, 0.06); margin: 24px; border-radius: 4px; opacity: 0.5;
+}

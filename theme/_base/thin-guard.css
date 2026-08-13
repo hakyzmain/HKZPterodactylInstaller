@@ -1,0 +1,172 @@
+#app::before,
+#app::after,
+.wrapper::before,
+.wrapper::after,
+.content-wrapper::before,
+.content-wrapper::after,
+body::before,
+body::after,
+html::before,
+html::after {
+  pointer-events: none !important;
+}
+
+html,
+body,
+#app,
+.wrapper,
+.content-wrapper,
+.right-side {
+  filter: none !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+#app {
+  isolation: isolate;
+}
+
+#app > nav,
+#app > div,
+#app > main,
+#app > section {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto !important;
+}
+
+.content,
+.box,
+.box-body,
+.box-footer,
+.form-group,
+.form-horizontal,
+.modal-dialog,
+.modal-content,
+.modal-body,
+.tab-content,
+.nav-tabs-custom {
+  overflow: visible !important;
+}
+
+input,
+select,
+textarea,
+button,
+a,
+label,
+summary,
+[role='button'],
+[role='tab'],
+[role='menuitem'],
+[role='option'],
+[role='combobox'],
+[role='listbox'],
+[role='switch'],
+[role='checkbox'],
+[role='radio'],
+[role='dialog'],
+[role='menu'],
+.select2-container,
+.select2-container *,
+.select2-dropdown,
+.dropdown-menu,
+.dropdown-menu *,
+input[type='file'],
+input[type='checkbox'],
+input[type='radio'],
+.file-input,
+.bootstrap-filestyle,
+.bootstrap-filestyle * {
+  pointer-events: auto !important;
+}
+
+input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='submit']):not([type='button']):not([type='reset']),
+textarea {
+  cursor: text !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
+
+input[type='checkbox'],
+input[type='radio'],
+input[type='file'],
+input[type='submit'],
+input[type='button'],
+button,
+a,
+label,
+.select2-container,
+.select2-selection {
+  cursor: pointer !important;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed !important;
+}
+
+.select2-container {
+  z-index: 120 !important;
+}
+
+.select2-container--open {
+  z-index: 10060 !important;
+}
+
+.select2-dropdown,
+.select2-container--open .select2-dropdown {
+  z-index: 10070 !important;
+  pointer-events: auto !important;
+}
+
+.dropdown-menu,
+.navbar-nav > .notifications-menu > .dropdown-menu,
+.navbar-nav > .messages-menu > .dropdown-menu,
+.navbar-nav > .user-menu > .dropdown-menu {
+  z-index: 10500 !important;
+  pointer-events: auto !important;
+}
+
+.modal,
+.modal.in,
+.modal.show {
+  z-index: 1050 !important;
+  pointer-events: auto !important;
+}
+
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+#modal-portal {
+  z-index: 9999 !important;
+}
+
+#app [class*='Dropdown'],
+#app [class*='Popover'],
+#app [class*='Listbox'],
+#modal-portal [class*='Dropdown'],
+#modal-portal [class*='Popover'],
+#modal-portal [class*='Listbox'] {
+  z-index: 10050 !important;
+  pointer-events: auto !important;
+}
+
+a.logo,
+header.main-header > a.logo,
+.sidebar-toggle,
+.main-header .navbar-custom-menu,
+.main-header .navbar-nav {
+  pointer-events: auto !important;
+}
+
+body.bg-neutral-900,
+#app.bg-neutral-900,
+#app > div.bg-neutral-900,
+#app > .relative.bg-neutral-900,
+#app .min-h-screen.bg-neutral-900 {
+  background-color: transparent !important;
+}

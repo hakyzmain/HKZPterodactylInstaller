@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&display=swap');
+:root {
+  --hkz-font: 'Josefin Sans', system-ui, sans-serif;
+  --hkz-bg-1: #000810;
+  --hkz-bg-2: #001828;
+  --hkz-bg-3: #000408;
+  --hkz-glass: rgba(45, 212, 191, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #2dd4bf;
+  --hkz-accent-2: #5eead4;
+  --hkz-border: rgba(45, 212, 191, 0.32);
+  --hkz-border-hover: rgba(94, 234, 212, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(45, 212, 191, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(45, 212, 191, 0.4), rgba(94, 234, 212, 0.22));
+  --hkz-nav-hover: rgba(45, 212, 191, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(94, 234, 212, 0.2);
+  --hkz-btn: linear-gradient(135deg, #2dd4bf, #5eead4);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #5eead4);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #2dd4bf);
+  --hkz-focus-ring: 0 0 0 3px rgba(94, 234, 212, 0.25);
+  --hkz-scrollbar: linear-gradient(#2dd4bf, #5eead4);
+}
+@keyframes hkz-deepsea-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-deepsea-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+@keyframes hkz-deepsea-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-deepsea-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 120%, rgba(45, 212, 191, 0.35), transparent 55%);
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  inset: 0; background-image: radial-gradient(2px 2px at 20% 80%, #2dd4bf, transparent), radial-gradient(3px 3px at 60% 90%, #5eead4, transparent), radial-gradient(2px 2px at 85% 70%, #2dd4bf, transparent); animation: hkz-deepsea-glow 4s ease-in-out infinite;
+}

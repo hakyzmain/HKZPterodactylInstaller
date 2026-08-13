@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Nunito', system-ui, sans-serif;
+  --hkz-bg-1: #041408;
+  --hkz-bg-2: #0a2818;
+  --hkz-bg-3: #061c10;
+  --hkz-glass: rgba(10, 40, 25, 0.5);
+  --hkz-input-bg: rgba(4, 20, 12, 0.8);
+  --hkz-accent: #22c55e;
+  --hkz-accent-2: #86efac;
+  --hkz-border: rgba(34, 197, 94, 0.28);
+  --hkz-border-hover: rgba(134, 239, 172, 0.4);
+  --hkz-text: #dcfce7;
+  --hkz-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --hkz-shadow-hover: 0 12px 36px rgba(34, 197, 94, 0.15);
+  --hkz-nav-active: linear-gradient(135deg, rgba(34, 197, 94, 0.35), rgba(22, 163, 74, 0.2));
+  --hkz-nav-hover: rgba(34, 197, 94, 0.15);
+  --hkz-nav-glow: 0 0 16px rgba(134, 239, 172, 0.2);
+  --hkz-btn: linear-gradient(135deg, #16a34a, #15803d);
+  --hkz-btn-success: linear-gradient(135deg, #22c55e, #4ade80);
+  --hkz-btn-danger: linear-gradient(135deg, #dc2626, #b91c1c);
+  --hkz-focus-ring: 0 0 0 3px rgba(134, 239, 172, 0.25);
+  --hkz-scrollbar: linear-gradient(#22c55e, #86efac);
+}
+@keyframes hkz-forest-mist {
+  0%, 100% { opacity: 0.4; transform: translateX(0); }
+  50% { opacity: 0.65; transform: translateX(30px); }
+}
+@keyframes hkz-firefly {
+  0%, 100% { opacity: 0.2; transform: translate(0, 0); }
+  50% { opacity: 0.9; transform: translate(8px, -12px); }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(180deg, #0a2818 0%, var(--hkz-bg-1) 60%) !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(90deg, transparent, rgba(134, 239, 172, 0.06), transparent);
+  animation: hkz-forest-mist 14s ease-in-out infinite;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #bbf7d0;
+  box-shadow:
+    12vw 30vh 0 #86efac,
+    28vw 60vh 0 #4ade80,
+    55vw 20vh 0 #bbf7d0,
+    78vw 70vh 0 #22c55e,
+    90vw 40vh 0 #86efac;
+  animation: hkz-firefly 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}

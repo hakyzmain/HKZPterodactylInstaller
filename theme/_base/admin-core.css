@@ -1,0 +1,19 @@
+:root {
+  --hkz-admin-glow: var(--hkz-admin-glow, rgba(99, 102, 241, 0.2));
+}
+body,
+.wrapper,
+.content-wrapper,
+.main-header,
+.main-sidebar,
+.login-page {
+  font-family: var(--hkz-font, 'DM Sans', system-ui, sans-serif) !important;
+}
+.skin-blue,
+.skin-black,
+.skin-purple,
+.skin-green,
+.skin-red,
+.skin-yellow {
+  background: transparent !important;
+}

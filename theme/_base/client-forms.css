@@ -1,0 +1,28 @@
+#app input[type='text'],
+#app input[type='password'],
+#app input[type='email'],
+#app input[type='number'],
+#app input[type='search'],
+#app input[type='url'],
+#app textarea,
+#app select,
+#modal-portal input[type='text'],
+#modal-portal input[type='password'],
+#modal-portal input[type='email'],
+#modal-portal input[type='number'],
+#modal-portal input[type='search'],
+#modal-portal textarea,
+#modal-portal select,
+.Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']),
+input.Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']) {
+  background-color: var(--hkz-input-bg) !important;
+  border-color: var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app input::placeholder,
+#app textarea::placeholder,
+#modal-portal input::placeholder,
+#modal-portal textarea::placeholder {
+  color: var(--hkz-text-dim) !important;
+  opacity: 0.85;
+}

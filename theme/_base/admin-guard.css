@@ -1,0 +1,48 @@
+:root {
+  --hkz-admin-fx-opacity: 0.4;
+  --hkz-admin-fx-opacity-2: 0.28;
+  --hkz-admin-fx-brightness: 0.58;
+  --hkz-admin-fx-saturate: 0.82;
+}
+html,
+body,
+body.hold-transition,
+body.skin-blue,
+body.bg-neutral-900 {
+  background: var(--hkz-admin-bg) !important;
+  background-size: 100% 100% !important;
+  background-attachment: fixed !important;
+  animation: none !important;
+}
+#app::before,
+#app::after,
+.wrapper::before,
+.wrapper::after,
+.content-wrapper::before,
+.content-wrapper::after {
+  pointer-events: none !important;
+}
+.wrapper {
+  background: var(--hkz-admin-bg) !important;
+  background-attachment: fixed !important;
+}
+.wrapper::before {
+  opacity: var(--hkz-admin-fx-opacity) !important;
+  filter: brightness(var(--hkz-admin-fx-brightness)) saturate(var(--hkz-admin-fx-saturate)) !important;
+}
+.wrapper::after {
+  opacity: var(--hkz-admin-fx-opacity-2) !important;
+  filter: brightness(var(--hkz-admin-fx-brightness)) saturate(var(--hkz-admin-fx-saturate)) !important;
+}
+h1,
+h2,
+h3,
+[class*='PageTitle'],
+[class*='Title'] {
+  animation: none !important;
+  filter: none !important;
+}
+.content-header > h1,
+.content-header > h1 > small {
+  text-shadow: 0 0 12px color-mix(in srgb, var(--hkz-accent, #6366f1) 22%, transparent) !important;
+}

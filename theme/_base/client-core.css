@@ -1,0 +1,21 @@
+html,
+body,
+#app,
+body.bg-neutral-900 {
+  font-family: var(--hkz-font, 'DM Sans', system-ui, sans-serif) !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  min-height: 100vh !important;
+}
+#modal-portal {
+  position: relative;
+  z-index: 9999 !important;
+  font-family: var(--hkz-font, system-ui, sans-serif);
+  color: var(--hkz-text, #e8ecf4);
+  pointer-events: none;
+}
+#modal-portal > * {
+  pointer-events: auto !important;
+}
+a {
+  transition: color 0.2s ease, opacity 0.2s ease;
+}

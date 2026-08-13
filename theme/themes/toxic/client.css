@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323:wght@400&display=swap');
+:root {
+  --hkz-font: 'VT323', system-ui, sans-serif;
+  --hkz-bg-1: #0a1408;
+  --hkz-bg-2: #142010;
+  --hkz-bg-3: #050a04;
+  --hkz-glass: rgba(132, 204, 22, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #84cc16;
+  --hkz-accent-2: #a3e635;
+  --hkz-border: rgba(132, 204, 22, 0.32);
+  --hkz-border-hover: rgba(163, 230, 53, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(132, 204, 22, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(132, 204, 22, 0.4), rgba(163, 230, 53, 0.22));
+  --hkz-nav-hover: rgba(132, 204, 22, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(163, 230, 53, 0.2);
+  --hkz-btn: linear-gradient(135deg, #84cc16, #a3e635);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #a3e635);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #84cc16);
+  --hkz-focus-ring: 0 0 0 3px rgba(163, 230, 53, 0.25);
+  --hkz-scrollbar: linear-gradient(#84cc16, #a3e635);
+}
+@keyframes hkz-toxic-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-toxic-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+@keyframes hkz-toxic-drip {
+  0% { transform: translateY(-5vh); opacity: 0; }
+  20% { opacity: 0.6; }
+  100% { transform: translateY(105vh); opacity: 0; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-toxic-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(132, 204, 22, 0.25), transparent 50%);
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  left: 20%; width: 4px; height: 20vh; background: #84cc16; box-shadow: 25vw 0 0 #84cc16, 50vw 0 0 #a3e635, 75vw 0 0 #84cc16; animation: hkz-toxic-drip 5s linear infinite;
+}

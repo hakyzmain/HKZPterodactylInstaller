@@ -1,0 +1,22 @@
+:root {
+  --hkz-admin-base: var(--hkz-bg-3, var(--hkz-bg-2, #0f172a));
+  --hkz-admin-mid: color-mix(in srgb, var(--hkz-bg-3, #0f172a) 55%, var(--hkz-bg-2, #1e293b) 45%);
+  --hkz-admin-deep: color-mix(in srgb, var(--hkz-bg-3, #0a0e18) 88%, #000 12%);
+  --hkz-admin-bg: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--hkz-admin-deep) 92%, var(--hkz-accent) 8%),
+    color-mix(in srgb, var(--hkz-admin-mid) 85%, var(--hkz-accent) 15%) 48%,
+    color-mix(in srgb, var(--hkz-admin-base) 90%, #000 10%)
+  ) !important;
+  --hkz-admin-header: color-mix(in srgb, var(--hkz-admin-base) 78%, var(--hkz-accent) 22%) !important;
+  --hkz-admin-sidebar: color-mix(in srgb, var(--hkz-admin-base) 92%, #000 8%) !important;
+  --hkz-admin-card: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.06)) 45%, var(--hkz-admin-base) 55%) !important;
+  --hkz-admin-border: color-mix(in srgb, var(--hkz-border, rgba(148, 163, 184, 0.25)) 80%, transparent) !important;
+  --hkz-admin-text: color-mix(in srgb, var(--hkz-text, #e8ecf4) 94%, #fff 6%) !important;
+  --hkz-admin-nav-active: color-mix(in srgb, var(--hkz-accent) 28%, var(--hkz-admin-base)) !important;
+  --hkz-admin-nav-hover: color-mix(in srgb, var(--hkz-accent) 12%, var(--hkz-admin-base)) !important;
+  --hkz-admin-btn: var(--hkz-btn, linear-gradient(135deg, var(--hkz-accent), var(--hkz-accent-2))) !important;
+  --hkz-admin-input: color-mix(in srgb, var(--hkz-input-bg, rgba(0, 0, 0, 0.35)) 85%, var(--hkz-admin-base)) !important;
+  --hkz-admin-glow: 0 0 22px color-mix(in srgb, var(--hkz-accent) 35%, transparent) !important;
+  --hkz-admin-shadow: var(--hkz-shadow, 0 10px 36px rgba(0, 0, 0, 0.35)) !important;
+}
