@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-109}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-110}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -966,7 +966,6 @@ hkz_panel_load_install_secrets() {
   local f="${HKZ_STAMP_DIR}/panel-install.env"
   [ -f "$f" ] || return 1
   set -a
-  # shellcheck disable=SC1090
   source "$f"
   set +a
   return 0
@@ -1277,7 +1276,6 @@ hkz_wings_load_env() {
   local f="${HKZ_STAMP_DIR}/wings-install.env"
   [ -f "$f" ] || return 0
   set -a
-  # shellcheck disable=SC1090
   . "$f"
   set +a
   hkz_export_wings_env

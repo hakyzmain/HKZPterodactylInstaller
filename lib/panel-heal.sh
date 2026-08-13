@@ -1,7 +1,6 @@
 #!/bin/bash
 
 if ! declare -F hkz_panel_ensure_admin_user >/dev/null 2>&1; then
-  # shellcheck disable=SC1091
   source "$(dirname "${BASH_SOURCE[0]}")/panel-admin.sh"
 fi
 

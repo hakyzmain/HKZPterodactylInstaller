@@ -87,7 +87,7 @@ hkz_pre_sync_opt() {
   [ -f "${dir}/INSTALLER_REV" ] && lr=$(tr -d '[:space:]' <"${dir}/INSTALLER_REV")
   want=""
   [ -f "${_SCRIPT_DIR}/INSTALLER_REV" ] && want=$(tr -d '[:space:]' <"${_SCRIPT_DIR}/INSTALLER_REV")
-  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-109}"
+  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-110}"
   [ -n "$want" ] && [ "$lr" != "$want" ] && need=1
   [ "$need" = 1 ] && [ -f "${dir}/run.sh" ] && exec env HKZ_INSTALLER_SYNCED=1 bash "${dir}/run.sh" "$@"
 }

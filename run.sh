@@ -5,7 +5,7 @@ HKZ_INSTALLER_REPO="${HKZ_INSTALLER_REPO:-hakyzmain/HKZPterodactylInstaller}"
 HKZ_INSTALLER_BRANCH="${HKZ_INSTALLER_BRANCH:-main}"
 HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 HKZ_OPT_DIR="${HKZ_OPT_DIR:-/opt/HKZPterodactylInstaller}"
-HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-109}"
+HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-110}"
 
 if [ -z "$HKZ_INSTALL_DIR" ]; then
   if [ -d "$HKZ_OPT_DIR" ]; then
@@ -72,7 +72,7 @@ hkz_need_sync() {
   [ ! -f "${HKZ_INSTALL_DIR}/VERSION" ] && return 0
   rev=""
   [ -f "${HKZ_INSTALL_DIR}/INSTALLER_REV" ] && rev=$(tr -d '[:space:]' <"${HKZ_INSTALL_DIR}/INSTALLER_REV")
-  want="${HKZ_INSTALLER_REV:-109}"
+  want="${HKZ_INSTALLER_REV:-110}"
   [ "$rev" != "$want" ] && return 0
   rv=$(hkz_remote_version)
   [ -z "$rv" ] && return 1

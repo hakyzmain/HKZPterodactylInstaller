@@ -188,7 +188,7 @@ hkz_theme_assemble_css() {
   rev=$(hkz_theme_bundle_rev)
   if [ "$kind" = client ]; then
     {
-      echo "/* hkz-bundle:${rev} polish */"
+      echo ":root{--hkz-bundle:${rev}}"
       hkz_theme_client_skin "${THEMES_DIR}/${id}/client.css"
       cat "${THEME_BASE}/polish-client.css" \
         "${THEME_BASE}/client-compat.css" \
@@ -196,7 +196,7 @@ hkz_theme_assemble_css() {
     } >"$dest"
   else
     {
-      echo "/* hkz-bundle:${rev} polish-admin */"
+      echo ":root{--hkz-bundle:${rev}}"
       hkz_theme_admin_skin "${THEMES_DIR}/${id}/admin.css"
       cat "${THEME_BASE}/polish-admin.css" \
         "${THEME_BASE}/admin-compat.css" \
