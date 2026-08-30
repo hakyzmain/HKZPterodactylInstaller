@@ -1,18 +1,19 @@
 :root {
   --hkz-radius: 14px;
   --hkz-radius-panel: 14px;
-  --hkz-blur: 14px;
+  --hkz-blur: 16px;
+  --hkz-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --hkz-text-dim: color-mix(in srgb, var(--hkz-text, #e8ecf4) 72%, transparent);
 }
 
-@keyframes hkz-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes hkz-fade-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes hkz-glow {
-  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--hkz-accent, #a855f7) 0%, transparent); }
-  50% { box-shadow: 0 0 18px color-mix(in srgb, var(--hkz-accent, #a855f7) 28%, transparent); }
+@keyframes hkz-soft-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.75; }
 }
 
 html,
@@ -32,17 +33,31 @@ body.bg-neutral-900,
 }
 
 #app {
-  animation: hkz-fade-in 0.45s ease;
+  animation: hkz-fade-up 0.4s var(--hkz-ease) both;
+}
+
+#app::before,
+#app::after {
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+#app::before {
+  animation: hkz-soft-pulse 10s ease-in-out infinite !important;
+}
+
+#app::after {
+  opacity: 0.025 !important;
 }
 
 #app a {
-  transition: color 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+  transition: color 0.18s ease, opacity 0.18s ease, border-color 0.18s ease;
 }
 
 #app > nav,
 #app nav[class*='Navigation'] {
-  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 88%, #000) !important;
-  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 90%, #000) !important;
+  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
   backdrop-filter: blur(var(--hkz-blur));
   -webkit-backdrop-filter: blur(var(--hkz-blur));
 }
@@ -51,19 +66,18 @@ body.bg-neutral-900,
 #app nav[class*='Navigation'] a,
 #app > nav button {
   color: var(--hkz-text, #e8ecf4) !important;
-  transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  transition: color 0.18s ease, background-color 0.18s ease;
 }
 
 #app > nav a.active,
 #app > nav a[aria-current='page'],
 #app nav[class*='Navigation'] a.active {
   color: var(--hkz-accent-2, var(--hkz-accent, #22d3ee)) !important;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--hkz-accent-2, #22d3ee) 45%, transparent);
 }
 
 div[class*='SubNavigation'] {
-  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 80%, var(--hkz-input-bg, rgba(0, 0, 0, 0.35))) !important;
-  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 82%, var(--hkz-input-bg, rgba(0, 0, 0, 0.35))) !important;
+  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
   overflow: visible !important;
   position: relative;
   z-index: 30;
@@ -71,7 +85,7 @@ div[class*='SubNavigation'] {
 
 div[class*='SubNavigation'] a {
   color: var(--hkz-text-dim) !important;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  transition: color 0.18s ease;
 }
 
 div[class*='SubNavigation'] a:hover,
@@ -83,37 +97,39 @@ div[class*='SubNavigation'] a[aria-current='page'] {
 [class*='GreyRowBox'],
 a[class*='GreyRowBox'] {
   background: var(--hkz-glass, rgba(255, 255, 255, 0.07)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
   color: var(--hkz-text, #e8ecf4) !important;
   border-radius: var(--hkz-radius) !important;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+  transition: border-color 0.2s var(--hkz-ease), box-shadow 0.2s var(--hkz-ease), transform 0.2s var(--hkz-ease);
 }
 
 [class*='GreyRowBox']:hover,
 a[class*='GreyRowBox']:hover {
   border-color: var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
-  box-shadow: var(--hkz-shadow-hover, 0 12px 40px rgba(168, 85, 247, 0.2));
+  box-shadow: var(--hkz-shadow-hover, 0 12px 36px rgba(0, 0, 0, 0.28));
+  transform: translateY(-1px);
 }
 
 div[class*='ContentBox'],
 div[class*='InformationBox'],
 div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_container']) {
   background: var(--hkz-glass, rgba(255, 255, 255, 0.07)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
   border-radius: var(--hkz-radius-panel) !important;
   color: var(--hkz-text, #e8ecf4) !important;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  transition: border-color 0.2s var(--hkz-ease), box-shadow 0.2s var(--hkz-ease);
 }
 
 #app button:not(:disabled),
 #modal-portal button:not(:disabled),
 #app a[role='button']:not([aria-disabled='true']) {
-  transition: filter 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  transition: filter 0.16s ease, box-shadow 0.16s ease, transform 0.16s var(--hkz-ease);
 }
 
 #app button:not(:disabled):hover,
 #modal-portal button:not(:disabled):hover {
-  filter: brightness(1.08);
+  filter: brightness(1.06);
+  transform: translateY(-1px);
 }
 
 #app .bg-blue-500,
@@ -125,7 +141,7 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   background: var(--hkz-btn, linear-gradient(135deg, #a855f7, #6366f1)) !important;
   border-color: transparent !important;
   color: #fff !important;
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--hkz-accent, #a855f7) 28%, transparent);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--hkz-accent, #a855f7) 26%, transparent);
 }
 
 #app input[type='text'],
@@ -144,12 +160,14 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal textarea,
 #modal-portal select,
 .Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']) {
-  background-color: var(--hkz-input-bg, rgba(0, 0, 0, 0.35)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  background-color: var(--hkz-input-bg, rgba(0, 0, 0, 0.38)) !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
   color: var(--hkz-text, #e8ecf4) !important;
+  -webkit-text-fill-color: var(--hkz-text, #e8ecf4) !important;
   border-radius: 12px !important;
   caret-color: var(--hkz-accent-2, #22d3ee);
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+  opacity: 1 !important;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
 }
 
 #app input:not([type='checkbox']):not([type='radio']):focus,
@@ -169,42 +187,55 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal textarea::placeholder {
   color: var(--hkz-text-dim) !important;
   opacity: 0.85;
+  -webkit-text-fill-color: var(--hkz-text-dim) !important;
+}
+
+#app select option,
+#modal-portal select option {
+  background-color: #15101f !important;
+  color: #f1f5f9 !important;
 }
 
 #app [role='dialog'],
 #modal-portal [role='dialog'],
 #modal-portal [class*='Dialog'] {
   background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 92%, var(--hkz-input-bg, #000)) !important;
-  border: 1px solid var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
+  border: 1px solid var(--hkz-border-hover, rgba(34, 211, 238, 0.4)) !important;
   border-radius: 16px !important;
   color: var(--hkz-text, #e8ecf4) !important;
-  box-shadow: var(--hkz-shadow-hover, 0 12px 40px rgba(0, 0, 0, 0.35));
-  animation: hkz-fade-in 0.2s ease;
+  box-shadow: var(--hkz-shadow-hover, 0 16px 48px rgba(0, 0, 0, 0.4));
+  animation: hkz-fade-up 0.22s var(--hkz-ease);
 }
 
 #app [role='listbox'],
 #app [role='menu'],
 #modal-portal [role='listbox'],
 #modal-portal [role='menu'] {
-  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 90%, var(--hkz-input-bg, #000)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.3)) !important;
+  background: #15101f !important;
+  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
   border-radius: 12px !important;
-  color: var(--hkz-text, #e8ecf4) !important;
-  box-shadow: var(--hkz-shadow, 0 8px 32px rgba(0, 0, 0, 0.28));
+  color: #f1f5f9 !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  overflow: auto !important;
+  max-height: min(60vh, 360px);
 }
 
 #app [role='option'],
 #app [role='menuitem'],
 #modal-portal [role='option'],
 #modal-portal [role='menuitem'] {
-  color: var(--hkz-text, #e8ecf4) !important;
-  transition: background-color 0.15s ease;
+  color: #f1f5f9 !important;
+  opacity: 1 !important;
+  transition: background-color 0.12s ease;
 }
 
 #app [role='option']:hover,
 #app [role='menuitem']:hover,
-#app [role='option'][aria-selected='true'] {
-  background: var(--hkz-nav-hover, rgba(168, 85, 247, 0.18)) !important;
+#app [role='option'][aria-selected='true'],
+#modal-portal [role='option']:hover,
+#modal-portal [role='option'][aria-selected='true'] {
+  background: color-mix(in srgb, var(--hkz-accent, #a855f7) 38%, #15101f) !important;
+  color: #fff !important;
 }
 
 #app a.hkz-footer-brand,
@@ -230,4 +261,16 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal ::-webkit-scrollbar-thumb {
   background: color-mix(in srgb, var(--hkz-accent, #a855f7) 45%, var(--hkz-bg-1, #0b0614));
   border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #app,
+  #app::before,
+  [class*='GreyRowBox'],
+  #app button,
+  #modal-portal [role='dialog'] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
 }

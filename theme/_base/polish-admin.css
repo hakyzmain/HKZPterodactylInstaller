@@ -1,53 +1,56 @@
 :root {
-  --hkz-radius: 14px;
-  --hkz-blur: 14px;
+  --hkz-radius: 12px;
+  --hkz-blur: 16px;
   --hkz-admin-btn-label: #ffffff;
+  --hkz-admin-menu-bg: #15101f;
+  --hkz-admin-menu-text: #f1f5f9;
+  --hkz-ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes hkz-admin-fade {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes hkz-admin-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 body,
 .wrapper,
 .content-wrapper {
-  background: var(--hkz-admin-bg, inherit) !important;
+  background: var(--hkz-admin-bg, #0b0614) !important;
   color: var(--hkz-admin-text, #e8ecf4);
-  font-family: var(--hkz-font, system-ui, sans-serif) !important;
+  font-family: var(--hkz-font, 'DM Sans', system-ui, sans-serif) !important;
 }
 
 .content-wrapper,
 .right-side {
   background: transparent !important;
-  animation: hkz-admin-fade 0.35s ease;
+  animation: hkz-admin-in 0.32s var(--hkz-ease) both;
 }
 
 .main-header {
-  background: var(--hkz-admin-header, inherit) !important;
-  border-bottom: 1px solid var(--hkz-admin-border, transparent) !important;
+  background: var(--hkz-admin-header, rgba(26, 15, 46, 0.94)) !important;
+  border-bottom: 1px solid var(--hkz-admin-border, rgba(168, 85, 247, 0.28)) !important;
   backdrop-filter: blur(var(--hkz-blur));
   -webkit-backdrop-filter: blur(var(--hkz-blur));
 }
 
 .main-sidebar,
 .main-sidebar .sidebar {
-  background: var(--hkz-admin-sidebar, inherit) !important;
-  border-right: 1px solid var(--hkz-admin-border, transparent) !important;
+  background: var(--hkz-admin-sidebar, rgba(26, 15, 46, 0.98)) !important;
+  border-right: 1px solid var(--hkz-admin-border, rgba(168, 85, 247, 0.28)) !important;
 }
 
 .sidebar-menu > li > a {
   border-radius: 10px;
-  margin: 3px 10px;
+  margin: 2px 8px;
   color: var(--hkz-admin-text, #e8ecf4) !important;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  transition: background-color 0.18s var(--hkz-ease), box-shadow 0.18s var(--hkz-ease);
 }
 
 .sidebar-menu > li.active > a,
 .sidebar-menu > li > a:hover,
 .sidebar-menu > li.menu-open > a {
-  background: var(--hkz-admin-nav-active, inherit) !important;
-  box-shadow: var(--hkz-admin-glow, none);
+  background: var(--hkz-admin-nav-active, rgba(168, 85, 247, 0.28)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hkz-accent, #a855f7) 35%, transparent);
 }
 
 .box,
@@ -58,57 +61,63 @@ body,
 .login-box,
 .register-box,
 .well {
-  background: var(--hkz-admin-card, inherit) !important;
-  border: 1px solid var(--hkz-admin-border, transparent) !important;
+  background: var(--hkz-admin-card, rgba(255, 255, 255, 0.06)) !important;
+  border: 1px solid var(--hkz-admin-border, rgba(168, 85, 247, 0.28)) !important;
   border-radius: var(--hkz-radius) !important;
-  box-shadow: var(--hkz-admin-shadow, none);
+  box-shadow: var(--hkz-admin-shadow, 0 10px 28px rgba(0, 0, 0, 0.28));
   color: var(--hkz-admin-text, #e8ecf4) !important;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  transition: border-color 0.2s var(--hkz-ease), box-shadow 0.2s var(--hkz-ease);
+  overflow: visible !important;
 }
 
 .box:hover,
-.panel:hover,
-.card:hover {
-  border-color: color-mix(in srgb, var(--hkz-accent, #a855f7) 40%, var(--hkz-admin-border, transparent)) !important;
-  box-shadow: var(--hkz-admin-shadow, none), var(--hkz-admin-glow, none);
+.panel:hover {
+  border-color: color-mix(in srgb, var(--hkz-accent, #a855f7) 42%, var(--hkz-admin-border, transparent)) !important;
 }
 
 .box-header,
 .panel-heading,
 .modal-header {
-  background: color-mix(in srgb, var(--hkz-admin-card, rgba(255, 255, 255, 0.07)) 70%, var(--hkz-admin-nav-hover, rgba(168, 85, 247, 0.18))) !important;
+  background: color-mix(in srgb, var(--hkz-admin-card, rgba(255, 255, 255, 0.06)) 75%, var(--hkz-admin-nav-hover, rgba(168, 85, 247, 0.14))) !important;
   border-bottom: 1px solid var(--hkz-admin-border, transparent) !important;
   color: var(--hkz-admin-text, #e8ecf4) !important;
+  border-radius: var(--hkz-radius) var(--hkz-radius) 0 0 !important;
 }
 
 .box-footer,
 .modal-footer {
-  background: color-mix(in srgb, var(--hkz-admin-card, rgba(255, 255, 255, 0.07)) 85%, transparent) !important;
+  background: color-mix(in srgb, var(--hkz-admin-card, rgba(255, 255, 255, 0.06)) 88%, transparent) !important;
   border-top: 1px solid var(--hkz-admin-border, transparent) !important;
 }
 
 .content-header > h1 {
   color: var(--hkz-admin-text, #e8ecf4) !important;
   font-weight: 700 !important;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--hkz-accent, #6366f1) 22%, transparent);
+  letter-spacing: -0.02em;
 }
 
 .form-control,
+input.form-control,
+select.form-control,
+textarea.form-control,
 .select2-container--default .select2-selection--single,
 .select2-container--default .select2-selection--multiple {
-  background: var(--hkz-admin-input, rgba(0, 0, 0, 0.35)) !important;
+  background: var(--hkz-admin-input, rgba(0, 0, 0, 0.42)) !important;
   color: var(--hkz-admin-text, #e8ecf4) !important;
+  -webkit-text-fill-color: var(--hkz-admin-text, #e8ecf4) !important;
   border: 1px solid var(--hkz-admin-border, rgba(168, 85, 247, 0.3)) !important;
   border-radius: 10px !important;
   caret-color: var(--hkz-accent-2, #22d3ee);
   box-shadow: none !important;
+  opacity: 1 !important;
 }
 
 .form-control:focus,
 .select2-container--default.select2-container--focus .select2-selection--single,
-.select2-container--default.select2-container--focus .select2-selection--multiple {
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--open .select2-selection--single {
   border-color: var(--hkz-accent-2, var(--hkz-accent, #22d3ee)) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hkz-accent-2, #22d3ee) 22%, transparent) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hkz-accent-2, #22d3ee) 24%, transparent) !important;
 }
 
 .select2-container .select2-selection--single {
@@ -117,6 +126,7 @@ body,
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   color: var(--hkz-admin-text, #e8ecf4) !important;
+  -webkit-text-fill-color: var(--hkz-admin-text, #e8ecf4) !important;
   line-height: 32px !important;
 }
 
@@ -125,26 +135,40 @@ body,
 }
 
 .select2-dropdown {
-  background: var(--hkz-admin-card, #1a0f2e) !important;
+  background: var(--hkz-admin-menu-bg, #15101f) !important;
   border: 1px solid var(--hkz-admin-border, rgba(168, 85, 247, 0.3)) !important;
-  color: var(--hkz-admin-text, #e8ecf4) !important;
+  color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45) !important;
+  overflow: hidden;
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
-  background: var(--hkz-admin-input, rgba(0, 0, 0, 0.35)) !important;
-  color: var(--hkz-admin-text, #e8ecf4) !important;
+  background: var(--hkz-admin-input, rgba(0, 0, 0, 0.42)) !important;
+  color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+  -webkit-text-fill-color: var(--hkz-admin-menu-text, #f1f5f9) !important;
   border: 1px solid var(--hkz-admin-border, rgba(168, 85, 247, 0.3)) !important;
+  border-radius: 8px !important;
 }
 
 .select2-container--default .select2-results__option {
-  background: var(--hkz-admin-card, #1a0f2e) !important;
-  color: var(--hkz-admin-text, #e8ecf4) !important;
+  background: var(--hkz-admin-menu-bg, #15101f) !important;
+  color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+  -webkit-text-fill-color: var(--hkz-admin-menu-text, #f1f5f9) !important;
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected],
 .select2-container--default .select2-results__option[aria-selected='true'] {
-  background: var(--hkz-admin-nav-active, inherit) !important;
-  color: var(--hkz-admin-text, #e8ecf4) !important;
+  background: color-mix(in srgb, var(--hkz-accent, #a855f7) 45%, #15101f) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+select option,
+select optgroup,
+.form-control option {
+  background-color: #15101f !important;
+  color: #f1f5f9 !important;
 }
 
 .btn,
@@ -152,19 +176,20 @@ body,
 button.btn-primary,
 input[type='submit'].btn,
 a.btn-primary {
-  background: var(--hkz-admin-btn, inherit) !important;
+  background: var(--hkz-admin-btn, linear-gradient(135deg, #a855f7, #6366f1)) !important;
   border-color: transparent !important;
   color: var(--hkz-admin-btn-label, #fff) !important;
   border-radius: 10px !important;
   font-weight: 600 !important;
-  transition: filter 0.18s ease, box-shadow 0.18s ease;
+  transition: filter 0.16s ease, transform 0.16s var(--hkz-ease), box-shadow 0.16s ease;
 }
 
 .btn:hover,
 .btn-primary:hover,
 button.btn-primary:hover {
-  filter: brightness(1.08);
-  box-shadow: 0 8px 22px var(--hkz-admin-glow, rgba(99, 102, 241, 0.22));
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--hkz-accent, #a855f7) 28%, transparent);
 }
 
 .btn-default,
@@ -191,21 +216,23 @@ input[type='file'] {
 }
 
 .modal-content {
-  animation: hkz-admin-fade 0.22s ease;
+  animation: hkz-admin-in 0.22s var(--hkz-ease);
 }
 
 .dropdown-menu {
-  background: var(--hkz-admin-card, inherit) !important;
+  background: var(--hkz-admin-menu-bg, #15101f) !important;
   border: 1px solid var(--hkz-admin-border, transparent) !important;
-  box-shadow: var(--hkz-admin-shadow, none) !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 10px !important;
 }
 
 .dropdown-menu > li > a {
-  color: var(--hkz-admin-text, #e8ecf4) !important;
+  color: var(--hkz-admin-menu-text, #f1f5f9) !important;
 }
 
 .dropdown-menu > li > a:hover {
-  background: var(--hkz-admin-nav-active, inherit) !important;
+  background: color-mix(in srgb, var(--hkz-accent, #a855f7) 35%, #15101f) !important;
+  color: #fff !important;
 }
 
 .table,
@@ -227,14 +254,10 @@ footer.main-footer {
   color: var(--hkz-admin-text, #e8ecf4) !important;
 }
 
-.small-box {
-  overflow: hidden;
-}
-
 code,
 pre,
 .CodeMirror {
-  background: var(--hkz-admin-input, rgba(0, 0, 0, 0.35)) !important;
+  background: var(--hkz-admin-input, rgba(0, 0, 0, 0.42)) !important;
   color: var(--hkz-admin-text, #e8ecf4) !important;
   border-color: var(--hkz-admin-border, transparent) !important;
 }

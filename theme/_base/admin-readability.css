@@ -3,6 +3,8 @@
   --hkz-admin-text-soft: color-mix(in srgb, var(--hkz-admin-text) 88%, #fff 12%) !important;
   --hkz-admin-text-faint: color-mix(in srgb, var(--hkz-admin-text) 76%, var(--hkz-accent-2, #94a3b8) 24%) !important;
   --hkz-admin-placeholder: color-mix(in srgb, var(--hkz-admin-text) 58%, var(--hkz-accent-2, #94a3b8) 42%) !important;
+  --hkz-admin-menu-bg: #15101f;
+  --hkz-admin-menu-text: #f1f5f9;
 }
 
 body,
@@ -63,6 +65,7 @@ textarea,
   color: var(--hkz-admin-text) !important;
   -webkit-text-fill-color: var(--hkz-admin-text) !important;
   caret-color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+  opacity: 1 !important;
 }
 
 input::placeholder,
@@ -81,6 +84,23 @@ select:-webkit-autofill {
   -webkit-text-fill-color: var(--hkz-admin-text) !important;
   box-shadow: 0 0 0 1000px var(--hkz-admin-input) inset !important;
   transition: background-color 99999s ease-out 0s;
+}
+
+select option,
+select optgroup,
+.form-control option {
+  background-color: var(--hkz-admin-menu-bg, #15101f) !important;
+  color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+  -webkit-text-fill-color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+}
+
+.select2-results__option,
+.select2-container--default .select2-results__option {
+  background: var(--hkz-admin-menu-bg, #15101f) !important;
+  color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+  -webkit-text-fill-color: var(--hkz-admin-menu-text, #f1f5f9) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .main-header .logo,
@@ -114,7 +134,14 @@ select:-webkit-autofill {
 input[name='app:name'],
 input[name='app:locale'],
 select[name='app:locale'],
-select[name='pterodactyl:auth:2fa_required'] {
+select[name='pterodactyl:auth:2fa_required'],
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'],
+input[type='url'],
+input[type='search'],
+textarea {
   color: var(--hkz-admin-text) !important;
   -webkit-text-fill-color: var(--hkz-admin-text) !important;
   background: var(--hkz-admin-input) !important;

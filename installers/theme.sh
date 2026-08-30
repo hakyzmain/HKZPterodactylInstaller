@@ -201,6 +201,7 @@ hkz_theme_assemble_css() {
       cat "${THEME_BASE}/polish-admin.css" \
         "${THEME_BASE}/admin-compat.css" \
         "${THEME_BASE}/admin-skin.css" \
+        "${THEME_BASE}/admin-readability.css" \
         "${THEME_BASE}/thin-guard.css"
     } >"$dest"
   fi

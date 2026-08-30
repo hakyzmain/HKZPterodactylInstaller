@@ -16,20 +16,21 @@ body,
 #app,
 .wrapper,
 .content-wrapper,
-.right-side {
+.right-side,
+.main-sidebar,
+.main-header {
   filter: none !important;
-  transform: none !important;
   pointer-events: auto !important;
-}
-
-#app {
-  isolation: isolate;
 }
 
 #app > nav,
 #app > div,
 #app > main,
-#app > section {
+#app > section,
+.wrapper > .content-wrapper,
+.wrapper > .main-header,
+.wrapper > .main-sidebar,
+.wrapper > .main-footer {
   position: relative;
   z-index: 1;
   pointer-events: auto !important;
@@ -41,12 +42,28 @@ body,
 .box-footer,
 .form-group,
 .form-horizontal,
+.modal,
 .modal-dialog,
 .modal-content,
 .modal-body,
 .tab-content,
-.nav-tabs-custom {
+.nav-tabs-custom,
+.panel,
+.panel-body,
+.well,
+.callout,
+.info-box,
+.small-box .inner {
   overflow: visible !important;
+}
+
+.box,
+.panel,
+.card,
+.modal-content {
+  transform: none !important;
+  filter: none !important;
+  backdrop-filter: none;
 }
 
 input,
@@ -56,6 +73,8 @@ button,
 a,
 label,
 summary,
+option,
+optgroup,
 [role='button'],
 [role='tab'],
 [role='menuitem'],
@@ -67,25 +86,38 @@ summary,
 [role='radio'],
 [role='dialog'],
 [role='menu'],
+.select2,
 .select2-container,
 .select2-container *,
 .select2-dropdown,
+.select2-results,
+.select2-results__options,
+.select2-results__option,
+.select2-search__field,
+.dropdown,
 .dropdown-menu,
 .dropdown-menu *,
+.navbar-nav > li,
+.navbar-custom-menu,
+.bootstrap-filestyle,
+.bootstrap-filestyle *,
+.file-input,
 input[type='file'],
 input[type='checkbox'],
 input[type='radio'],
-.file-input,
-.bootstrap-filestyle,
-.bootstrap-filestyle * {
+.CodeMirror,
+.CodeMirror * {
   pointer-events: auto !important;
 }
 
 input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='submit']):not([type='button']):not([type='reset']),
-textarea {
+textarea,
+.select2-search__field {
   cursor: text !important;
   user-select: text !important;
   -webkit-user-select: text !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: inherit;
 }
 
 input[type='checkbox'],
@@ -96,6 +128,7 @@ input[type='button'],
 button,
 a,
 label,
+select,
 .select2-container,
 .select2-selection {
   cursor: pointer !important;
@@ -106,10 +139,27 @@ input:disabled,
 select:disabled,
 textarea:disabled {
   cursor: not-allowed !important;
+  pointer-events: auto !important;
+}
+
+select,
+select.form-control {
+  appearance: auto !important;
+  -webkit-appearance: menulist !important;
+  color-scheme: dark;
+}
+
+select option,
+select optgroup,
+.form-control option {
+  background-color: #14101f !important;
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9 !important;
 }
 
 .select2-container {
   z-index: 120 !important;
+  width: 100% !important;
 }
 
 .select2-container--open {
@@ -117,17 +167,46 @@ textarea:disabled {
 }
 
 .select2-dropdown,
-.select2-container--open .select2-dropdown {
+.select2-container--open .select2-dropdown,
+.select2-container--open .select2-dropdown--below,
+.select2-container--open .select2-dropdown--above {
   z-index: 10070 !important;
   pointer-events: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.select2-results__options {
+  max-height: 260px !important;
+  overflow-y: auto !important;
+}
+
+.select2-results__option {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 28px !important;
+  line-height: 1.4 !important;
+  padding: 6px 12px !important;
 }
 
 .dropdown-menu,
 .navbar-nav > .notifications-menu > .dropdown-menu,
 .navbar-nav > .messages-menu > .dropdown-menu,
-.navbar-nav > .user-menu > .dropdown-menu {
+.navbar-nav > .user-menu > .dropdown-menu,
+.navbar-custom-menu > .navbar-nav > li > .dropdown-menu {
   z-index: 10500 !important;
   pointer-events: auto !important;
+  display: none;
+}
+
+.open > .dropdown-menu,
+.dropdown.open > .dropdown-menu,
+li.open > .dropdown-menu {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .modal,
@@ -139,10 +218,16 @@ textarea:disabled {
 
 .modal-backdrop {
   z-index: 1040 !important;
+  pointer-events: auto !important;
 }
 
 #modal-portal {
   z-index: 9999 !important;
+  pointer-events: none;
+}
+
+#modal-portal > * {
+  pointer-events: auto !important;
 }
 
 #app [class*='Dropdown'],
@@ -169,4 +254,9 @@ body.bg-neutral-900,
 #app > .relative.bg-neutral-900,
 #app .min-h-screen.bg-neutral-900 {
   background-color: transparent !important;
+}
+
+#app::before,
+#app::after {
+  z-index: 0 !important;
 }
