@@ -364,6 +364,18 @@ cmd_version() {
   msg_info "v$(read_local_version) / github $(fetch_remote_version 2>/dev/null || echo ?)"
 }
 
+cmd_ssl() {
+  [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
+  detect_os
+  hkz_resolve_panel_dir 2>/dev/null || true
+  export CONFIGS_DIR="${SCRIPT_DIR}/configs"
+  source "$SCRIPT_DIR/lib/panel-customize.sh" 2>/dev/null || true
+  source "$SCRIPT_DIR/lib/panel-heal.sh" 2>/dev/null || true
+  source "$SCRIPT_DIR/lib/ssl-manage.sh"
+  source "$SCRIPT_DIR/lib/ui-ssl.sh"
+  run_ssl_menu
+}
+
 cmd_menu() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
@@ -384,6 +396,7 @@ main() {
     theme|themes) cmd_theme "$@" ;;
     wings) cmd_wings "$@" ;;
     wings-deploy) cmd_wings_deploy "$@" ;;
+    ssl|certs|certificates) cmd_ssl "$@" ;;
     update) cmd_update "$@" ;;
     repair) cmd_repair "$@" ;;
     info) cmd_info "$@" ;;

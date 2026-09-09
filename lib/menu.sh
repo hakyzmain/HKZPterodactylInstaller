@@ -14,6 +14,7 @@ run_main_menu() {
     echo "  [7] $(hkz_t menu_7)"
     echo "  [8] $(hkz_t menu_8)"
     echo "  [9] $(hkz_t menu_9)"
+    echo "  [10] $(hkz_t menu_10)"
     print_rule
     echo -en "  $(hkz_t menu_choice): "
     read -r choice
@@ -27,7 +28,8 @@ run_main_menu() {
       6) cmd_update; return ;;
       7) cmd_info; return ;;
       8) cmd_theme; return ;;
-      9|q|Q|exit) exit 0 ;;
+      9) cmd_ssl; return ;;
+      10|q|Q|exit) exit 0 ;;
       *) msg_err "$(hkz_t menu_invalid)" ;;
     esac
   done
