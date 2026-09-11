@@ -375,6 +375,8 @@ hkz_t() {
       wings_ssl_issue_ok) echo "certificate issued for" ;;
       wings_ssl_cert_fail) echo "certbot failed — check DNS A-record and port 80, then: phkz repair" ;;
       wings_ssl_disabled) echo "Wings SSL disabled — certbot could not issue certificate, node will use HTTP" ;;
+      wings_dns_set) echo "Wings Docker DNS set to" ;;
+      wings_dns_fail) echo "could not patch Wings Docker DNS" ;;
       wings_running) echo "wings is running" ;;
       wings_deploy_hint) echo "paste auto-deploy from panel (Admin → Nodes → Configuration)" ;;
       wings_deploy_q) echo "deploy command (Enter — skip):" ;;
@@ -750,6 +752,8 @@ hkz_t() {
       wings_ssl_issue_ok) echo "сертификат выпущен для" ;;
       wings_ssl_cert_fail) echo "certbot не удался — проверьте DNS A-запись и порт 80, затем: phkz repair" ;;
       wings_ssl_disabled) echo "SSL wings отключён — certbot не выдал сертификат, нода по HTTP" ;;
+      wings_dns_set) echo "Wings Docker DNS установлен:" ;;
+      wings_dns_fail) echo "не удалось прописать DNS в Wings" ;;
       wings_running) echo "wings запущен" ;;
       wings_deploy_hint) echo "вставьте auto-deploy из панели (Админка → Ноды → Configuration)" ;;
       wings_deploy_q) echo "команда deploy (Enter — пропуск):" ;;

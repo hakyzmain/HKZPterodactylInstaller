@@ -38,7 +38,9 @@ hkz_wings_heal() {
 
   if cfg=$(hkz_wings_config_path 2>/dev/null); then
     msg_ok "$(hkz_t wings_heal_config) $cfg"
+    hkz_wings_apply_docker_dns || msg_warn "$(hkz_t wings_dns_fail)"
     hkz_wings_ensure_node_cert || msg_warn "$(hkz_t wings_cert_warn)"
+    docker network rm pterodactyl_nw 2>/dev/null || true
     hkz_wings_start || msg_warn "$(hkz_t wings_heal_start_fail)"
   else
     msg_info "$(hkz_t wings_heal_no_config)"

@@ -243,7 +243,9 @@ cmd_wings_deploy() {
     exit 1
   }
   hkz_wings_load_env
+  hkz_wings_apply_docker_dns || msg_warn "$(hkz_t wings_dns_fail)"
   hkz_wings_ensure_node_cert || msg_warn "$(hkz_t wings_cert_warn)"
+  docker network rm pterodactyl_nw 2>/dev/null || true
   hkz_wings_start || msg_warn "$(hkz_t wings_heal_start_fail)"
   msg_ok "$(hkz_t wings_ready)"
 }

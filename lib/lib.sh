@@ -262,6 +262,55 @@ hkz_wings_config_path() {
   return 1
 }
 
+hkz_wings_apply_docker_dns() {
+  local cfg dns1="${1:-77.88.8.8}" dns2="${2:-77.88.8.1}" dns3="${3:-9.9.9.9}"
+  cfg=$(hkz_wings_config_path 2>/dev/null) || return 1
+  command -v python3 >/dev/null 2>&1 || return 1
+  DNS1="$dns1" DNS2="$dns2" DNS3="$dns3" CFG="$cfg" python3 - <<'PY'
+import os, pathlib, re, sys
+cfg = pathlib.Path(os.environ["CFG"])
+text = cfg.read_text(encoding="utf-8")
+block = (
+    "    dns:\n"
+    f"      - {os.environ['DNS1']}\n"
+    f"      - {os.environ['DNS2']}\n"
+    f"      - {os.environ['DNS3']}\n"
+)
+new, n = re.subn(
+    r"(?ms)^([ \t]*)dns:[ \t]*\n(?:\1[ \t]+-[ \t]*.*\n)*",
+    block,
+    text,
+    count=1,
+)
+if n == 0:
+    if re.search(r"(?m)^  network:\s*$", text):
+        new = re.sub(r"(?m)^(  network:\s*\n)", r"\1" + block, text, count=1)
+    elif re.search(r"(?m)^docker:\s*$", text):
+        new = re.sub(
+            r"(?m)^(docker:\s*\n)",
+            r"\1  network:\n" + block,
+            text,
+            count=1,
+        )
+    else:
+        new = text.rstrip() + "\n\ndocker:\n  network:\n" + block
+if new == text and n == 0 and "77.88.8.8" in text:
+    sys.exit(0)
+cfg.write_text(new, encoding="utf-8")
+print(cfg)
+PY
+  [ $? -eq 0 ] || return 1
+  msg_ok "$(hkz_t wings_dns_set) ${dns1} ${dns2} ${dns3}"
+  return 0
+}
+
+hkz_wings_restart_with_dns() {
+  hkz_wings_apply_docker_dns "$@" || return 1
+  docker network rm pterodactyl_nw 2>/dev/null || true
+  systemctl restart wings 2>/dev/null || true
+  return 0
+}
+
 hkz_wings_ssl_cert_path() {
   local cfg="$1"
   awk '
