@@ -55,7 +55,6 @@ wings_download() {
   hkz_wings_ensure_binary
   hkz_wings_link_binary
   cp "$CONFIGS_DIR/wings.service" /etc/systemd/system/wings.service
-  hkz_wings_install_dns_hook || true
   systemctl daemon-reload
   systemctl enable wings
   msg_ok "$(hkz_t wings_dl_ok)"
@@ -95,7 +94,6 @@ wings_main() {
   hkz_mark_wings
   wings_autodeploy
   wings_setup_ssl
-  hkz_wings_install_dns_hook || true
   hkz_wings_apply_docker_dns || true
   docker network rm pterodactyl_nw 2>/dev/null || true
   hkz_wings_start || msg_warn "$(hkz_t wings_heal_start_fail)"

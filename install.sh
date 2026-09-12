@@ -87,7 +87,7 @@ hkz_pre_sync_opt() {
   [ -f "${dir}/INSTALLER_REV" ] && lr=$(tr -d '[:space:]' <"${dir}/INSTALLER_REV")
   want=""
   [ -f "${_SCRIPT_DIR}/INSTALLER_REV" ] && want=$(tr -d '[:space:]' <"${_SCRIPT_DIR}/INSTALLER_REV")
-  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-120}"
+  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-121}"
   [ -n "$want" ] && [ "$lr" != "$want" ] && need=1
   [ "$need" = 1 ] && [ -f "${dir}/run.sh" ] && exec env HKZ_INSTALLER_SYNCED=1 bash "${dir}/run.sh" "$@"
 }
@@ -246,7 +246,6 @@ cmd_wings_deploy() {
     exit 1
   }
   hkz_wings_load_env
-  hkz_wings_install_dns_hook || true
   hkz_wings_apply_docker_dns || msg_warn "$(hkz_t wings_dns_fail)"
   hkz_wings_ensure_node_cert || msg_warn "$(hkz_t wings_cert_warn)"
   docker network rm pterodactyl_nw 2>/dev/null || true
