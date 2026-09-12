@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-118}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-119}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -436,17 +436,27 @@ hkz_wings_ensure_certbot_nginx() {
 }
 
 hkz_wings_configure_nginx() {
-  local domain="$1" conf tpl
+  local domain="$1" conf
   [ -n "$domain" ] || return 1
   hkz_wings_nginx_paths || return 1
-  tpl="${CONFIGS_DIR:-}/nginx-wings.conf"
-  [ -f "$tpl" ] || tpl="$(dirname "${BASH_SOURCE[0]}")/../configs/nginx-wings.conf"
-  [ -f "$tpl" ] || return 1
   conf="${NGINX_AVAIL}/wings-node.conf"
-  cp "$tpl" "$conf"
-  sed -i "s|@FQDN@|${domain}|g" "$conf"
+  # always rewrite as clean UTF-8 (no BOM/CRLF) — certbot rejects bad encodings
+  printf '%s\n' \
+    'server {' \
+    '    listen 80;' \
+    "    server_name ${domain};" \
+    '' \
+    '    access_log /var/log/nginx/wings-node.access.log;' \
+    '    error_log  /var/log/nginx/wings-node.error.log;' \
+    '' \
+    '    location / {' \
+    "        return 200 '';" \
+    '        add_header Content-Type text/plain;' \
+    '    }' \
+    '}' \
+    >"$conf"
   if [ "${OS:-}" = ubuntu ] || [ "${OS:-}" = debian ]; then
-    ln -sf "$conf" "${NGINX_ENABL}/wings-node.conf"
+    ln -sfn "$conf" "${NGINX_ENABL}/wings-node.conf"
   fi
   command -v nginx >/dev/null 2>&1 || install_packages nginx || return 1
   nginx -t
