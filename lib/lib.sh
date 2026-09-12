@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-117}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-118}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -518,6 +518,64 @@ hkz_wings_disable_ssl() {
   msg_info "$(hkz_t wings_ssl_disabled)"
 }
 
+# Point Wings api.ssl at Let's Encrypt files and enable TLS
+hkz_wings_apply_config_ssl() {
+  local domain="$1" cfg cert key
+  [ -n "$domain" ] || return 1
+  cfg=$(hkz_wings_config_path 2>/dev/null) || return 1
+  cert="/etc/letsencrypt/live/${domain}/fullchain.pem"
+  key="/etc/letsencrypt/live/${domain}/privkey.pem"
+  [ -f "$cert" ] && [ -f "$key" ] || return 1
+  command -v python3 >/dev/null 2>&1 || return 1
+  CERT="$cert" KEY="$key" CFG="$cfg" python3 - <<'PY'
+import os, pathlib, re, sys
+cfg = pathlib.Path(os.environ["CFG"])
+cert, key = os.environ["CERT"], os.environ["KEY"]
+lines = cfg.read_text(encoding="utf-8").splitlines(keepends=True)
+in_api = in_ssl = False
+ssl_start = ssl_end = api_idx = port_idx = None
+i = 0
+while i < len(lines):
+    line = lines[i]
+    if re.match(r"^api:\s*$", line):
+        in_api, in_ssl, api_idx = True, False, i
+        i += 1
+        continue
+    if in_api:
+        if re.match(r"^[a-zA-Z]", line):
+            in_api = in_ssl = False
+        elif re.match(r"^  ssl:\s*$", line):
+            ssl_start = i
+            i += 1
+            while i < len(lines) and (lines[i].startswith("    ") or lines[i].strip() == ""):
+                i += 1
+            ssl_end = i
+            continue
+        elif re.match(r"^  port:", line):
+            port_idx = i
+    i += 1
+new_ssl = [
+    "  ssl:\n",
+    "    enabled: true\n",
+    f"    cert: {cert}\n",
+    f"    key: {key}\n",
+]
+if ssl_start is not None:
+    lines = lines[:ssl_start] + new_ssl + lines[ssl_end:]
+elif port_idx is not None:
+    lines = lines[: port_idx + 1] + new_ssl + lines[port_idx + 1 :]
+elif api_idx is not None:
+    lines = lines[: api_idx + 1] + new_ssl + lines[api_idx + 1 :]
+else:
+    sys.exit(1)
+cfg.write_text("".join(lines), encoding="utf-8")
+print(cfg)
+PY
+  [ $? -eq 0 ] || return 1
+  msg_ok "$(hkz_t wings_ssl_config_ok) ${domain}"
+  return 0
+}
+
 hkz_wings_fix_config_ssl() {
   local cfg cert
   cfg=$(hkz_wings_config_path 2>/dev/null) || return 0
@@ -529,14 +587,26 @@ hkz_wings_fix_config_ssl() {
 }
 
 hkz_wings_ssl_domain() {
-  local cfg cert domain=""
+  local cfg cert domain="" conf
   cfg=$(hkz_wings_config_path 2>/dev/null) || cfg=""
   if [ -n "$cfg" ]; then
     cert=$(hkz_wings_ssl_cert_path "$cfg" 2>/dev/null)
     [ -n "$cert" ] && domain=$(hkz_wings_cert_domain "$cert")
   fi
   [ -n "$domain" ] && echo "$domain" && return 0
-  [ -n "${WINGS_FQDN:-}" ] && echo "${WINGS_FQDN}" && return 0
+  [ -n "${WINGS_FQDN:-}" ] && ! hkz_fqdn_is_ip "${WINGS_FQDN}" 2>/dev/null && {
+    echo "${WINGS_FQDN}"
+    return 0
+  }
+  for conf in /etc/nginx/sites-available/wings-node.conf /etc/nginx/sites-enabled/wings-node.conf \
+    /etc/nginx/conf.d/wings-node.conf; do
+    [ -f "$conf" ] || continue
+    domain=$(awk '/server_name/ { print $2; exit }' "$conf" | tr -d ';\r')
+    if [ -n "$domain" ] && [ "$domain" != "_" ] && ! hkz_fqdn_is_ip "$domain" 2>/dev/null; then
+      echo "$domain"
+      return 0
+    fi
+  done
   return 1
 }
 
@@ -547,6 +617,7 @@ hkz_wings_ensure_node_cert() {
   [ -n "$domain" ] || return 0
   hkz_fqdn_is_ip "$domain" && return 0
   if hkz_wings_setup_node_ssl "$domain" "$mail"; then
+    hkz_wings_apply_config_ssl "$domain" || true
     return 0
   fi
   hkz_wings_fix_config_ssl

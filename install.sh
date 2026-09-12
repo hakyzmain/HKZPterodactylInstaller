@@ -87,7 +87,7 @@ hkz_pre_sync_opt() {
   [ -f "${dir}/INSTALLER_REV" ] && lr=$(tr -d '[:space:]' <"${dir}/INSTALLER_REV")
   want=""
   [ -f "${_SCRIPT_DIR}/INSTALLER_REV" ] && want=$(tr -d '[:space:]' <"${_SCRIPT_DIR}/INSTALLER_REV")
-  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-117}"
+  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-118}"
   [ -n "$want" ] && [ "$lr" != "$want" ] && need=1
   [ "$need" = 1 ] && [ -f "${dir}/run.sh" ] && exec env HKZ_INSTALLER_SYNCED=1 bash "${dir}/run.sh" "$@"
 }
@@ -377,6 +377,7 @@ cmd_ssl() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
   hkz_resolve_panel_dir 2>/dev/null || true
+  hkz_wings_load_env 2>/dev/null || true
   export CONFIGS_DIR="${SCRIPT_DIR}/configs"
   source "$SCRIPT_DIR/lib/panel-customize.sh" 2>/dev/null || true
   source "$SCRIPT_DIR/lib/panel-heal.sh" 2>/dev/null || true

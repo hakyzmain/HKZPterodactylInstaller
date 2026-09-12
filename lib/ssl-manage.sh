@@ -104,9 +104,10 @@ hkz_ssl_ensure_certbot() {
 }
 
 hkz_ssl_status() {
-  local domain conf live expiry app_url nginx_ssl=0
+  local domain conf live expiry app_url nginx_ssl=0 cfg wings_en cert
   msg_step "$(hkz_t ssl_status_title)"
 
+  echo -e "  ${C_DIM}--- $(hkz_t ssl_status_panel) ---${C_RESET}"
   domain=$(hkz_ssl_detect_domain 2>/dev/null) || domain=""
   if [ -z "$domain" ]; then
     msg_warn "$(hkz_t ssl_no_domain)"
@@ -143,15 +144,43 @@ hkz_ssl_status() {
     msg_warn "$(hkz_t ssl_cert_missing)"
   fi
 
+  if [ "$nginx_ssl" = 1 ] && [ -n "$domain" ] && [ ! -f "/etc/letsencrypt/live/${domain}/fullchain.pem" ]; then
+    msg_err "$(hkz_t ssl_mismatch)"
+  fi
+
+  echo ""
+  echo -e "  ${C_DIM}--- $(hkz_t ssl_status_node) ---${C_RESET}"
+  hkz_wings_load_env 2>/dev/null || true
+  cfg=$(hkz_wings_config_path 2>/dev/null) || cfg=""
+  if [ -z "$cfg" ]; then
+    msg_warn "$(hkz_t ssl_node_no_config)"
+  else
+    msg_info "config: ${cfg}"
+    domain=$(hkz_wings_ssl_domain 2>/dev/null) || domain=""
+    [ -n "$domain" ] && msg_info "$(hkz_t ssl_node_domain): ${domain}"
+    wings_en=$(hkz_wings_ssl_enabled "$cfg" 2>/dev/null || true)
+    if [ -n "$wings_en" ]; then
+      msg_ok "$(hkz_t ssl_node_ssl_on)"
+    else
+      msg_info "$(hkz_t ssl_node_ssl_off)"
+    fi
+    cert=$(hkz_wings_ssl_cert_path "$cfg" 2>/dev/null || true)
+    if [ -n "$cert" ]; then
+      if [ -f "$cert" ]; then
+        msg_ok "$(hkz_t ssl_cert_present): ${cert}"
+        expiry=$(openssl x509 -in "$cert" -noout -enddate 2>/dev/null | cut -d= -f2-)
+        [ -n "$expiry" ] && msg_info "$(hkz_t ssl_cert_expiry): ${expiry}"
+      else
+        msg_err "$(hkz_t ssl_node_cert_missing): ${cert}"
+      fi
+    fi
+  fi
+
   if command -v certbot >/dev/null 2>&1; then
     msg_info "$(hkz_t ssl_certbot_list)"
     certbot certificates 2>/dev/null | sed 's/^/  /' || true
   else
     msg_warn "$(hkz_t ssl_certbot_missing)"
-  fi
-
-  if [ "$nginx_ssl" = 1 ] && [ -n "$domain" ] && [ ! -f "/etc/letsencrypt/live/${domain}/fullchain.pem" ]; then
-    msg_err "$(hkz_t ssl_mismatch)"
   fi
   return 0
 }
@@ -207,12 +236,87 @@ hkz_ssl_issue_panel() {
   return 0
 }
 
+hkz_ssl_issue_node() {
+  local domain mail="${1:-}" cfg
+  [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && return 1
+  detect_os
+  hkz_wings_load_env 2>/dev/null || true
+  export CONFIGS_DIR="${CONFIGS_DIR:-${SCRIPT_DIR}/configs}"
+
+  cfg=$(hkz_wings_config_path 2>/dev/null) || cfg=""
+  if [ -z "$cfg" ]; then
+    msg_err "$(hkz_t ssl_node_no_config)"
+    msg_info "$(hkz_t ssl_node_need_deploy)"
+    return 1
+  fi
+  if ! hkz_wings_files_exist 2>/dev/null; then
+    msg_err "$(hkz_t ssl_node_missing)"
+    return 1
+  fi
+
+  domain=$(hkz_wings_ssl_domain 2>/dev/null) || domain=""
+  if [ -z "$domain" ] || hkz_fqdn_is_ip "$domain" 2>/dev/null; then
+    required_input domain "$(hkz_t ssl_ask_node_domain)" "$(hkz_t input_required)"
+  else
+    echo -en "  $(hkz_t ssl_ask_node_domain) [${domain}]: "
+    read -r ans
+    [ -n "${ans:-}" ] && domain="$ans"
+  fi
+  if hkz_fqdn_is_ip "$domain" 2>/dev/null; then
+    msg_err "$(hkz_t ssl_ip_not_allowed)"
+    return 1
+  fi
+
+  if [ -z "$mail" ]; then
+    mail="${WINGS_EMAIL:-${EMAIL:-}}"
+  fi
+  if [ -z "$mail" ]; then
+    email_input mail "$(hkz_t ui_ssl_email)" "$(hkz_t ui_bad_email)"
+  fi
+
+  export WINGS_FQDN="$domain" WINGS_EMAIL="$mail"
+  hkz_wings_save_env 2>/dev/null || true
+
+  msg_step "$(hkz_t ssl_node_issue)"
+  hkz_wings_setup_node_ssl "$domain" "$mail" || return 1
+  hkz_wings_apply_config_ssl "$domain" || {
+    msg_err "$(hkz_t ssl_node_config_fail)"
+    return 1
+  }
+  docker network rm pterodactyl_nw 2>/dev/null || true
+  hkz_wings_start || msg_warn "$(hkz_t wings_heal_start_fail)"
+  msg_ok "$(hkz_t ssl_node_ok)"
+  msg_info "https://${domain}:8080"
+  msg_info "$(hkz_t ssl_node_panel_hint)"
+  return 0
+}
+
+hkz_ssl_disable_node() {
+  local cfg ans domain
+  [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && return 1
+  cfg=$(hkz_wings_config_path 2>/dev/null) || cfg=""
+  [ -n "$cfg" ] || { msg_err "$(hkz_t ssl_node_no_config)"; return 1; }
+
+  domain=$(hkz_wings_ssl_domain 2>/dev/null) || domain="?"
+  echo -en "  $(hkz_t ssl_node_disable_confirm) [${domain}] (y/N): "
+  read -r ans
+  [[ "$ans" =~ ^[Yy] ]] || { msg_info "$(hkz_t ssl_cancelled)"; return 0; }
+
+  hkz_wings_disable_ssl "$cfg"
+  hkz_wings_start || true
+  msg_ok "$(hkz_t ssl_node_disable_ok)"
+  return 0
+}
+
 hkz_ssl_renew_panel() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && return 1
   hkz_ssl_ensure_certbot || return 1
   msg_step "$(hkz_t ssl_renew)"
   if certbot renew --nginx --non-interactive 2>&1 | tee -a "${LOG_PATH:-/dev/null}"; then
     systemctl reload nginx 2>/dev/null || systemctl restart nginx
+    if hkz_wings_config_path >/dev/null 2>&1; then
+      systemctl reload wings 2>/dev/null || systemctl restart wings 2>/dev/null || true
+    fi
     msg_ok "$(hkz_t ssl_renew_ok)"
     return 0
   fi
