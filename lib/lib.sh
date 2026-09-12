@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-119}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-120}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -339,8 +339,50 @@ PY
   return 0
 }
 
+# Persist working Docker DNS across panel auto-deploy (which resets to 1.1.1.1)
+hkz_wings_install_dns_hook() {
+  local src script_path="/usr/local/lib/hkz/wings-dns-fix.sh"
+  local drop_in_dir="/etc/systemd/system/wings.service.d"
+  mkdir -p /usr/local/lib/hkz "$drop_in_dir"
+  src="${CONFIGS_DIR:-}/wings-dns-fix.sh"
+  [ -f "$src" ] || src="$(dirname "${BASH_SOURCE[0]}")/../configs/wings-dns-fix.sh"
+  if [ -f "$src" ]; then
+    cp -f "$src" "$script_path"
+  else
+    # minimal fallback if package files missing
+    cat >"$script_path" <<'EOF'
+#!/bin/bash
+set +e
+CFG="/etc/pterodactyl/config.yml"
+[ -f "$CFG" ] || exit 0
+DNS1="${HKZ_DNS_1:-76.76.2.0}"; DNS2="${HKZ_DNS_2:-80.80.80.80}"; DNS3="${HKZ_DNS_3:-4.2.2.1}"
+export DNS1 DNS2 DNS3 CFG
+command -v python3 >/dev/null 2>&1 || exit 0
+python3 -c 'import os,pathlib,re;c=pathlib.Path(os.environ["CFG"]);t=c.read_text(encoding="utf-8");t=re.sub(r"(?ms)^[ \t]*dns:[ \t]*\n(?:[ \t]*-[ \t]*.*\n)+","",t,count=1);b="    dns:\n      - %s\n      - %s\n      - %s\n"%(os.environ["DNS1"],os.environ["DNS2"],os.environ["DNS3"]);
+import sys
+if re.search(r"(?m)^  network:\s*$",t):
+ t=re.sub(r"(?m)^(  network:\s*\n)",r"\1"+b,t,count=1)
+elif re.search(r"(?m)^docker:\s*$",t):
+ t=re.sub(r"(?m)^(docker:\s*\n)",r"\1  network:\n"+b,t,count=1)
+else:
+ t=t.rstrip()+"\n\ndocker:\n  network:\n"+b
+c.write_text(t,encoding="utf-8")'
+docker network rm pterodactyl_nw >/dev/null 2>&1 || true
+exit 0
+EOF
+  fi
+  chmod 755 "$script_path"
+  cat >"${drop_in_dir}/hkz-dns.conf" <<EOF
+[Service]
+ExecStartPre=-${script_path}
+EOF
+  systemctl daemon-reload 2>/dev/null || true
+  return 0
+}
+
 hkz_wings_restart_with_dns() {
   hkz_host_apply_dns || true
+  hkz_wings_install_dns_hook || true
   hkz_wings_apply_docker_dns "$@" || return 1
   docker network rm pterodactyl_nw 2>/dev/null || true
   systemctl restart wings 2>/dev/null || true
@@ -349,6 +391,7 @@ hkz_wings_restart_with_dns() {
 
 hkz_apply_all_dns() {
   hkz_host_apply_dns || true
+  hkz_wings_install_dns_hook || true
   if hkz_wings_config_path >/dev/null 2>&1; then
     hkz_wings_apply_docker_dns || msg_warn "$(hkz_t wings_dns_fail)"
   fi
