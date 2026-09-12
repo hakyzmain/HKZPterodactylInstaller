@@ -377,6 +377,7 @@ hkz_t() {
       wings_ssl_disabled) echo "Wings SSL disabled — certbot could not issue certificate, node will use HTTP" ;;
       wings_dns_set) echo "Wings Docker DNS set to" ;;
       wings_dns_fail) echo "could not patch Wings Docker DNS" ;;
+      host_dns_set) echo "Host DNS set to" ;;
       wings_running) echo "wings is running" ;;
       wings_deploy_hint) echo "paste auto-deploy from panel (Admin → Nodes → Configuration)" ;;
       wings_deploy_q) echo "deploy command (Enter — skip):" ;;
@@ -754,6 +755,7 @@ hkz_t() {
       wings_ssl_disabled) echo "SSL wings отключён — certbot не выдал сертификат, нода по HTTP" ;;
       wings_dns_set) echo "Wings Docker DNS установлен:" ;;
       wings_dns_fail) echo "не удалось прописать DNS в Wings" ;;
+      host_dns_set) echo "DNS хоста установлен:" ;;
       wings_running) echo "wings запущен" ;;
       wings_deploy_hint) echo "вставьте auto-deploy из панели (Админка → Ноды → Configuration)" ;;
       wings_deploy_q) echo "команда deploy (Enter — пропуск):" ;;

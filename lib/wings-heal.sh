@@ -13,6 +13,7 @@ hkz_wings_heal() {
   local cfg
 
   msg_step "$(hkz_t wings_heal)"
+  hkz_host_apply_dns || true
   hkz_ensure_wings_etc
   msg_ok "$(hkz_t wings_heal_etc)"
 

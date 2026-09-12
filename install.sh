@@ -87,7 +87,7 @@ hkz_pre_sync_opt() {
   [ -f "${dir}/INSTALLER_REV" ] && lr=$(tr -d '[:space:]' <"${dir}/INSTALLER_REV")
   want=""
   [ -f "${_SCRIPT_DIR}/INSTALLER_REV" ] && want=$(tr -d '[:space:]' <"${_SCRIPT_DIR}/INSTALLER_REV")
-  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-114}"
+  [ -z "$want" ] && want="${HKZ_INSTALLER_REV:-117}"
   [ -n "$want" ] && [ "$lr" != "$want" ] && need=1
   [ "$need" = 1 ] && [ -f "${dir}/run.sh" ] && exec env HKZ_INSTALLER_SYNCED=1 bash "${dir}/run.sh" "$@"
 }
@@ -126,6 +126,7 @@ setup_auto_update_cron() {
 cmd_install() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
+  hkz_host_apply_dns || true
   hkz_stop_unattended_upgrades
   hkz_resolve_panel_dir 2>/dev/null || true
   if hkz_panel_files_exist && hkz_panel_core_ok 2>/dev/null; then
@@ -195,6 +196,7 @@ cmd_theme() {
 cmd_wings() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
+  hkz_host_apply_dns || true
   hkz_stop_unattended_upgrades
   source "$SCRIPT_DIR/lib/ui-wings.sh"
   run_wings_ui || exit 1
@@ -228,6 +230,7 @@ cmd_wings() {
 cmd_wings_deploy() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
+  hkz_host_apply_dns || true
   local cmd="${*:-}"
   hkz_ensure_wings_etc
   hkz_wings_ensure_binary || exit 1
@@ -322,7 +325,11 @@ cmd_update() {
 cmd_repair() {
   [[ $EUID -ne 0 ]] && msg_err "$(hkz_t err_root)" && exit 1
   detect_os
+  hkz_apply_all_dns || true
   hkz_resolve_panel_dir 2>/dev/null || true
+  if hkz_wings_config_path >/dev/null 2>&1; then
+    docker network rm pterodactyl_nw 2>/dev/null || true
+  fi
   env HKZ_LANG="${HKZ_LANG:-ru}" bash "$SCRIPT_DIR/installers/repair-wings.sh" 2>&1 | tee -a "$LOG_PATH"
   if hkz_panel_files_exist 2>/dev/null; then
     env HKZ_LANG="${HKZ_LANG:-ru}" bash "$SCRIPT_DIR/installers/repair-panel.sh" 2>&1 | tee -a "$LOG_PATH"

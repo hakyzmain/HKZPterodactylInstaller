@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-114}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-117}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -262,41 +262,76 @@ hkz_wings_config_path() {
   return 1
 }
 
+# Control D + Freenom + Level3 — work on RU hosts where 1.1.1.1/8.8.8.8/Yandex sinkhole
+hkz_dns_servers() {
+  printf '%s %s %s' "${HKZ_DNS_1:-76.76.2.0}" "${HKZ_DNS_2:-80.80.80.80}" "${HKZ_DNS_3:-4.2.2.1}"
+}
+
+hkz_host_apply_dns() {
+  local dns1 dns2 dns3 iface
+  read -r dns1 dns2 dns3 <<<"$(hkz_dns_servers)"
+  mkdir -p /etc/systemd/resolved.conf.d
+  cat >/etc/systemd/resolved.conf.d/hkz-dns.conf <<EOF
+[Resolve]
+DNS=${dns1} ${dns2} ${dns3}
+FallbackDNS=
+Domains=~.
+DNSStubListener=yes
+EOF
+  if command -v resolvectl >/dev/null 2>&1; then
+    iface=$(ip -4 route show default 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="dev"){print $(i+1); exit}}')
+    if [ -n "$iface" ]; then
+      resolvectl dns "$iface" "$dns1" "$dns2" "$dns3" 2>/dev/null || true
+      resolvectl domain "$iface" '~.' 2>/dev/null || true
+    fi
+    systemctl enable systemd-resolved 2>/dev/null || true
+    systemctl restart systemd-resolved 2>/dev/null || true
+    resolvectl flush-caches 2>/dev/null || true
+  elif [ -L /etc/resolv.conf ] || [ -f /etc/resolv.conf ]; then
+    # fallback when resolved is absent
+    printf 'nameserver %s\nnameserver %s\nnameserver %s\n' "$dns1" "$dns2" "$dns3" >/etc/resolv.conf
+  fi
+  msg_ok "$(hkz_t host_dns_set) ${dns1} ${dns2} ${dns3}"
+  return 0
+}
+
 hkz_wings_apply_docker_dns() {
-  local cfg dns1="${1:-77.88.8.8}" dns2="${2:-77.88.8.1}" dns3="${3:-9.9.9.9}"
+  local cfg dns1 dns2 dns3
+  read -r dns1 dns2 dns3 <<<"$(hkz_dns_servers)"
+  dns1="${1:-$dns1}"
+  dns2="${2:-$dns2}"
+  dns3="${3:-$dns3}"
   cfg=$(hkz_wings_config_path 2>/dev/null) || return 1
   command -v python3 >/dev/null 2>&1 || return 1
   DNS1="$dns1" DNS2="$dns2" DNS3="$dns3" CFG="$cfg" python3 - <<'PY'
 import os, pathlib, re, sys
 cfg = pathlib.Path(os.environ["CFG"])
 text = cfg.read_text(encoding="utf-8")
+# drop any existing dns list (including broken leftover "- 1.1.1.1" lines)
+text = re.sub(
+    r"(?ms)^[ \t]*dns:[ \t]*\n(?:[ \t]*-[ \t]*.*\n)+",
+    "",
+    text,
+    count=1,
+)
 block = (
     "    dns:\n"
     f"      - {os.environ['DNS1']}\n"
     f"      - {os.environ['DNS2']}\n"
     f"      - {os.environ['DNS3']}\n"
 )
-new, n = re.subn(
-    r"(?ms)^([ \t]*)dns:[ \t]*\n(?:\1[ \t]+-[ \t]*.*\n)*",
-    block,
-    text,
-    count=1,
-)
-if n == 0:
-    if re.search(r"(?m)^  network:\s*$", text):
-        new = re.sub(r"(?m)^(  network:\s*\n)", r"\1" + block, text, count=1)
-    elif re.search(r"(?m)^docker:\s*$", text):
-        new = re.sub(
-            r"(?m)^(docker:\s*\n)",
-            r"\1  network:\n" + block,
-            text,
-            count=1,
-        )
-    else:
-        new = text.rstrip() + "\n\ndocker:\n  network:\n" + block
-if new == text and n == 0 and "77.88.8.8" in text:
-    sys.exit(0)
-cfg.write_text(new, encoding="utf-8")
+if re.search(r"(?m)^  network:\s*$", text):
+    text = re.sub(r"(?m)^(  network:\s*\n)", r"\1" + block, text, count=1)
+elif re.search(r"(?m)^docker:\s*$", text):
+    text = re.sub(
+        r"(?m)^(docker:\s*\n)",
+        r"\1  network:\n" + block,
+        text,
+        count=1,
+    )
+else:
+    text = text.rstrip() + "\n\ndocker:\n  network:\n" + block
+cfg.write_text(text, encoding="utf-8")
 print(cfg)
 PY
   [ $? -eq 0 ] || return 1
@@ -305,9 +340,18 @@ PY
 }
 
 hkz_wings_restart_with_dns() {
+  hkz_host_apply_dns || true
   hkz_wings_apply_docker_dns "$@" || return 1
   docker network rm pterodactyl_nw 2>/dev/null || true
   systemctl restart wings 2>/dev/null || true
+  return 0
+}
+
+hkz_apply_all_dns() {
+  hkz_host_apply_dns || true
+  if hkz_wings_config_path >/dev/null 2>&1; then
+    hkz_wings_apply_docker_dns || msg_warn "$(hkz_t wings_dns_fail)"
+  fi
   return 0
 }
 
