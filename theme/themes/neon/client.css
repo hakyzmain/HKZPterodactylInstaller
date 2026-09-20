@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Rajdhani:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Rajdhani', system-ui, sans-serif;
+  --hkz-bg-1: #0a0014;
+  --hkz-bg-2: #12001f;
+  --hkz-bg-3: #050010;
+  --hkz-glass: rgba(20, 0, 40, 0.55);
+  --hkz-input-bg: rgba(0, 0, 0, 0.6);
+  --hkz-accent: #ff2d95;
+  --hkz-accent-2: #00f5ff;
+  --hkz-border: rgba(255, 45, 149, 0.4);
+  --hkz-border-hover: rgba(0, 245, 255, 0.55);
+  --hkz-text: #fce7f3;
+  --hkz-shadow: 0 0 24px rgba(255, 45, 149, 0.15);
+  --hkz-shadow-hover: 0 0 32px rgba(0, 245, 255, 0.25);
+  --hkz-nav-active: linear-gradient(90deg, rgba(255, 45, 149, 0.35), rgba(0, 245, 255, 0.25));
+  --hkz-nav-hover: rgba(255, 45, 149, 0.15);
+  --hkz-nav-glow: 0 0 16px rgba(0, 245, 255, 0.4);
+  --hkz-btn: linear-gradient(90deg, #ff2d95, #a855f7);
+  --hkz-btn-success: linear-gradient(90deg, #00f5ff, #22c55e);
+  --hkz-btn-danger: linear-gradient(90deg, #ff0055, #ff2d95);
+  --hkz-focus-ring: 0 0 0 2px #00f5ff, 0 0 12px rgba(0, 245, 255, 0.5);
+  --hkz-scrollbar: linear-gradient(#ff2d95, #00f5ff);
+}
+@keyframes hkz-neon-scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+@keyframes hkz-neon-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.85; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: var(--hkz-bg-1) !important;
+  animation: hkz-neon-flicker 5s infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 0% 50%, rgba(255, 45, 149, 0.15), transparent 50%),
+    radial-gradient(ellipse at 100% 50%, rgba(0, 245, 255, 0.12), transparent 50%);
+}
+#app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 245, 255, 0.03) 2px,
+    rgba(0, 245, 255, 0.03) 4px
+  );
+  animation: hkz-neon-scan 8s linear infinite;
+}
+}

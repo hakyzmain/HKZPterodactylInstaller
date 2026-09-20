@@ -1,0 +1,112 @@
+html,
+body,
+#app {
+  pointer-events: auto !important;
+}
+#app::before,
+#app::after,
+.wrapper::before,
+.wrapper::after,
+.content-wrapper::before,
+.content-wrapper::after {
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+#app > * {
+  z-index: 1 !important;
+  pointer-events: auto !important;
+}
+#modal-portal {
+  pointer-events: none !important;
+  z-index: 9999 !important;
+}
+#modal-portal > * {
+  pointer-events: auto !important;
+}
+#app a,
+#app button,
+#app input,
+#app select,
+#app textarea,
+#app label,
+#app summary,
+#app [role='button'],
+#app [role='tab'],
+#app [role='tabpanel'],
+#app [role='menu'],
+#app [role='menuitem'],
+#app [role='option'],
+#app [role='combobox'],
+#app [role='listbox'],
+#app [role='switch'],
+#app [role='checkbox'],
+#app [role='radio'],
+#app [role='link'],
+#app [tabindex]:not([tabindex='-1']),
+#app nav a,
+#app nav button,
+div[class*='SubNavigation'],
+div[class*='SubNavigation'] *,
+div[class*='SubNavigation'] a,
+div[class*='SubNavigation'] button,
+a[class*='GreyRowBox'],
+div[class*='GreyRowBox'],
+div[class*='GreyRowBox'] a,
+div[class*='GreyRowBox'] button,
+div[class*='headlessui'] a,
+div[class*='headlessui'] button,
+div[class*='headlessui'] input,
+div[class*='headlessui'] select,
+div[class*='headlessui'] label,
+#modal-portal a,
+#modal-portal button,
+#modal-portal input,
+#modal-portal select,
+#modal-portal textarea,
+#modal-portal label {
+  pointer-events: auto !important;
+}
+#app button:not(:disabled),
+#modal-portal button:not(:disabled),
+#app a[role='tab'],
+#app [role='menuitem'],
+#app label[for],
+a[class*='GreyRowBox'] {
+  cursor: pointer !important;
+}
+#app input,
+#app select,
+#app textarea,
+#modal-portal input,
+#modal-portal select,
+#modal-portal textarea {
+  cursor: text !important;
+}
+div[class*='SubNavigation'] {
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 30 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+div[class*='Modal'],
+div[class*='Dialog'],
+div[class*='Overlay'],
+div[class*='headlessui'],
+[role='dialog'],
+[role='alertdialog'],
+div[class*='GreyRowBox'],
+a[class*='GreyRowBox'],
+#app .rounded.shadow-md.bg-neutral-700,
+#app .rounded-md.shadow-md.bg-neutral-700 {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#app [class*='Dropdown'],
+#app [class*='Popover'],
+#app [class*='Listbox'],
+#modal-portal [class*='Dropdown'],
+#modal-portal [class*='Popover'] {
+  z-index: 10050 !important;
+  pointer-events: auto !important;
+}

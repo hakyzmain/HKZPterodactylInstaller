@@ -1,0 +1,112 @@
+@keyframes hkz-admin-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hkz-admin-card-glow {
+  0%,
+  100% {
+    box-shadow: var(--hkz-admin-shadow);
+    border-color: var(--hkz-admin-border);
+  }
+  50% {
+    box-shadow: var(--hkz-admin-shadow), var(--hkz-admin-glow);
+    border-color: color-mix(in srgb, var(--hkz-accent, #6366f1) 45%, var(--hkz-admin-border));
+  }
+}
+@keyframes hkz-admin-shine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+@keyframes hkz-admin-ambient {
+  0%,
+  100% {
+    opacity: 0.14;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.26;
+    transform: scale(1.02);
+  }
+}
+html,
+body,
+body.hold-transition {
+  background: var(--hkz-admin-bg) !important;
+  background-attachment: fixed !important;
+  color: var(--hkz-admin-text) !important;
+}
+.wrapper {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  animation: hkz-admin-page-in 0.55s ease both;
+}
+.content-wrapper,
+.main-footer,
+.main-sidebar {
+  position: relative;
+  z-index: 2;
+}
+.content-wrapper > .content {
+  position: relative;
+  z-index: 3;
+}
+.main-header {
+  position: relative;
+  z-index: 1000 !important;
+}
+.main-header .logo,
+.main-header a.logo,
+.main-header a.logo span {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  position: relative !important;
+  z-index: 1001 !important;
+  text-decoration: none !important;
+}
+body.skin-blue #app::before,
+body.skin-blue #app::after,
+body.hold-transition #app::before,
+body.hold-transition #app::after {
+  display: none !important;
+}
+.content-header > h1,
+.content-header > h1 > small {
+  letter-spacing: 0.02em;
+}
+.modal-content {
+  backdrop-filter: blur(var(--hkz-blur)) !important;
+  -webkit-backdrop-filter: blur(var(--hkz-blur)) !important;
+}
+.box:nth-child(6n + 1),
+.small-box:nth-child(4n + 1) {
+  animation: hkz-admin-card-glow 6s ease-in-out infinite;
+}
+.box:nth-child(6n + 3) {
+  animation: hkz-admin-card-glow 6.5s ease-in-out infinite 0.35s;
+}
+.sidebar-menu > li.active > a {
+  background-size: 200% 200% !important;
+  animation: hkz-admin-shine 5s linear infinite;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--hkz-scrollbar);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--hkz-bg-1, #0b0f1a);
+}

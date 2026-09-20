@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400&display=swap');
+:root {
+  --hkz-font: 'Press Start 2P', system-ui, sans-serif;
+  --hkz-bg-1: #0a140a;
+  --hkz-bg-2: #0f1f0f;
+  --hkz-bg-3: #050a05;
+  --hkz-glass: rgba(74, 222, 128, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #4ade80;
+  --hkz-accent-2: #22c55e;
+  --hkz-border: rgba(74, 222, 128, 0.32);
+  --hkz-border-hover: rgba(34, 197, 94, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(74, 222, 128, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(74, 222, 128, 0.4), rgba(34, 197, 94, 0.22));
+  --hkz-nav-hover: rgba(74, 222, 128, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(34, 197, 94, 0.2);
+  --hkz-btn: linear-gradient(135deg, #4ade80, #22c55e);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #22c55e);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #4ade80);
+  --hkz-focus-ring: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  --hkz-scrollbar: linear-gradient(#4ade80, #22c55e);
+}
+@keyframes hkz-arcade-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-arcade-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+@keyframes hkz-arcade-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.92; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-arcade-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: #0a140a;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(74, 222, 128, 0.08) 2px, rgba(74, 222, 128, 0.08) 4px); animation: hkz-arcade-blink 0.1s steps(2) infinite;
+}
+* { image-rendering: pixelated; } h1 { font-family: inherit; text-shadow: 2px 2px #4ade80; }

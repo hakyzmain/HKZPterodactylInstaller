@@ -1,0 +1,4 @@
+install-cmd.local.sh
+*.local.sh
+
+push.ps1

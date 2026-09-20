@@ -1,0 +1,330 @@
+body,
+.wrapper,
+.content-wrapper,
+.main-header,
+.main-sidebar,
+.content,
+.box,
+.panel,
+.card,
+.small-box,
+.info-box,
+.nav-tabs-custom,
+.tab-content,
+.modal-content,
+.dropdown-menu,
+.table,
+.form-control,
+input,
+select,
+textarea,
+.btn,
+.alert,
+.callout,
+.well,
+.list-group-item,
+.login-box,
+.login-box-body,
+.register-box,
+.register-box-body {
+  font-family: var(--hkz-font, system-ui, sans-serif) !important;
+}
+body,
+.content-wrapper,
+.right-side {
+  background: transparent !important;
+  color: var(--hkz-admin-text, #e2e8f0) !important;
+}
+.content-header {
+  padding: 1.25rem 1.5rem 0.75rem !important;
+}
+.content-header > h1 {
+  color: var(--hkz-admin-text) !important;
+  font-weight: 700 !important;
+  font-size: 1.65rem !important;
+}
+.breadcrumb {
+  background: transparent !important;
+}
+.breadcrumb > li,
+.breadcrumb > li > a {
+  color: color-mix(in srgb, var(--hkz-admin-text) 75%, transparent) !important;
+}
+.breadcrumb > .active {
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+.main-header {
+  background: var(--hkz-admin-header) !important;
+  border-bottom: 1px solid var(--hkz-admin-border) !important;
+  backdrop-filter: blur(var(--hkz-blur, 14px)) !important;
+  -webkit-backdrop-filter: blur(var(--hkz-blur, 14px)) !important;
+}
+.main-sidebar {
+  background: var(--hkz-admin-sidebar) !important;
+  border-right: 1px solid var(--hkz-admin-border) !important;
+}
+.user-panel > .info,
+.user-panel > .info > a,
+.sidebar-menu > li.header {
+  color: color-mix(in srgb, var(--hkz-admin-text) 80%, transparent) !important;
+}
+.box,
+.panel,
+.card,
+.modal-content,
+.small-box,
+.info-box,
+.login-box,
+.register-box {
+  background: var(--hkz-admin-card) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  border-radius: var(--hkz-radius, 14px) !important;
+  box-shadow: var(--hkz-admin-shadow) !important;
+  color: var(--hkz-admin-text) !important;
+  transition:
+    box-shadow 0.28s ease,
+    transform 0.28s ease,
+    border-color 0.28s ease;
+}
+.box:hover,
+.panel:hover,
+.card:hover,
+.small-box:hover {
+  box-shadow: var(--hkz-admin-shadow), var(--hkz-admin-glow) !important;
+  border-color: color-mix(in srgb, var(--hkz-accent) 40%, var(--hkz-admin-border)) !important;
+}
+.box-header,
+.box .box-header,
+.panel-heading,
+.modal-header {
+  background: color-mix(in srgb, var(--hkz-admin-card) 70%, var(--hkz-admin-nav-hover)) !important;
+  border-bottom: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  border-radius: var(--hkz-radius, 14px) var(--hkz-radius, 14px) 0 0 !important;
+}
+.box-body,
+.panel-body,
+.modal-body,
+.login-box-body,
+.register-box-body {
+  color: var(--hkz-admin-text) !important;
+}
+.box-footer,
+.modal-footer {
+  background: color-mix(in srgb, var(--hkz-admin-card) 85%, transparent) !important;
+  border-top: 1px solid var(--hkz-admin-border) !important;
+}
+.sidebar-menu > li > a {
+  border-radius: 10px;
+  margin: 3px 10px;
+  color: var(--hkz-admin-text) !important;
+  transition:
+    background 0.22s ease,
+    padding-left 0.22s ease,
+    box-shadow 0.22s ease;
+}
+.sidebar-menu > li.active > a,
+.sidebar-menu > li.menu-open > a,
+.sidebar-menu > li > a:hover {
+  background: var(--hkz-admin-nav-active) !important;
+  box-shadow: var(--hkz-admin-glow) !important;
+  border-left: 3px solid var(--hkz-accent) !important;
+}
+.treeview-menu > li > a {
+  color: color-mix(in srgb, var(--hkz-admin-text) 88%, transparent) !important;
+  border-radius: 8px;
+  margin: 1px 12px;
+}
+.treeview-menu > li.active > a,
+.treeview-menu > li > a:hover {
+  background: var(--hkz-admin-nav-hover) !important;
+}
+input,
+select,
+textarea,
+.form-control,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background: var(--hkz-admin-input) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+input:focus,
+select:focus,
+textarea:focus,
+.form-control:focus {
+  border-color: color-mix(in srgb, var(--hkz-accent) 55%, var(--hkz-admin-border)) !important;
+  box-shadow: var(--hkz-focus-ring, 0 0 0 3px color-mix(in srgb, var(--hkz-accent-2, #818cf8) 25%, transparent)) !important;
+}
+.table > thead > tr > th {
+  background: var(--hkz-admin-nav-hover) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  font-weight: 600 !important;
+}
+.table > tbody > tr > td,
+.table > tbody > tr > th {
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.table > tbody > tr:hover > td,
+.table > tbody > tr:hover > th {
+  background: var(--hkz-admin-nav-hover) !important;
+}
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background: color-mix(in srgb, var(--hkz-admin-card) 60%, transparent) !important;
+}
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+  background: var(--hkz-admin-input) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.nav-tabs-custom {
+  background: var(--hkz-admin-card) !important;
+  border-radius: var(--hkz-radius, 14px) !important;
+  box-shadow: var(--hkz-admin-shadow) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+}
+.nav-tabs-custom > .nav-tabs > li > a {
+  color: color-mix(in srgb, var(--hkz-admin-text) 80%, transparent) !important;
+  border-radius: 10px 10px 0 0 !important;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a {
+  background: var(--hkz-admin-nav-active) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.nav-tabs-custom > .tab-content {
+  background: transparent !important;
+  color: var(--hkz-admin-text) !important;
+}
+.alert,
+.callout {
+  background: var(--hkz-admin-card) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  border-radius: 12px !important;
+}
+.callout.callout-info,
+.alert-info {
+  border-left-color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+.callout.callout-success,
+.alert-success {
+  border-left-color: #10b981 !important;
+}
+.callout.callout-danger,
+.alert-danger {
+  border-left-color: #ef4444 !important;
+}
+.small-box {
+  overflow: hidden;
+}
+.small-box .icon {
+  color: color-mix(in srgb, var(--hkz-accent) 35%, transparent) !important;
+}
+.small-box-footer {
+  background: color-mix(in srgb, var(--hkz-admin-card) 50%, var(--hkz-admin-nav-hover)) !important;
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+.info-box {
+  background: var(--hkz-admin-card) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  border-radius: var(--hkz-radius, 14px) !important;
+}
+.info-box-icon {
+  background: var(--hkz-admin-btn) !important;
+  border-radius: 12px 0 0 12px !important;
+}
+.info-box-content {
+  color: var(--hkz-admin-text) !important;
+}
+.progress {
+  background: var(--hkz-admin-input) !important;
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.progress-bar,
+.progress-bar-primary {
+  background: var(--hkz-admin-btn) !important;
+}
+.modal-backdrop.in {
+  background: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(4px);
+}
+.modal-content {
+  animation: hkz-admin-page-in 0.35s ease both;
+}
+.dropdown-menu {
+  background: var(--hkz-admin-card) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  box-shadow: var(--hkz-admin-shadow) !important;
+}
+.dropdown-menu > li > a {
+  color: var(--hkz-admin-text) !important;
+}
+.dropdown-menu > li > a:hover {
+  background: var(--hkz-admin-nav-active) !important;
+}
+.select2-container--default .select2-results__option[aria-selected='true'],
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background: var(--hkz-admin-nav-active) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.select2-dropdown {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+}
+pre,
+code,
+.CodeMirror,
+.cm-s-default {
+  background: var(--hkz-admin-input) !important;
+  border: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  border-radius: 10px !important;
+}
+.label,
+.badge {
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+.label-primary,
+.badge.bg-light-blue {
+  background: var(--hkz-admin-btn) !important;
+  color: #fff !important;
+}
+.login-page,
+.register-page {
+  background: var(--hkz-admin-bg) !important;
+  background-attachment: fixed !important;
+}
+.login-logo,
+.register-logo {
+  color: var(--hkz-admin-text) !important;
+  font-weight: 700 !important;
+  text-shadow: var(--hkz-admin-glow);
+}
+.login-box-msg,
+.register-box-msg {
+  color: color-mix(in srgb, var(--hkz-admin-text) 85%, transparent) !important;
+}
+.main-footer,
+footer.main-footer {
+  background: color-mix(in srgb, var(--hkz-admin-sidebar) 92%, transparent) !important;
+  border-top: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+  text-align: center !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 0.65rem 1rem !important;
+  letter-spacing: 0.04em !important;
+  backdrop-filter: blur(var(--hkz-blur, 12px)) !important;
+}
+.main-footer strong,
+.main-footer .hkz-admin-copyright {
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+  font-weight: 600 !important;
+}

@@ -1,0 +1,10 @@
+#app > nav a,
+#app > nav button,
+#app nav[class*='Navigation'] a {
+  color: var(--hkz-text) !important;
+}
+#app > nav a.active,
+#app > nav a[aria-current='page'],
+#app nav[class*='Navigation'] a.active {
+  color: var(--hkz-text) !important;
+}

@@ -1,0 +1,208 @@
+:root {
+  --hkz-chip-bg: color-mix(in srgb, var(--hkz-input-bg) 90%, #060608);
+  --hkz-surface: color-mix(in srgb, var(--hkz-glass) 88%, var(--hkz-input-bg));
+  --hkz-surface-bar: color-mix(in srgb, var(--hkz-glass) 80%, var(--hkz-input-bg));
+  --hkz-surface-hover: var(--hkz-nav-hover);
+  --hkz-text-dim: color-mix(in srgb, var(--hkz-text) 80%, var(--hkz-accent-2) 20%);
+  --hkz-radius-panel: 14px;
+}
+#app,
+#modal-portal {
+  color: var(--hkz-text);
+}
+#app .bg-black:not([class*='container']):not(#terminal),
+#modal-portal .bg-black {
+  background: color-mix(in srgb, var(--hkz-input-bg) 70%, #000) !important;
+}
+#app .bg-neutral-800,
+#app .bg-gray-800,
+#modal-portal .bg-neutral-800,
+#modal-portal .bg-gray-800 {
+  background: var(--hkz-glass) !important;
+  border-color: var(--hkz-border) !important;
+}
+#app .bg-neutral-700,
+#app .bg-gray-700,
+#modal-portal .bg-neutral-700,
+#modal-portal .bg-gray-700 {
+  background: var(--hkz-surface) !important;
+  border-color: var(--hkz-border) !important;
+}
+#app .bg-neutral-600:not([class*='chart_container']),
+#app .bg-gray-600:not([class*='chart_container']),
+#modal-portal .bg-neutral-600:not([class*='chart_container']),
+#modal-portal .bg-gray-600:not([class*='chart_container']) {
+  background: var(--hkz-surface-hover) !important;
+}
+#app .bg-neutral-900,
+#app .bg-gray-900,
+#modal-portal .bg-neutral-900,
+#modal-portal .bg-gray-900 {
+  background: color-mix(in srgb, var(--hkz-glass) 82%, var(--hkz-input-bg)) !important;
+  border-color: var(--hkz-border) !important;
+}
+#app .bg-neutral-500:not(button):not(.icon),
+#app .bg-gray-500:not(button):not(.icon),
+#modal-portal .bg-neutral-500:not(button):not(.icon) {
+  background: color-mix(in srgb, var(--hkz-glass) 70%, var(--hkz-input-bg)) !important;
+}
+#app .hover\:bg-neutral-600:hover,
+#app .hover\:bg-gray-600:hover,
+#app .hover\:bg-neutral-500:hover,
+#app .hover\:bg-gray-500:hover,
+#modal-portal .hover\:bg-neutral-600:hover,
+#modal-portal .hover\:bg-gray-600:hover {
+  background: var(--hkz-surface-hover) !important;
+}
+#app .hover\:bg-blue-500:hover,
+#app .hover\:bg-blue-600:hover,
+#modal-portal .hover\:bg-blue-500:hover,
+#modal-portal .hover\:bg-blue-600:hover {
+  background: color-mix(in srgb, var(--hkz-accent) 65%, var(--hkz-btn)) !important;
+  color: #fff !important;
+}
+#app .border-neutral-600:not([class*='chart_container']),
+#app .border-neutral-700:not([class*='chart_container']),
+#app .border-neutral-800:not([class*='chart_container']),
+#app .border-gray-600:not([class*='chart_container']),
+#app .border-gray-700:not([class*='chart_container']),
+#modal-portal .border-neutral-700:not([class*='chart_container']) {
+  border-color: var(--hkz-border) !important;
+}
+#app .divide-neutral-700 > :not([hidden]) ~ :not([hidden]),
+#app .divide-gray-700 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--hkz-border) !important;
+}
+#app .text-neutral-100,
+#app .text-neutral-200,
+#app .text-neutral-300,
+#app .text-gray-100,
+#app .text-gray-200,
+#app .text-gray-300,
+#modal-portal .text-neutral-100,
+#modal-portal .text-neutral-200,
+#modal-portal .text-neutral-300 {
+  color: var(--hkz-text) !important;
+}
+#app .text-neutral-400,
+#app .text-neutral-500,
+#app .text-gray-400,
+#app .text-gray-500,
+#modal-portal .text-neutral-400,
+#modal-portal .text-neutral-500 {
+  color: var(--hkz-text-dim) !important;
+}
+#app label,
+#app p,
+#app span,
+#app h1,
+#app h2,
+#app h3,
+#app h4,
+#app li,
+#modal-portal label,
+#modal-portal p {
+  color: inherit;
+}
+div[class*='SubNavigation'] {
+  background: var(--hkz-surface-bar) !important;
+  border-bottom: 1px solid var(--hkz-border) !important;
+  box-shadow: none !important;
+}
+div[class*='SubNavigation'] > div > a {
+  color: var(--hkz-text-dim) !important;
+}
+div[class*='SubNavigation'] > div > a:hover,
+div[class*='SubNavigation'] > div > a.active,
+div[class*='SubNavigation'] > div > a[aria-current='page'] {
+  color: var(--hkz-text) !important;
+}
+[class*='GreyRowBox'],
+a[class*='GreyRowBox'] {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border-image: none !important;
+}
+[class*='GreyRowBox']:hover,
+a[class*='GreyRowBox']:hover {
+  border-color: var(--hkz-border-hover) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+[class*='GreyRowBox'] .icon {
+  background: var(--hkz-surface-hover) !important;
+  border: 1px solid var(--hkz-border) !important;
+  box-shadow: none !important;
+}
+[class*='GreyRowBox'] .text-neutral-100,
+[class*='GreyRowBox'] .text-neutral-200,
+[class*='GreyRowBox'] .text-lg,
+[class*='GreyRowBox'] .text-neutral-400,
+[class*='GreyRowBox'] .text-neutral-500,
+[class*='GreyRowBox'] [class*='IconDescription'] {
+  color: var(--hkz-text) !important;
+}
+[class*='GreyRowBox'] .text-neutral-400,
+[class*='GreyRowBox'] .text-neutral-500,
+[class*='GreyRowBox'] [class*='IconDescription'] {
+  color: var(--hkz-text-dim) !important;
+}
+[class*='GreyRowBox'] [class*='col-span'] svg,
+[class*='GreyRowBox'] .icon svg {
+  color: var(--hkz-accent-2) !important;
+}
+div[class*='ContentBox'],
+div[class*='InformationBox'],
+div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_container']),
+#app .rounded-lg.bg-neutral-700:not([class*='chart_container']):not([class*='stat_block']),
+#app .rounded.bg-neutral-700:not([class*='chart_container']):not(.shadow-md) {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  border-radius: var(--hkz-radius-panel) !important;
+  box-shadow: none !important;
+  color: var(--hkz-text) !important;
+}
+#app [class*='file_row'] [class*='details'] {
+  color: var(--hkz-text-dim) !important;
+}
+#app [class*='file_row']:hover [class*='details'] {
+  color: var(--hkz-text) !important;
+}
+#app table thead th,
+#modal-portal table thead th {
+  background: var(--hkz-surface-hover) !important;
+  border-color: var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app table tbody tr,
+#app table tbody td,
+#modal-portal table tbody td {
+  border-color: var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app table tbody tr:hover {
+  background: var(--hkz-surface-hover) !important;
+}
+#modal-portal [role='dialog'],
+#app [role='dialog'] {
+  color: var(--hkz-text) !important;
+}
+div.headlessui-dialog-panel-2,
+#modal-portal [class*='Dialog'] {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border-hover) !important;
+  color: var(--hkz-text) !important;
+}
+#app ::-webkit-scrollbar,
+#modal-portal ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+#app ::-webkit-scrollbar-thumb,
+#modal-portal ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--hkz-accent) 45%, var(--hkz-bg-1));
+  border-radius: 999px;
+}

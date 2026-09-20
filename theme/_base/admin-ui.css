@@ -1,0 +1,154 @@
+:root {
+  --hkz-admin-text-soft: color-mix(in srgb, var(--hkz-admin-text, #e2e8f0) 85%, transparent);
+  --hkz-admin-text-faint: color-mix(in srgb, var(--hkz-admin-text, #e2e8f0) 68%, var(--hkz-accent-2, #94a3b8));
+}
+body,
+.wrapper {
+  -webkit-font-smoothing: antialiased;
+}
+.content-wrapper,
+.right-side {
+  min-height: 100vh;
+}
+.box,
+.panel,
+.card,
+.small-box,
+.info-box,
+.modal-content,
+.dropdown-menu,
+.callout,
+.well,
+.login-box-body,
+.register-box-body {
+  background: var(--hkz-admin-card, var(--hkz-glass)) !important;
+  border: 1px solid var(--hkz-admin-border, var(--hkz-border)) !important;
+  border-radius: var(--hkz-radius-md, 14px) !important;
+  box-shadow: var(--hkz-shadow, 0 8px 28px rgba(0, 0, 0, 0.28)) !important;
+  color: var(--hkz-admin-text, #e2e8f0) !important;
+}
+.box-header,
+.panel-heading,
+.modal-header {
+  border-bottom: 1px solid var(--hkz-admin-border, var(--hkz-border)) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.box-title,
+.panel-title {
+  font-weight: 700 !important;
+}
+.table > thead > tr > th,
+.table > tbody > tr > td {
+  border-color: color-mix(in srgb, var(--hkz-admin-border, var(--hkz-border)) 70%, transparent) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.table > tbody > tr:hover > td {
+  background: var(--hkz-admin-nav-hover, var(--hkz-nav-hover)) !important;
+}
+.form-control,
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'],
+input[type='search'],
+select,
+textarea {
+  background: var(--hkz-admin-input, var(--hkz-input-bg)) !important;
+  border: 1px solid var(--hkz-admin-border, var(--hkz-border)) !important;
+  border-radius: var(--hkz-radius-sm, 10px) !important;
+  color: var(--hkz-admin-text) !important;
+  box-shadow: none !important;
+}
+.form-control:focus,
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--hkz-accent) !important;
+  outline: none !important;
+  box-shadow: var(--hkz-focus-ring, 0 0 0 3px color-mix(in srgb, var(--hkz-accent) 30%, transparent)) !important;
+}
+.btn {
+  border-radius: var(--hkz-radius-sm, 10px) !important;
+  font-weight: 600 !important;
+  border: 1px solid transparent !important;
+  transition: filter 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease !important;
+}
+.btn-primary,
+.btn-info {
+  background: var(--hkz-btn, linear-gradient(135deg, var(--hkz-accent), var(--hkz-accent-2))) !important;
+  border-color: color-mix(in srgb, var(--hkz-accent) 50%, transparent) !important;
+  color: #fff !important;
+}
+.btn-success {
+  background: var(--hkz-btn-success) !important;
+  color: #fff !important;
+}
+.btn-danger {
+  background: var(--hkz-btn-danger) !important;
+  color: #fff !important;
+}
+.btn-default,
+.btn-secondary {
+  background: color-mix(in srgb, var(--hkz-admin-card, var(--hkz-glass)) 90%, var(--hkz-admin-input, var(--hkz-input-bg))) !important;
+  border-color: var(--hkz-admin-border, var(--hkz-border)) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.btn:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+.label,
+.badge {
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+}
+.alert {
+  border-radius: var(--hkz-radius-sm, 10px) !important;
+  border-width: 1px !important;
+}
+.main-footer {
+  background: transparent !important;
+  border-top: 1px solid var(--hkz-admin-border, var(--hkz-border)) !important;
+  color: var(--hkz-admin-text-soft) !important;
+}
+.navbar-nav > .user-menu > .dropdown-menu,
+.navbar-nav > .notifications-menu > .dropdown-menu {
+  border-radius: var(--hkz-radius-sm, 10px) !important;
+  border: 1px solid var(--hkz-admin-border, var(--hkz-border)) !important;
+  overflow: hidden;
+}
+.skin-blue .sidebar-menu > li > a {
+  border-radius: 8px !important;
+  margin: 2px 8px !important;
+  width: calc(100% - 16px) !important;
+}
+.skin-blue .treeview-menu {
+  background: color-mix(in srgb, var(--hkz-admin-sidebar) 88%, #000) !important;
+}
+.login-box,
+.register-box {
+  border-radius: var(--hkz-radius-md, 14px) !important;
+  overflow: hidden;
+}
+.login-logo,
+.register-logo {
+  font-weight: 700 !important;
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+footer.main-footer,
+.main-footer,
+.hkz-admin-footer {
+  background: color-mix(in srgb, var(--hkz-admin-sidebar, var(--hkz-bg-2)) 94%, transparent) !important;
+  border-top: 1px solid var(--hkz-admin-border, var(--hkz-border)) !important;
+  color: var(--hkz-admin-text-soft) !important;
+  text-align: center !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1rem !important;
+  letter-spacing: 0.03em !important;
+}
+footer.main-footer strong,
+.main-footer strong,
+.hkz-admin-footer strong {
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+  font-weight: 700 !important;
+}

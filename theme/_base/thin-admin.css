@@ -1,0 +1,39 @@
+body,
+.wrapper,
+.content-wrapper {
+  background: var(--hkz-admin-bg, inherit) !important;
+  color: var(--hkz-admin-text, inherit);
+}
+.main-header {
+  background: var(--hkz-admin-header, inherit) !important;
+  border-bottom-color: var(--hkz-admin-border, transparent) !important;
+}
+.main-sidebar,
+.main-sidebar .sidebar {
+  background: var(--hkz-admin-sidebar, inherit) !important;
+}
+.box,
+.content-wrapper .box,
+.box-body {
+  background: var(--hkz-admin-card, inherit) !important;
+  border-color: var(--hkz-admin-border, transparent) !important;
+  box-shadow: var(--hkz-admin-shadow, none);
+}
+.sidebar-menu > li.active > a,
+.sidebar-menu > li > a:hover {
+  background: var(--hkz-admin-nav-active, inherit) !important;
+}
+.btn-primary,
+.btn.btn-primary {
+  background: var(--hkz-admin-btn, inherit) !important;
+  border-color: transparent !important;
+}
+.form-control {
+  background: var(--hkz-admin-input, inherit) !important;
+  color: var(--hkz-admin-text, inherit) !important;
+  border-color: var(--hkz-admin-border, transparent) !important;
+}
+a.logo,
+header.main-header > a.logo {
+  pointer-events: auto;
+}

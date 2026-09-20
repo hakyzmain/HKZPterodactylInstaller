@@ -1,0 +1,94 @@
+#app::before,
+#app::after,
+.wrapper::before,
+.wrapper::after,
+.content-wrapper::before,
+.content-wrapper::after {
+  pointer-events: none !important;
+}
+#modal-portal {
+  z-index: 9999 !important;
+  pointer-events: none;
+}
+#modal-portal > * {
+  pointer-events: auto !important;
+}
+div[class*='SubNavigation'],
+div[class*='SubNavigation'] *,
+nav[class*='Navigation'],
+nav[class*='Navigation'] *,
+[role='tablist'],
+[role='tablist'] *,
+[role='tab'],
+[role='tabpanel'],
+[role='tabpanel'] *,
+[role='menu'],
+[role='menu'] *,
+[role='menuitem'],
+[role='listbox'],
+[role='listbox'] *,
+[role='option'],
+[role='combobox'],
+[role='combobox'] *,
+[role='dialog'],
+[role='dialog'] *,
+[role='alertdialog'],
+[role='alertdialog'] *,
+div[class*='headlessui'],
+div[class*='headlessui'] *,
+#app a,
+#modal-portal a,
+a[class*='GreyRowBox'],
+div[class*='GreyRowBox'] a,
+#app .mt-4.flex.justify-center button,
+#app div[class*='Pagination'] button,
+#app button,
+#modal-portal button,
+#app input,
+#modal-portal input,
+#app select,
+#modal-portal select,
+#app textarea,
+#modal-portal textarea,
+#app a[role='button'],
+#modal-portal a[role='button'],
+#app label,
+#modal-portal label,
+div[class*='SubNavigation'] a,
+div[class*='SubNavigation'] button,
+a[class*='GreyRowBox'],
+div[class*='GreyRowBox'] {
+  pointer-events: auto !important;
+}
+div[class*='SubNavigation'] {
+  overflow: visible !important;
+  position: relative !important;
+  z-index: 20 !important;
+}
+div[class*='SubNavigation'] a,
+div[class*='SubNavigation'] button,
+#app button:not(:disabled),
+#modal-portal button:not(:disabled),
+#app a[role='tab'],
+#app [role='menuitem'] {
+  cursor: pointer !important;
+}
+div[class*='SubNavigation'] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#app input,
+#modal-portal input,
+#app select,
+#modal-portal select,
+#app textarea,
+#modal-portal textarea {
+  cursor: text !important;
+}
+#app [class*='Dropdown'],
+#app [class*='Popover'],
+#app [class*='Listbox'],
+#modal-portal [class*='Dropdown'],
+#modal-portal [class*='Popover'] {
+  z-index: 10050 !important;
+}

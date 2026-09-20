@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Quicksand', system-ui, sans-serif;
+  --hkz-bg-1: #1a1428;
+  --hkz-bg-2: #2d2445;
+  --hkz-bg-3: #3b2d5c;
+  --hkz-glass: rgba(120, 90, 180, 0.15);
+  --hkz-input-bg: rgba(30, 22, 48, 0.75);
+  --hkz-accent: #c084fc;
+  --hkz-accent-2: #f0abfc;
+  --hkz-border: rgba(192, 132, 252, 0.3);
+  --hkz-border-hover: rgba(240, 171, 252, 0.45);
+  --hkz-text: #fae8ff;
+  --hkz-shadow: 0 8px 32px rgba(45, 30, 70, 0.4);
+  --hkz-shadow-hover: 0 14px 44px rgba(192, 132, 252, 0.2);
+  --hkz-nav-active: linear-gradient(135deg, rgba(192, 132, 252, 0.35), rgba(240, 171, 252, 0.22));
+  --hkz-nav-hover: rgba(192, 132, 252, 0.15);
+  --hkz-nav-glow: 0 0 22px rgba(240, 171, 252, 0.2);
+  --hkz-btn: linear-gradient(135deg, #a855f7, #d946ef);
+  --hkz-btn-success: linear-gradient(135deg, #c084fc, #86efac);
+  --hkz-btn-danger: linear-gradient(135deg, #f472b6, #e879f9);
+  --hkz-focus-ring: 0 0 0 3px rgba(240, 171, 252, 0.3);
+  --hkz-scrollbar: linear-gradient(#c084fc, #f0abfc);
+}
+@keyframes hkz-lavender-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes hkz-lavender-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(135deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 250% 250% !important;
+  animation: hkz-lavender-bg 24s ease infinite !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  top: 10%;
+  left: 5%;
+  background: radial-gradient(circle, rgba(240, 171, 252, 0.2), transparent 70%);
+  animation: hkz-lavender-float 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  bottom: 15%;
+  right: 8%;
+  background: radial-gradient(circle, rgba(192, 132, 252, 0.18), transparent 70%);
+  animation: hkz-lavender-float 10s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}

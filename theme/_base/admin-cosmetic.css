@@ -1,0 +1,51 @@
+body,
+.wrapper,
+.content-wrapper,
+.main-header,
+.main-sidebar,
+.content {
+  font-family: var(--hkz-font, system-ui, sans-serif) !important;
+  color: var(--hkz-admin-text, var(--hkz-text, #e2e8f0));
+}
+html,
+body,
+body.hold-transition,
+body.skin-blue {
+  background: var(--hkz-admin-bg) !important;
+  background-attachment: fixed !important;
+}
+.content-wrapper,
+.right-side {
+  background: transparent !important;
+}
+.main-header {
+  background: var(--hkz-admin-header) !important;
+  border-bottom: 1px solid var(--hkz-admin-border) !important;
+}
+.main-sidebar {
+  background: var(--hkz-admin-sidebar) !important;
+  border-right: 1px solid var(--hkz-admin-border) !important;
+}
+.box,
+.panel,
+.card,
+.modal-content,
+.nav-tabs-custom {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.sidebar-menu > li.active > a,
+.sidebar-menu > li > a:hover {
+  background: var(--hkz-admin-nav-active) !important;
+  color: var(--hkz-admin-text) !important;
+}
+input.form-control,
+select.form-control,
+textarea.form-control,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background: var(--hkz-admin-input) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}

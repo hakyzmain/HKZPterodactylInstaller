@@ -1,0 +1,6 @@
+.Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']):focus,
+textarea:focus,
+input:not([type='checkbox']):not([type='radio']):focus,
+select:focus {
+  box-shadow: var(--hkz-focus-ring) !important;
+}

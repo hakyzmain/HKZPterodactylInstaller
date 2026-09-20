@@ -1,0 +1,225 @@
+#app .rounded.shadow-md.bg-neutral-700:not([class*='chart_container']):not([class*='stat_block']),
+#app .rounded-md.shadow-md.bg-neutral-700:not([class*='chart_container']) {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  border-radius: var(--hkz-radius-panel, 14px) !important;
+  box-shadow: var(--hkz-shadow) !important;
+  color: var(--hkz-text) !important;
+  overflow: visible !important;
+}
+#app .bg-neutral-900.rounded-t,
+#app .rounded-t.bg-neutral-900 {
+  background: color-mix(in srgb, var(--hkz-input-bg) 78%, var(--hkz-glass)) !important;
+  border-bottom: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app .bg-neutral-900.rounded-t .text-neutral-300,
+#app .rounded-t.bg-neutral-900 svg {
+  color: var(--hkz-text-dim) !important;
+}
+#app .border-b.border-black {
+  border-bottom-color: var(--hkz-border) !important;
+}
+[class*='GreyRowBox'] .status-bar.bg-green-500,
+a[class*='GreyRowBox'] .status-bar.bg-green-500 {
+  background: var(--hkz-btn-success) !important;
+  opacity: 0.85 !important;
+}
+[class*='GreyRowBox'] .status-bar.bg-yellow-500,
+a[class*='GreyRowBox'] .status-bar.bg-yellow-500 {
+  background: linear-gradient(180deg, #fbbf24, #d97706) !important;
+  opacity: 0.85 !important;
+}
+[class*='GreyRowBox'] .status-bar.bg-red-500,
+a[class*='GreyRowBox'] .status-bar.bg-red-500 {
+  background: var(--hkz-btn-danger) !important;
+  opacity: 0.85 !important;
+}
+[class*='GreyRowBox']:hover .status-bar {
+  opacity: 1 !important;
+}
+#app label[class*='PermissionRow'],
+#modal-portal label[class*='PermissionRow'] {
+  border: 1px solid transparent !important;
+  border-radius: 10px !important;
+  color: var(--hkz-text) !important;
+  background: transparent !important;
+}
+#app label[class*='PermissionRow']:not(.disabled):hover,
+#modal-portal label[class*='PermissionRow']:not(.disabled):hover {
+  border-color: var(--hkz-border) !important;
+  background: var(--hkz-surface-hover) !important;
+}
+#app label[class*='PermissionRow'].disabled {
+  opacity: 0.55 !important;
+}
+#app .border-neutral-800,
+#app .border-b.border-neutral-800,
+#modal-portal .border-neutral-800 {
+  border-color: color-mix(in srgb, var(--hkz-border) 80%, transparent) !important;
+}
+#app .bg-green-600.text-white.rounded,
+#app p.bg-green-600,
+#app span.bg-green-600 {
+  background: color-mix(in srgb, #10b981 70%, var(--hkz-accent-2)) !important;
+  color: #fff !important;
+}
+#app .bg-neutral-400.text-white.rounded,
+#app p.bg-neutral-400.uppercase {
+  background: var(--hkz-surface-hover) !important;
+  color: var(--hkz-text-dim) !important;
+}
+#app .bg-yellow-500.text-yellow-800,
+#app div.bg-yellow-500.rounded-full {
+  background: color-mix(in srgb, #fbbf24 75%, var(--hkz-glass)) !important;
+  color: #fef3c7 !important;
+}
+#app .font-mono.bg-neutral-800.rounded,
+#app div.bg-neutral-800.font-mono {
+  background: var(--hkz-chip-bg) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app table,
+#modal-portal table {
+  background: transparent !important;
+  color: var(--hkz-text) !important;
+}
+#app table tbody tr:nth-child(even),
+#modal-portal table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--hkz-glass) 35%, transparent) !important;
+}
+#app [class*='ActivityLog'] td,
+#app [class*='activity'] td {
+  color: var(--hkz-text) !important;
+  border-color: var(--hkz-border) !important;
+}
+#app .mt-4.flex.justify-center button,
+#app div[class*='Pagination'] button {
+  background: var(--hkz-chip-bg) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app .mt-4.flex.justify-center button:hover,
+#app div[class*='Pagination'] button:hover {
+  background: var(--hkz-surface-hover) !important;
+  border-color: var(--hkz-border-hover) !important;
+}
+#app [class*='Message'],
+#app [class*='Flash'],
+#app div[class*='Alert'] {
+  border-radius: var(--hkz-radius-sm, 10px) !important;
+}
+#app [class*='Message'][class*='success'],
+#app [class*='Alert'][class*='success'] {
+  background: color-mix(in srgb, #10b981 22%, var(--hkz-glass)) !important;
+  border-color: color-mix(in srgb, #10b981 45%, var(--hkz-border)) !important;
+}
+#app [class*='Message'][class*='danger'],
+#app [class*='Alert'][class*='danger'],
+#app [class*='Message'][class*='error'] {
+  background: color-mix(in srgb, #ef4444 18%, var(--hkz-glass)) !important;
+  border-color: color-mix(in srgb, #ef4444 40%, var(--hkz-border)) !important;
+}
+#app [class*='Message'][class*='warning'],
+#app [class*='Alert'][class*='warning'] {
+  background: color-mix(in srgb, #f59e0b 18%, var(--hkz-glass)) !important;
+  border-color: color-mix(in srgb, #f59e0b 40%, var(--hkz-border)) !important;
+}
+#app [class*='Variable'],
+#app [class*='Startup'],
+#app [class*='Settings'] [class*='GreyRowBox'] {
+  color: var(--hkz-text) !important;
+}
+#app .text-neutral-500.hover\:text-neutral-100,
+#app button.text-neutral-500 {
+  color: var(--hkz-text-dim) !important;
+}
+#app .text-neutral-500.hover\:text-neutral-100:hover,
+#app button.text-neutral-500:hover {
+  color: var(--hkz-text) !important;
+  background: var(--hkz-surface-hover) !important;
+  border-radius: 8px !important;
+}
+#app button.text-neutral-500.hover\:text-red-600:hover {
+  color: #fca5a5 !important;
+  background: color-mix(in srgb, var(--hkz-btn-danger) 25%, transparent) !important;
+}
+#app .bg-neutral-600.rounded-full,
+#app div[class*='progress'] .bg-neutral-600 {
+  background: var(--hkz-chip-bg) !important;
+}
+#app .bg-green-500.rounded-full,
+#app .bg-green-600.rounded-full {
+  background: var(--hkz-btn-success) !important;
+}
+#app .bg-yellow-500.rounded-full {
+  background: linear-gradient(90deg, #fbbf24, #d97706) !important;
+}
+#app .bg-red-500.rounded-full {
+  background: var(--hkz-btn-danger) !important;
+}
+#app .bg-neutral-900.bg-opacity-75,
+#app .bg-neutral-900\/75,
+#app [class*='bg-opacity'] {
+  background: color-mix(in srgb, var(--hkz-bg-1) 65%, transparent) !important;
+}
+#app [class*='ApiKey'],
+#app [class*='SSH'] pre,
+#app pre.font-mono {
+  background: var(--hkz-chip-bg) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+  border-radius: 8px !important;
+}
+body .min-h-screen form div[class*='Login'],
+.min-h-screen .bg-neutral-800,
+.min-h-screen .bg-neutral-900 {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app .text-gray-50.font-header,
+#app h1.font-header,
+#app .font-header.text-2xl {
+  color: var(--hkz-text) !important;
+}
+#app .line-clamp-2,
+#app p.text-sm.line-clamp-2 {
+  color: var(--hkz-text-dim) !important;
+}
+#app [class*='Cron'],
+#app [class*='Schedule'] input,
+#app [class*='EditSchedule'] {
+  color: var(--hkz-text) !important;
+}
+#app .text-red-400 {
+  color: #f87171 !important;
+}
+#app .text-green-400,
+#app .text-green-500 {
+  color: color-mix(in srgb, #34d399 80%, var(--hkz-accent-2)) !important;
+}
+#app .text-cyan-400,
+#app .text-cyan-500 {
+  color: var(--hkz-accent-2) !important;
+}
+#app .text-primary-400,
+#app .text-blue-400 {
+  color: var(--hkz-accent-2) !important;
+}
+#app .bg-neutral-100.rounded-lg.shadow-lg {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+  box-shadow: var(--hkz-shadow-hover) !important;
+}
+#app .text-neutral-900 {
+  color: var(--hkz-text) !important;
+}
+#app .text-neutral-700 {
+  color: var(--hkz-text-dim) !important;
+}
+#app .text-neutral-100 {
+  color: var(--hkz-text) !important;
+}

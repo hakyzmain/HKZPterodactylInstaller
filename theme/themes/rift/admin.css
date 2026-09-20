@@ -1,0 +1,18 @@
+:root {
+  --hkz-accent: #d946ef;
+  --hkz-accent-2: #f0abfc;
+  --hkz-admin-text: #e8ecf4;
+  --hkz-admin-bg: linear-gradient(145deg, #0c0018, #2a0845 50%, #120020);
+  --hkz-admin-header: rgba(42, 8, 69, 0.94);
+  --hkz-admin-sidebar: rgba(42, 8, 69, 0.98);
+  --hkz-admin-border: rgba(217, 70, 239, 0.35);
+  --hkz-admin-card: rgba(217, 70, 239, 0.14);
+  --hkz-admin-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  --hkz-admin-nav-active: linear-gradient(135deg, rgba(217, 70, 239, 0.4), rgba(240, 171, 252, 0.22));
+  --hkz-admin-nav-hover: rgba(217, 70, 239, 0.15);
+  --hkz-admin-btn: linear-gradient(135deg, #d946ef, #f0abfc);
+  --hkz-admin-input: rgba(0,0,0,0.45);
+  --hkz-admin-glow: 0 0 22px rgba(240, 171, 252, 0.35);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #22d3ee);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #f97316);
+}

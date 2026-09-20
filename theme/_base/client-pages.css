@@ -1,0 +1,73 @@
+body.bg-neutral-900,
+#app.bg-neutral-900,
+#app > div.bg-neutral-900,
+#app > .relative.bg-neutral-900,
+#app .min-h-screen.bg-neutral-900 {
+  background-color: transparent !important;
+}
+div[class*='Modal'],
+div[class*='Dialog'],
+div[class*='Overlay'],
+div.headlessui-dialog-panel-2,
+div[class*='headlessui'],
+[role='dialog'],
+[role='alertdialog'] {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border-hover) !important;
+  border-radius: var(--hkz-radius-panel, 16px) !important;
+  box-shadow: var(--hkz-shadow-hover) !important;
+  color: var(--hkz-text) !important;
+}
+div[class*='Modal'] > div:not([role='menu']),
+div.headlessui-dialog-panel-2 > div:not([role='menu']) {
+  background: transparent !important;
+}
+div[class*='Dropdown'],
+div[class*='Popover'],
+ul[class*='Menu'],
+div[class*='Listbox'] {
+  background: color-mix(in srgb, var(--hkz-glass) 90%, var(--hkz-input-bg)) !important;
+  border: 1px solid var(--hkz-border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--hkz-shadow-hover) !important;
+}
+textarea.Input__Textarea-sc-19rce1w-1,
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='number'],
+input[type='search'],
+input[type='url'],
+textarea,
+select {
+  background: var(--hkz-input-bg) !important;
+  border: 1px solid var(--hkz-border) !important;
+  border-radius: 12px !important;
+  color: var(--hkz-text) !important;
+}
+div[class*='Alert'],
+p[class*='Alert'],
+div[class*='alert'] {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  border-radius: 12px !important;
+  color: var(--hkz-text) !important;
+}
+span[class*='Badge'],
+span[class*='Label'] {
+  background: var(--hkz-nav-hover) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+.min-h-screen,
+div[class*='Login'],
+div[class*='Authentication'],
+form[class*='Login'] {
+  background: transparent !important;
+}
+[role='tooltip'],
+div[class*='Tooltip'] {
+  background: var(--hkz-glass) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}

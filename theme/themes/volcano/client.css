@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap');
+:root {
+  --hkz-font: 'Bebas Neue', system-ui, sans-serif;
+  --hkz-bg-1: #140404;
+  --hkz-bg-2: #3d0a04;
+  --hkz-bg-3: #0a0202;
+  --hkz-glass: rgba(239, 68, 68, 0.12);
+  --hkz-input-bg: rgba(0, 0, 0, 0.45);
+  --hkz-accent: #ef4444;
+  --hkz-accent-2: #fb923c;
+  --hkz-border: rgba(239, 68, 68, 0.32);
+  --hkz-border-hover: rgba(251, 146, 60, 0.45);
+  --hkz-text: #f1f5f9;
+  --hkz-shadow: 0 8px 32px rgba(0,0,0,0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(239, 68, 68, 0.22);
+  --hkz-nav-active: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(251, 146, 60, 0.22));
+  --hkz-nav-hover: rgba(239, 68, 68, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(251, 146, 60, 0.2);
+  --hkz-btn: linear-gradient(135deg, #ef4444, #fb923c);
+  --hkz-btn-success: linear-gradient(135deg, #10b981, #fb923c);
+  --hkz-btn-danger: linear-gradient(135deg, #ef4444, #ef4444);
+  --hkz-focus-ring: 0 0 0 3px rgba(251, 146, 60, 0.25);
+  --hkz-scrollbar: linear-gradient(#ef4444, #fb923c);
+}
+@keyframes hkz-volcano-bg {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes hkz-volcano-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.03); }
+}
+@keyframes hkz-volcano-rise {
+  0% { transform: translateY(100%) scaleY(0.8); opacity: 0.3; }
+  50% { opacity: 0.7; }
+  100% { transform: translateY(-20%) scaleY(1.1); opacity: 0.2; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
+  background-size: 280% 280% !important;
+  background-attachment: fixed !important;
+  animation: hkz-volcano-bg 22s ease infinite !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(239, 68, 68, 0.4), transparent 60%);
+}
+#app::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(0deg, #ef4444, rgba(251, 146, 60, 0.3), transparent); opacity: 0.25; animation: hkz-volcano-rise 8s ease-in-out infinite;
+}

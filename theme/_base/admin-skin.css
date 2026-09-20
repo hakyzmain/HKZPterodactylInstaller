@@ -1,0 +1,167 @@
+.skin-blue .wrapper,
+.skin-blue .main-sidebar,
+.skin-blue .left-side,
+.skin-blue .sidebar,
+.skin-black .main-sidebar,
+.skin-purple .main-sidebar {
+  background: var(--hkz-admin-sidebar) !important;
+}
+.skin-blue .main-header,
+.skin-blue .main-header .logo,
+.skin-blue .main-header .navbar,
+.skin-blue .main-header .logo:hover,
+.skin-blue .main-header .navbar .sidebar-toggle,
+.skin-blue .main-header .navbar .nav > li > a,
+.main-header,
+.main-header .logo,
+.main-header .navbar,
+.navbar-static-top,
+.navbar-custom-menu,
+.navbar-nav > li > a {
+  background: var(--hkz-admin-header) !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  color: var(--hkz-admin-text) !important;
+  border-color: var(--hkz-admin-border) !important;
+}
+.skin-blue .main-header .navbar .sidebar-toggle:hover,
+.skin-blue .main-header .navbar .nav > li > a:hover,
+.skin-blue .main-header .navbar .nav > li > a:focus,
+.skin-blue .main-header .navbar .nav .open > a,
+.navbar-nav > .notifications-menu > .dropdown-menu,
+.navbar-nav > .messages-menu > .dropdown-menu,
+.navbar-nav > .user-menu > .dropdown-menu {
+  background: var(--hkz-admin-nav-active) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.skin-blue .sidebar-menu > li.header {
+  background: transparent !important;
+  color: color-mix(in srgb, var(--hkz-admin-text) 65%, transparent) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li.menu-open > a,
+.skin-blue .sidebar-menu > li > a:hover {
+  border-left-color: var(--hkz-accent) !important;
+  background: var(--hkz-admin-nav-active) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.skin-blue .sidebar a,
+.skin-blue .treeview-menu > li > a {
+  color: color-mix(in srgb, var(--hkz-admin-text) 90%, transparent) !important;
+}
+.skin-blue .content-header > h1,
+.skin-blue .content-header > h1 > small,
+.breadcrumb > li,
+.breadcrumb > li > a,
+.content-header h1 {
+  color: var(--hkz-admin-text) !important;
+}
+.box.box-primary {
+  border-top: 3px solid var(--hkz-accent) !important;
+}
+.box.box-primary > .box-header,
+.box-primary > .box-header {
+  background: color-mix(in srgb, var(--hkz-admin-btn) 35%, var(--hkz-admin-card)) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.box.box-success {
+  border-top-color: #10b981 !important;
+}
+.box.box-danger {
+  border-top-color: #ef4444 !important;
+}
+.box.box-warning {
+  border-top-color: #f59e0b !important;
+}
+.label-primary,
+.bg-light-blue,
+.bg-blue,
+.bg-aqua,
+.callout.callout-info,
+.alert-info {
+  background: var(--hkz-admin-nav-active) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+a,
+.skin-blue a {
+  color: var(--hkz-accent-2, var(--hkz-accent)) !important;
+}
+a:hover,
+a:focus {
+  color: var(--hkz-accent) !important;
+}
+a.btn,
+a.btn-primary,
+a.btn-success,
+a.btn-danger {
+  color: #fff !important;
+}
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: var(--hkz-accent) !important;
+}
+.nav-tabs-custom > .nav-tabs > li.active > a,
+.nav-tabs-custom > .nav-tabs > li.active:hover > a {
+  background: var(--hkz-admin-card) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.pagination > li > a,
+.pagination > li > span {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover {
+  background: var(--hkz-admin-btn) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+[class*='bg-blue'],
+[style*='background-color: rgb(60, 141, 188)'],
+[style*='background-color:#3c8dbc'],
+[style*='background-color: #3c8dbc'],
+[style*='background: #3c8dbc'],
+[style*='background:#3c8dbc'] {
+  background-color: var(--hkz-admin-header) !important;
+  background: var(--hkz-admin-header) !important;
+}
+.content-wrapper,
+.right-side {
+  background: transparent !important;
+}
+.main-footer {
+  background: var(--hkz-admin-sidebar) !important;
+  border-top: 1px solid var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.well {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.list-group-item {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}
+.list-group-item.active,
+.list-group-item.active:hover,
+.list-group-item.active:focus {
+  background: var(--hkz-admin-btn) !important;
+  border-color: transparent !important;
+}
+.direct-chat-messages,
+.direct-chat-contacts {
+  background: var(--hkz-admin-input) !important;
+}
+.direct-chat-text {
+  background: var(--hkz-admin-card) !important;
+  border-color: var(--hkz-admin-border) !important;
+  color: var(--hkz-admin-text) !important;
+}

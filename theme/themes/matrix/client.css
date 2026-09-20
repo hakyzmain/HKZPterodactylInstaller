@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'JetBrains Mono', ui-monospace, monospace;
+  --hkz-bg-1: #000a00;
+  --hkz-bg-2: #001100;
+  --hkz-bg-3: #000500;
+  --hkz-glass: rgba(0, 30, 0, 0.55);
+  --hkz-input-bg: rgba(0, 10, 0, 0.85);
+  --hkz-accent: #00ff41;
+  --hkz-accent-2: #39ff14;
+  --hkz-border: rgba(0, 255, 65, 0.28);
+  --hkz-border-hover: rgba(57, 255, 20, 0.45);
+  --hkz-text: #d1fae5;
+  --hkz-shadow: 0 0 20px rgba(0, 255, 65, 0.08);
+  --hkz-shadow-hover: 0 0 28px rgba(0, 255, 65, 0.18);
+  --hkz-nav-active: rgba(0, 255, 65, 0.2);
+  --hkz-nav-hover: rgba(0, 255, 65, 0.1);
+  --hkz-nav-glow: 0 0 12px rgba(0, 255, 65, 0.35);
+  --hkz-btn: linear-gradient(135deg, #059669, #00ff41);
+  --hkz-btn-success: linear-gradient(135deg, #00ff41, #34d399);
+  --hkz-btn-danger: linear-gradient(135deg, #dc2626, #7f1d1d);
+  --hkz-focus-ring: 0 0 0 2px #00ff41, 0 0 10px rgba(0, 255, 65, 0.4);
+  --hkz-scrollbar: #00ff41;
+}
+@keyframes hkz-matrix-fall {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 400px; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: var(--hkz-bg-1) !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 18px,
+    rgba(0, 255, 65, 0.15) 18px,
+    rgba(0, 255, 65, 0.15) 19px
+  );
+  animation: hkz-matrix-fall 12s linear infinite;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+}

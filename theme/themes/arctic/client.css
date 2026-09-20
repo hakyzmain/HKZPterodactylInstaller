@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Manrope', system-ui, sans-serif;
+  --hkz-bg-1: #e8f4fc;
+  --hkz-bg-2: #b8dff5;
+  --hkz-bg-3: #0c1929;
+  --hkz-glass: rgba(255, 255, 255, 0.12);
+  --hkz-input-bg: rgba(12, 25, 41, 0.55);
+  --hkz-accent: #0ea5e9;
+  --hkz-accent-2: #e0f2fe;
+  --hkz-border: rgba(224, 242, 254, 0.35);
+  --hkz-border-hover: rgba(14, 165, 233, 0.55);
+  --hkz-text: #f0f9ff;
+  --hkz-shadow: 0 8px 32px rgba(12, 25, 41, 0.35);
+  --hkz-shadow-hover: 0 12px 40px rgba(14, 165, 233, 0.2);
+  --hkz-nav-active: linear-gradient(135deg, rgba(224, 242, 254, 0.25), rgba(14, 165, 233, 0.3));
+  --hkz-nav-hover: rgba(255, 255, 255, 0.1);
+  --hkz-nav-glow: 0 0 20px rgba(224, 242, 254, 0.25);
+  --hkz-btn: linear-gradient(135deg, #38bdf8, #0284c7);
+  --hkz-btn-success: linear-gradient(135deg, #2dd4bf, #0ea5e9);
+  --hkz-btn-danger: linear-gradient(135deg, #f87171, #e11d48);
+  --hkz-focus-ring: 0 0 0 3px rgba(224, 242, 254, 0.35);
+  --hkz-scrollbar: linear-gradient(#e0f2fe, #0ea5e9);
+}
+@keyframes hkz-arctic-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes hkz-arctic-frost {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.35; }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(180deg, #0c1929 0%, #163a5f 40%, #0c1929 100%) !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.04) 45%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 55%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: hkz-arctic-shimmer 8s linear infinite;
+}
+#app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 8%),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06) 0%, transparent 6%);
+  animation: hkz-arctic-frost 10s ease-in-out infinite;
+}

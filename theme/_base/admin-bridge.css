@@ -1,0 +1,27 @@
+:root {
+  --hkz-radius: var(--hkz-radius, 14px);
+  --hkz-blur: var(--hkz-blur, 16px);
+  --hkz-admin-text: var(--hkz-admin-text, color-mix(in srgb, var(--hkz-text, #e8ecf4) 94%, #fff 6%));
+  --hkz-admin-bg: var(
+    --hkz-admin-bg,
+    linear-gradient(
+      152deg,
+      color-mix(in srgb, var(--hkz-bg-1, #0b0f1a) 88%, #000),
+      color-mix(in srgb, var(--hkz-bg-2, #151c2e) 82%, #000) 50%,
+      color-mix(in srgb, var(--hkz-bg-3, #0a0e18) 90%, #000)
+    )
+  );
+  --hkz-admin-header: var(--hkz-admin-header, color-mix(in srgb, var(--hkz-glass, rgba(15, 18, 28, 0.92)) 78%, rgba(0, 0, 0, 0.55)));
+  --hkz-admin-sidebar: var(--hkz-admin-sidebar, color-mix(in srgb, var(--hkz-bg-2, rgba(12, 16, 28, 0.96)) 84%, rgba(0, 0, 0, 0.45)));
+  --hkz-admin-border: var(--hkz-admin-border, color-mix(in srgb, var(--hkz-border, rgba(148, 163, 184, 0.22)) 65%, transparent));
+  --hkz-admin-card: var(--hkz-admin-card, color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.06)) 72%, rgba(0, 0, 0, 0.35)));
+  --hkz-admin-shadow: var(--hkz-admin-shadow, var(--hkz-shadow, 0 10px 36px rgba(0, 0, 0, 0.32)));
+  --hkz-admin-nav-active: var(--hkz-admin-nav-active, var(--hkz-nav-active, rgba(99, 102, 241, 0.28)));
+  --hkz-admin-nav-hover: var(--hkz-admin-nav-hover, var(--hkz-nav-hover, rgba(255, 255, 255, 0.06)));
+  --hkz-admin-btn: var(--hkz-admin-btn, var(--hkz-btn, linear-gradient(135deg, #6366f1, #8b5cf6)));
+  --hkz-admin-input: var(--hkz-admin-input, var(--hkz-input-bg, rgba(0, 0, 0, 0.35)));
+  --hkz-admin-glow: var(--hkz-admin-glow, var(--hkz-nav-glow, 0 0 24px rgba(99, 102, 241, 0.2)));
+  --hkz-btn-success: var(--hkz-btn-success, linear-gradient(135deg, #10b981, #059669));
+  --hkz-btn-danger: var(--hkz-btn-danger, linear-gradient(135deg, #ef4444, #dc2626));
+  --hkz-scrollbar: var(--hkz-scrollbar, linear-gradient(var(--hkz-accent, #6366f1), var(--hkz-accent-2, #818cf8)));
+}

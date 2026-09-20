@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap');
+:root {
+  --hkz-font: 'Sora', system-ui, sans-serif;
+  --hkz-bg-1: #1a0a14;
+  --hkz-bg-2: #4a1942;
+  --hkz-bg-3: #7c2d12;
+  --hkz-glass: rgba(60, 20, 40, 0.45);
+  --hkz-input-bg: rgba(26, 10, 20, 0.75);
+  --hkz-accent: #fb923c;
+  --hkz-accent-2: #f472b6;
+  --hkz-border: rgba(251, 146, 60, 0.32);
+  --hkz-border-hover: rgba(244, 114, 182, 0.45);
+  --hkz-text: #fff1f2;
+  --hkz-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  --hkz-shadow-hover: 0 14px 40px rgba(251, 146, 60, 0.2);
+  --hkz-nav-active: linear-gradient(135deg, rgba(251, 146, 60, 0.4), rgba(244, 114, 182, 0.3));
+  --hkz-nav-hover: rgba(251, 146, 60, 0.18);
+  --hkz-nav-glow: 0 0 20px rgba(244, 114, 182, 0.25);
+  --hkz-btn: linear-gradient(135deg, #ea580c, #db2777);
+  --hkz-btn-success: linear-gradient(135deg, #22c55e, #f59e0b);
+  --hkz-btn-danger: linear-gradient(135deg, #e11d48, #9f1239);
+  --hkz-focus-ring: 0 0 0 3px rgba(251, 146, 60, 0.3);
+  --hkz-scrollbar: linear-gradient(#fb923c, #f472b6);
+}
+@keyframes hkz-sunset-glow {
+  0%, 100% { background-position: 0% 80%; filter: hue-rotate(0deg); }
+  50% { background-position: 100% 20%; filter: hue-rotate(8deg); }
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(160deg, #7c2d12 0%, #4a1942 35%, #1a0a14 70%, #0f172a 100%) !important;
+  background-size: 200% 200% !important;
+  animation: hkz-sunset-glow 22s ease infinite !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 45%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(251, 146, 60, 0.35), transparent 65%);
+}
+#app::after {
+  content: '';
+  position: fixed;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  bottom: 15%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(251, 146, 60, 0.25), transparent 70%);
+  animation: hkz-sunset-sun 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+@keyframes hkz-sunset-sun {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.15); opacity: 0.75; }
+}

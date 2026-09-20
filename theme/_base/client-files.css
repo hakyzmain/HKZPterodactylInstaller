@@ -1,0 +1,129 @@
+#app [class*='file_row'] {
+  background: var(--hkz-chip-bg) !important;
+  color: var(--hkz-text) !important;
+  border: 1px solid color-mix(in srgb, var(--hkz-border) 65%, transparent) !important;
+  border-radius: 6px !important;
+}
+#app [class*='file_row']:hover {
+  background: var(--hkz-surface-hover) !important;
+  color: var(--hkz-text) !important;
+  border-color: var(--hkz-border) !important;
+}
+#app [class*='file_row'] a,
+#app [class*='file_row'] a:visited,
+#app [class*='file_row'] a[class*='details'],
+#app [class*='file_row'] [class*='details'] {
+  color: var(--hkz-text) !important;
+  text-decoration: none !important;
+}
+#app [class*='file_row']:hover a,
+#app [class*='file_row']:hover [class*='details'],
+#app [class*='file_row'] a:hover {
+  color: var(--hkz-text) !important;
+}
+#app [class*='file_row'] a .text-neutral-300,
+#app [class*='file_row'] [class*='details'] .text-neutral-300,
+#app [class*='file_row'] [class*='details'] div {
+  color: var(--hkz-text) !important;
+}
+#app [class*='file_row'] a .text-neutral-400,
+#app [class*='file_row'] [class*='details'] .text-neutral-400 {
+  color: var(--hkz-text-dim) !important;
+}
+#app [class*='file_row'] svg,
+#app [class*='file_row'] [class*='fa-'] {
+  color: var(--hkz-accent-2) !important;
+}
+#app div.bg-white.absolute,
+#app div.bg-white.p-2,
+#modal-portal div.bg-white.absolute,
+#modal-portal div.bg-white.p-2 {
+  background: color-mix(in srgb, var(--hkz-glass) 96%, var(--hkz-input-bg)) !important;
+  border: 1px solid var(--hkz-border-hover) !important;
+  color: #fff !important;
+  box-shadow: var(--hkz-shadow-hover) !important;
+  z-index: 60 !important;
+}
+#app div.bg-white.text-neutral-500,
+#modal-portal div.bg-white.text-neutral-500 {
+  color: #fff !important;
+}
+#app div.bg-white > div span,
+#app div.bg-white > div svg,
+#modal-portal div.bg-white > div span {
+  color: #fff !important;
+}
+#app div.bg-white > div:hover span,
+#app div.bg-white > div:hover svg {
+  color: #fff !important;
+}
+#app div.bg-white .hover\:bg-neutral-100:hover,
+#app div.bg-white .hover\:bg-red-100:hover {
+  background: color-mix(in srgb, var(--hkz-accent) 40%, var(--hkz-surface-hover)) !important;
+  color: #fff !important;
+}
+#app div.bg-white .hover\:bg-red-100:hover,
+#app div.bg-white .hover\:text-red-700:hover {
+  background: color-mix(in srgb, var(--hkz-btn-danger) 35%, var(--hkz-glass)) !important;
+  color: #fff !important;
+}
+#app div.bg-white .hover\:bg-red-100:hover span,
+#app div.bg-white .hover\:text-red-700:hover span {
+  color: #fff !important;
+}
+#app div.bg-white svg {
+  color: var(--hkz-accent-2) !important;
+}
+#app div.bg-white > div:hover svg {
+  color: #fff !important;
+}
+#app [class*='file_row'] [class*='px-4'][class*='py-2'],
+#app [class*='file_row'] div.hover\:text-white {
+  color: var(--hkz-text-dim) !important;
+}
+#app [class*='file_row'] [class*='px-4'][class*='py-2']:hover,
+#app [class*='file_row'] .hover\:text-white:hover {
+  color: #fff !important;
+}
+#app .CodeMirror {
+  background: #12121a !important;
+  color: #e8ecf4 !important;
+  border: 1px solid var(--hkz-border) !important;
+  border-radius: 8px !important;
+  min-height: 16rem !important;
+  font-family: var(--hkz-font-mono, 'IBM Plex Mono', ui-monospace, monospace) !important;
+}
+#app .CodeMirror-gutters {
+  background: #0e0e14 !important;
+  border-right: 1px solid var(--hkz-border) !important;
+}
+#app .CodeMirror-linenumber {
+  color: var(--hkz-text-dim) !important;
+}
+#app .CodeMirror-cursor {
+  border-left-color: var(--hkz-accent) !important;
+}
+#app .CodeMirror-selected,
+#app .CodeMirror-focused .CodeMirror-selected {
+  background: color-mix(in srgb, var(--hkz-accent) 32%, transparent) !important;
+}
+#app .CodeMirror-activeline-background {
+  background: color-mix(in srgb, var(--hkz-accent) 12%, transparent) !important;
+}
+#app .CodeMirror-scroll {
+  min-height: 16rem !important;
+}
+#app [class*='EditorContainer'] > div,
+#app [class*='EditorContainer'] .CodeMirror {
+  height: calc(100vh - 20rem) !important;
+  min-height: 16rem !important;
+}
+#app .CodeMirror-hints {
+  background: color-mix(in srgb, var(--hkz-glass) 95%, var(--hkz-input-bg)) !important;
+  border: 1px solid var(--hkz-border) !important;
+  color: var(--hkz-text) !important;
+}
+#app .CodeMirror-hint-active {
+  background: var(--hkz-surface-hover) !important;
+  color: var(--hkz-text) !important;
+}

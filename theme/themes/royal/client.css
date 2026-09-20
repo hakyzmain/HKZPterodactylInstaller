@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;600&display=swap');
+:root {
+  --hkz-font: 'Inter', system-ui, sans-serif;
+  --hkz-bg-1: #0c0a09;
+  --hkz-bg-2: #1c1917;
+  --hkz-bg-3: #292524;
+  --hkz-glass: rgba(41, 37, 36, 0.55);
+  --hkz-input-bg: rgba(12, 10, 9, 0.8);
+  --hkz-accent: #d4af37;
+  --hkz-accent-2: #fcd34d;
+  --hkz-border: rgba(212, 175, 55, 0.35);
+  --hkz-border-hover: rgba(252, 211, 77, 0.5);
+  --hkz-text: #fafaf9;
+  --hkz-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --hkz-shadow-hover: 0 12px 40px rgba(212, 175, 55, 0.15);
+  --hkz-nav-active: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(180, 83, 9, 0.2));
+  --hkz-nav-hover: rgba(212, 175, 55, 0.12);
+  --hkz-nav-glow: 0 0 18px rgba(212, 175, 55, 0.25);
+  --hkz-btn: linear-gradient(135deg, #ca8a04, #a16207);
+  --hkz-btn-success: linear-gradient(135deg, #16a34a, #ca8a04);
+  --hkz-btn-danger: linear-gradient(135deg, #991b1b, #7f1d1d);
+  --hkz-focus-ring: 0 0 0 3px rgba(252, 211, 77, 0.25);
+  --hkz-scrollbar: linear-gradient(#d4af37, #fcd34d);
+}
+@keyframes hkz-royal-gleam {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+h1, h2 {
+  font-family: 'Cormorant Garamond', serif !important;
+  letter-spacing: 0.02em;
+}
+html, body, #app, body.bg-neutral-900 {
+  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), #1a1208) !important;
+  background-size: 200% 200% !important;
+  animation: hkz-royal-gleam 18s ease infinite !important;
+  background-attachment: fixed !important;
+}
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.12), transparent 55%);
+}
