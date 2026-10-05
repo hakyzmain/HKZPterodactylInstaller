@@ -2,7 +2,7 @@
   --hkz-accent: #00ff88;
   --hkz-accent-2: #00d4ff;
   --hkz-admin-text: #f1f5f9;
-  --hkz-admin-bg: linear-gradient(145deg, #0a0014, #140020 50%, #050008);
+  --hkz-admin-bg: #0a0014;
   --hkz-admin-header: rgba(20, 0, 32, 0.94);
   --hkz-admin-sidebar: rgba(20, 0, 32, 0.98);
   --hkz-admin-border: rgba(0, 255, 136, 0.32);

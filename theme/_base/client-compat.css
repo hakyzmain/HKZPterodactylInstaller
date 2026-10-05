@@ -112,10 +112,15 @@ div[class*='SubNavigation'] {
 div[class*='SubNavigation'] > div > a {
   color: var(--hkz-text-dim) !important;
 }
-div[class*='SubNavigation'] > div > a:hover,
+div[class*='SubNavigation'] > div > a:hover {
+  color: var(--hkz-text) !important;
+  background: transparent !important;
+}
 div[class*='SubNavigation'] > div > a.active,
 div[class*='SubNavigation'] > div > a[aria-current='page'] {
-  color: var(--hkz-text) !important;
+  color: #f4f4f5 !important;
+  background: transparent !important;
+  box-shadow: inset 0 -2px var(--hkz-accent-2, #0891b2) !important;
 }
 [class*='GreyRowBox'],
 a[class*='GreyRowBox'] {

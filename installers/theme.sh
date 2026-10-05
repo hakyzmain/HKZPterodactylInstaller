@@ -192,6 +192,7 @@ hkz_theme_assemble_css() {
       hkz_theme_client_skin "${THEMES_DIR}/${id}/client.css"
       cat "${THEME_BASE}/polish-client.css" \
         "${THEME_BASE}/client-compat.css" \
+        "${THEME_BASE}/nook-layout.css" \
         "${THEME_BASE}/thin-guard.css"
     } >"$dest"
   else
@@ -202,6 +203,7 @@ hkz_theme_assemble_css() {
         "${THEME_BASE}/admin-compat.css" \
         "${THEME_BASE}/admin-skin.css" \
         "${THEME_BASE}/admin-readability.css" \
+        "${THEME_BASE}/nook-admin-layout.css" \
         "${THEME_BASE}/thin-guard.css"
     } >"$dest"
   fi

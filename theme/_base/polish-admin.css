@@ -15,8 +15,7 @@
 }
 
 body,
-.wrapper,
-.content-wrapper {
+.wrapper {
   background: var(--hkz-admin-bg, #0b0d12) !important;
   color: var(--hkz-admin-text, #e8ecf4);
   font-family: var(--hkz-font, system-ui, sans-serif) !important;
@@ -27,7 +26,8 @@ body,
 .content-wrapper,
 .right-side {
   background: transparent !important;
-  animation: hkz-admin-in 0.28s var(--hkz-ease-out) both;
+  animation: none !important;
+  transform: none !important;
   filter: none !important;
 }
 
