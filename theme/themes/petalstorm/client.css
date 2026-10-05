@@ -63,8 +63,8 @@
 }
 html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
-  background-size: 320% 320% !important;
-  animation: hkz-petalstorm-flow 18s ease infinite !important;
+  background-size: 160% 160% !important;
+  animation: none ease infinite !important;
   background-attachment: fixed !important;
 }
 #app::before {
@@ -79,7 +79,7 @@ html, body, #app, body.bg-neutral-900 {
     radial-gradient(1px 1px at 78% 35%, #fff, transparent),
     radial-gradient(1px 1px at 62% 88%, #fbcfe8, transparent);
   background-size: 100% 100%;
-  animation: hkz-petalstorm-twinkle 3.5s ease-in-out infinite alternate;
+  
 }
 #app::after {
   content: '';
@@ -91,5 +91,5 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(90deg, transparent, rgba(251, 207, 232, 0.7), transparent);
   pointer-events: none;
   z-index: 0;
-  animation: hkz-petalstorm-sweep 7s ease-in-out infinite;
+  animation: none ease-in-out infinite;
 }

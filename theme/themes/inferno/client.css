@@ -38,7 +38,7 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
   background-size: 280% 280% !important;
   background-attachment: fixed !important;
-  animation: hkz-inferno-bg 22s ease infinite !important;
+  animation: none ease infinite !important;
 }
 #app::before {
   content: '';
@@ -46,7 +46,7 @@ html, body, #app, body.bg-neutral-900 {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(255, 69, 0, 0.5), transparent 55%); animation: hkz-inferno-flare 2s ease-in-out infinite;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 69, 0, 0.5), transparent 55%); 
 }
 #app::after {
   content: '';

@@ -63,8 +63,8 @@
 }
 html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
-  background-size: 320% 320% !important;
-  animation: hkz-opaline-flow 18s ease infinite !important;
+  background-size: 160% 160% !important;
+  animation: none ease infinite !important;
   background-attachment: fixed !important;
 }
 #app::before {
@@ -75,9 +75,9 @@ html, body, #app, body.bg-neutral-900 {
   z-index: 0;
   background: linear-gradient(120deg, rgba(165, 180, 252, 0.2), rgba(153, 246, 228, 0.2), rgba(165, 180, 252, 0.15));
   background-size: 300% 300%;
-  animation: hkz-opaline-flow 10s ease infinite;
+  
   filter: hue-rotate(0deg);
-  animation: hkz-opaline-hue 12s linear infinite;
+  animation: none linear infinite;
 }
 #app::after {
   content: '';
@@ -89,5 +89,5 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(90deg, transparent, rgba(153, 246, 228, 0.7), transparent);
   pointer-events: none;
   z-index: 0;
-  animation: hkz-opaline-sweep 7s ease-in-out infinite;
+  animation: none ease-in-out infinite;
 }

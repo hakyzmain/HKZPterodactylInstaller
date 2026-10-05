@@ -63,8 +63,8 @@
 }
 html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
-  background-size: 320% 320% !important;
-  animation: hkz-lighthouse-flow 18s ease infinite !important;
+  background-size: 160% 160% !important;
+  animation: none ease infinite !important;
   background-attachment: fixed !important;
 }
 #app::before {
@@ -74,7 +74,7 @@ html, body, #app, body.bg-neutral-900 {
   pointer-events: none;
   z-index: 0;
   background: conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(251, 191, 36, 0.15) 40deg, transparent 80deg);
-  animation: hkz-lighthouse-rotate 12s linear infinite;
+  
 }
 #app::after {
   content: '';
@@ -86,5 +86,5 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(90deg, transparent, rgba(254, 240, 138, 0.7), transparent);
   pointer-events: none;
   z-index: 0;
-  animation: hkz-lighthouse-sweep 7s ease-in-out infinite;
+  animation: none ease-in-out infinite;
 }

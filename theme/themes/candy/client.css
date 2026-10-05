@@ -38,7 +38,7 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
   background-size: 280% 280% !important;
   background-attachment: fixed !important;
-  animation: hkz-candy-bg 22s ease infinite !important;
+  animation: none ease infinite !important;
 }
 #app::before {
   content: '';
@@ -46,7 +46,7 @@ html, body, #app, body.bg-neutral-900 {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: conic-gradient(from 0deg at 50% 50%, rgba(244, 114, 182, 0.2), rgba(167, 139, 250, 0.2), rgba(244, 114, 182, 0.2)); animation: hkz-candy-spin 30s linear infinite; opacity: 0.5;
+  background: conic-gradient(from 0deg at 50% 50%, rgba(244, 114, 182, 0.2), rgba(167, 139, 250, 0.2), rgba(244, 114, 182, 0.2));  opacity: 0.5;
 }
 #app::after {
   content: '';

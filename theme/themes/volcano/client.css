@@ -39,7 +39,7 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
   background-size: 280% 280% !important;
   background-attachment: fixed !important;
-  animation: hkz-volcano-bg 22s ease infinite !important;
+  animation: none ease infinite !important;
 }
 #app::before {
   content: '';
@@ -54,5 +54,5 @@ html, body, #app, body.bg-neutral-900 {
   position: fixed;
   pointer-events: none;
   z-index: 0;
-  left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(0deg, #ef4444, rgba(251, 146, 60, 0.3), transparent); opacity: 0.25; animation: hkz-volcano-rise 8s ease-in-out infinite;
+  left: 0; right: 0; bottom: 0; height: 50%; background: linear-gradient(0deg, #ef4444, rgba(251, 146, 60, 0.3), transparent); opacity: 0.25; animation: none ease-in-out infinite;
 }

@@ -1,19 +1,34 @@
 :root {
-  --hkz-radius: 14px;
-  --hkz-radius-panel: 14px;
-  --hkz-blur: 16px;
+  --hkz-radius: 16px;
+  --hkz-radius-sm: 12px;
+  --hkz-radius-panel: 16px;
+  --hkz-blur: 18px;
   --hkz-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --hkz-text-dim: color-mix(in srgb, var(--hkz-text, #e8ecf4) 72%, transparent);
+  --hkz-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --hkz-text-dim: color-mix(in srgb, var(--hkz-text, #e8ecf4) 68%, transparent);
+  --hkz-surface-solid: color-mix(in srgb, var(--hkz-bg-1, #0b0d12) 82%, var(--hkz-glass, rgba(255,255,255,0.06)));
+  --hkz-card: color-mix(in srgb, var(--hkz-glass, rgba(255,255,255,0.06)) 88%, #0a0c10);
+  --hkz-line: color-mix(in srgb, var(--hkz-border, rgba(255,255,255,0.1)) 70%, transparent);
 }
 
 @keyframes hkz-fade-up {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes hkz-soft-pulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.75; }
+@keyframes hkz-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hkz-scale-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes hkz-slide-x {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 
 html,
@@ -23,6 +38,10 @@ body.bg-neutral-900 {
   font-family: var(--hkz-font, 'DM Sans', system-ui, sans-serif) !important;
   color: var(--hkz-text, #e8ecf4) !important;
   min-height: 100vh !important;
+  background-attachment: fixed !important;
+  letter-spacing: 0.01em;
+  animation: none !important;
+  filter: none !important;
 }
 
 body.bg-neutral-900,
@@ -32,104 +51,175 @@ body.bg-neutral-900,
   background-color: transparent !important;
 }
 
-#app {
-  animation: hkz-fade-up 0.4s var(--hkz-ease) both;
-}
-
 #app::before,
 #app::after {
   pointer-events: none !important;
   z-index: 0 !important;
+  animation: none !important;
+  filter: none !important;
 }
 
 #app::before {
-  animation: hkz-soft-pulse 10s ease-in-out infinite !important;
+  opacity: 0.55 !important;
 }
 
 #app::after {
-  opacity: 0.025 !important;
+  opacity: 0.018 !important;
+}
+
+#app {
+  animation: hkz-fade-in 0.35s var(--hkz-ease) both;
 }
 
 #app a {
-  transition: color 0.18s ease, opacity 0.18s ease, border-color 0.18s ease;
+  transition: color 0.2s var(--hkz-ease), opacity 0.2s ease, background-color 0.2s var(--hkz-ease), border-color 0.2s ease, transform 0.2s var(--hkz-ease);
 }
 
 #app > nav,
 #app nav[class*='Navigation'] {
-  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 90%, #000) !important;
-  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
+  background: color-mix(in srgb, var(--hkz-surface-solid) 92%, transparent) !important;
+  border-bottom: 1px solid var(--hkz-line) !important;
   backdrop-filter: blur(var(--hkz-blur));
   -webkit-backdrop-filter: blur(var(--hkz-blur));
+  box-shadow: 0 1px 0 color-mix(in srgb, #fff 4%, transparent);
 }
 
 #app > nav a,
 #app nav[class*='Navigation'] a,
 #app > nav button {
   color: var(--hkz-text, #e8ecf4) !important;
-  transition: color 0.18s ease, background-color 0.18s ease;
+  border-radius: 10px !important;
+  transition: color 0.2s var(--hkz-ease), background-color 0.2s var(--hkz-ease), box-shadow 0.2s var(--hkz-ease);
+}
+
+#app > nav a:hover,
+#app nav[class*='Navigation'] a:hover,
+#app > nav button:hover {
+  background: var(--hkz-nav-hover, rgba(255, 255, 255, 0.06)) !important;
 }
 
 #app > nav a.active,
 #app > nav a[aria-current='page'],
 #app nav[class*='Navigation'] a.active {
-  color: var(--hkz-accent-2, var(--hkz-accent, #22d3ee)) !important;
+  color: #fff !important;
+  background: var(--hkz-nav-active, color-mix(in srgb, var(--hkz-accent, #ef4444) 42%, transparent)) !important;
+  box-shadow: var(--hkz-nav-glow, 0 0 0 1px color-mix(in srgb, var(--hkz-accent, #ef4444) 35%, transparent));
 }
 
 div[class*='SubNavigation'] {
-  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 82%, var(--hkz-input-bg, rgba(0, 0, 0, 0.35))) !important;
-  border-bottom: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
+  background: color-mix(in srgb, var(--hkz-card) 94%, #000) !important;
+  border-bottom: 1px solid var(--hkz-line) !important;
   overflow: visible !important;
   position: relative;
   z-index: 30;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 div[class*='SubNavigation'] a {
   color: var(--hkz-text-dim) !important;
-  transition: color 0.18s ease;
+  border-radius: 10px !important;
+  margin: 2px 2px !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  transition: color 0.18s var(--hkz-ease), background-color 0.18s var(--hkz-ease), transform 0.18s var(--hkz-ease);
 }
 
-div[class*='SubNavigation'] a:hover,
+div[class*='SubNavigation'] a:hover {
+  color: var(--hkz-text, #e8ecf4) !important;
+  background: var(--hkz-nav-hover, rgba(255, 255, 255, 0.06)) !important;
+}
+
 div[class*='SubNavigation'] a.active,
 div[class*='SubNavigation'] a[aria-current='page'] {
-  color: var(--hkz-text, #e8ecf4) !important;
+  color: #fff !important;
+  background: var(--hkz-nav-active, color-mix(in srgb, var(--hkz-accent, #ef4444) 48%, transparent)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--hkz-accent, #ef4444) 30%, transparent);
 }
 
 [class*='GreyRowBox'],
 a[class*='GreyRowBox'] {
-  background: var(--hkz-glass, rgba(255, 255, 255, 0.07)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
+  background: var(--hkz-card) !important;
+  border: 1px solid var(--hkz-line) !important;
   color: var(--hkz-text, #e8ecf4) !important;
   border-radius: var(--hkz-radius) !important;
-  transition: border-color 0.2s var(--hkz-ease), box-shadow 0.2s var(--hkz-ease), transform 0.2s var(--hkz-ease);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.22s var(--hkz-ease), box-shadow 0.22s var(--hkz-ease), transform 0.22s var(--hkz-ease), background-color 0.22s ease;
 }
 
 [class*='GreyRowBox']:hover,
 a[class*='GreyRowBox']:hover {
-  border-color: var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
-  box-shadow: var(--hkz-shadow-hover, 0 12px 36px rgba(0, 0, 0, 0.28));
-  transform: translateY(-1px);
+  border-color: var(--hkz-border-hover, color-mix(in srgb, var(--hkz-accent, #ef4444) 45%, transparent)) !important;
+  box-shadow: var(--hkz-shadow-hover, 0 14px 36px rgba(0, 0, 0, 0.32));
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--hkz-card) 88%, var(--hkz-accent, #ef4444) 6%) !important;
 }
 
 div[class*='ContentBox'],
 div[class*='InformationBox'],
-div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_container']) {
-  background: var(--hkz-glass, rgba(255, 255, 255, 0.07)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
+div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_container']),
+div[class*='StatBlock'],
+div[class*='TitledGreyBox'],
+#app [class*='ServerDetailsBlock'] > div,
+#app [class*='ServerDetailsBlock'] [class*='StatBlock'] {
+  background: var(--hkz-card) !important;
+  border: 1px solid var(--hkz-line) !important;
   border-radius: var(--hkz-radius-panel) !important;
   color: var(--hkz-text, #e8ecf4) !important;
-  transition: border-color 0.2s var(--hkz-ease), box-shadow 0.2s var(--hkz-ease);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.22s var(--hkz-ease), box-shadow 0.22s var(--hkz-ease), transform 0.22s var(--hkz-ease);
+}
+
+div[class*='ContentBox']:hover,
+div[class*='InformationBox']:hover,
+div[class*='StatBlock']:hover {
+  border-color: color-mix(in srgb, var(--hkz-accent, #ef4444) 28%, var(--hkz-line)) !important;
+}
+
+#app [class*='ServerContentBlock'],
+#app main,
+#app [class*='PageContentBlock'] {
+  animation: hkz-fade-up 0.38s var(--hkz-ease-out) both;
+}
+
+#app [class*='chart_container'],
+#app canvas {
+  border-radius: var(--hkz-radius-sm) !important;
+}
+
+#app #terminal,
+#app [class*='Console'],
+#app .xterm,
+#app .xterm .xterm-viewport {
+  border-radius: var(--hkz-radius) !important;
+}
+
+#app .xterm .xterm-viewport {
+  background-color: #07080a !important;
+}
+
+#app .xterm canvas {
+  background-color: transparent !important;
 }
 
 #app button:not(:disabled),
 #modal-portal button:not(:disabled),
 #app a[role='button']:not([aria-disabled='true']) {
-  transition: filter 0.16s ease, box-shadow 0.16s ease, transform 0.16s var(--hkz-ease);
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  transition: filter 0.18s ease, box-shadow 0.18s var(--hkz-ease), transform 0.18s var(--hkz-ease), background-color 0.18s ease;
 }
 
 #app button:not(:disabled):hover,
 #modal-portal button:not(:disabled):hover {
-  filter: brightness(1.06);
+  filter: brightness(1.07);
   transform: translateY(-1px);
+}
+
+#app button:not(:disabled):active,
+#modal-portal button:not(:disabled):active {
+  transform: translateY(0);
+  filter: brightness(0.98);
 }
 
 #app .bg-blue-500,
@@ -138,10 +228,42 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #app button.bg-blue-600,
 #modal-portal .bg-blue-500,
 #modal-portal .bg-blue-600 {
-  background: var(--hkz-btn, linear-gradient(135deg, #a855f7, #6366f1)) !important;
+  background: var(--hkz-btn, linear-gradient(135deg, #3b82f6, #2563eb)) !important;
   border-color: transparent !important;
   color: #fff !important;
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--hkz-accent, #a855f7) 26%, transparent);
+  box-shadow: 0 8px 20px color-mix(in srgb, #3b82f6 28%, transparent);
+}
+
+#app .bg-green-500,
+#app .bg-green-600,
+#app button.bg-green-500,
+#app button.bg-green-600 {
+  background: var(--hkz-btn-success, linear-gradient(135deg, #10b981, #059669)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+#app .bg-red-500,
+#app .bg-red-600,
+#app button.bg-red-500,
+#app button.bg-red-600 {
+  background: var(--hkz-btn-danger, linear-gradient(135deg, #ef4444, #dc2626)) !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+
+#app .bg-neutral-500,
+#app .bg-neutral-600,
+#app .bg-gray-500,
+#app .bg-gray-600,
+#app button.bg-neutral-500,
+#app button.bg-neutral-600,
+#app button.bg-gray-500,
+#app button.bg-gray-600 {
+  background: color-mix(in srgb, var(--hkz-card) 70%, #2a2f3a) !important;
+  border: 1px solid var(--hkz-line) !important;
+  color: var(--hkz-text, #e8ecf4) !important;
+  box-shadow: none !important;
 }
 
 #app input[type='text'],
@@ -160,14 +282,14 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal textarea,
 #modal-portal select,
 .Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']) {
-  background-color: var(--hkz-input-bg, rgba(0, 0, 0, 0.38)) !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
+  background-color: var(--hkz-input-bg, rgba(0, 0, 0, 0.42)) !important;
+  border: 1px solid var(--hkz-line) !important;
   color: var(--hkz-text, #e8ecf4) !important;
   -webkit-text-fill-color: var(--hkz-text, #e8ecf4) !important;
-  border-radius: 12px !important;
-  caret-color: var(--hkz-accent-2, #22d3ee);
+  border-radius: var(--hkz-radius-sm) !important;
+  caret-color: var(--hkz-accent-2, var(--hkz-accent, #22d3ee));
   opacity: 1 !important;
-  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  transition: border-color 0.18s ease, box-shadow 0.18s var(--hkz-ease), background-color 0.18s ease;
 }
 
 #app input:not([type='checkbox']):not([type='radio']):focus,
@@ -176,8 +298,8 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal input:not([type='checkbox']):not([type='radio']):focus,
 #modal-portal textarea:focus,
 #modal-portal select:focus {
-  border-color: var(--hkz-border-hover, rgba(34, 211, 238, 0.45)) !important;
-  box-shadow: var(--hkz-focus-ring, 0 0 0 3px rgba(34, 211, 238, 0.2)) !important;
+  border-color: var(--hkz-border-hover, color-mix(in srgb, var(--hkz-accent, #ef4444) 55%, transparent)) !important;
+  box-shadow: var(--hkz-focus-ring, 0 0 0 3px color-mix(in srgb, var(--hkz-accent, #ef4444) 22%, transparent)) !important;
   outline: none;
 }
 
@@ -192,32 +314,33 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 
 #app select option,
 #modal-portal select option {
-  background-color: #15101f !important;
+  background-color: #12151c !important;
   color: #f1f5f9 !important;
 }
 
 #app [role='dialog'],
 #modal-portal [role='dialog'],
 #modal-portal [class*='Dialog'] {
-  background: color-mix(in srgb, var(--hkz-glass, rgba(255, 255, 255, 0.07)) 92%, var(--hkz-input-bg, #000)) !important;
-  border: 1px solid var(--hkz-border-hover, rgba(34, 211, 238, 0.4)) !important;
-  border-radius: 16px !important;
+  background: color-mix(in srgb, var(--hkz-card) 94%, #000) !important;
+  border: 1px solid var(--hkz-border-hover, var(--hkz-line)) !important;
+  border-radius: 18px !important;
   color: var(--hkz-text, #e8ecf4) !important;
-  box-shadow: var(--hkz-shadow-hover, 0 16px 48px rgba(0, 0, 0, 0.4));
-  animation: hkz-fade-up 0.22s var(--hkz-ease);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  animation: hkz-scale-in 0.22s var(--hkz-ease-out);
 }
 
 #app [role='listbox'],
 #app [role='menu'],
 #modal-portal [role='listbox'],
 #modal-portal [role='menu'] {
-  background: #15101f !important;
-  border: 1px solid var(--hkz-border, rgba(168, 85, 247, 0.28)) !important;
-  border-radius: 12px !important;
+  background: #12151c !important;
+  border: 1px solid var(--hkz-line) !important;
+  border-radius: var(--hkz-radius-sm) !important;
   color: #f1f5f9 !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.48);
   overflow: auto !important;
   max-height: min(60vh, 360px);
+  animation: hkz-fade-up 0.16s var(--hkz-ease);
 }
 
 #app [role='option'],
@@ -226,6 +349,7 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal [role='menuitem'] {
   color: #f1f5f9 !important;
   opacity: 1 !important;
+  border-radius: 8px;
   transition: background-color 0.12s ease;
 }
 
@@ -234,7 +358,7 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #app [role='option'][aria-selected='true'],
 #modal-portal [role='option']:hover,
 #modal-portal [role='option'][aria-selected='true'] {
-  background: color-mix(in srgb, var(--hkz-accent, #a855f7) 38%, #15101f) !important;
+  background: color-mix(in srgb, var(--hkz-accent, #ef4444) 36%, #12151c) !important;
   color: #fff !important;
 }
 
@@ -243,12 +367,10 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   color: var(--hkz-accent, inherit);
 }
 
-#app .xterm .xterm-viewport {
-  background-color: #0a0a0c !important;
-}
-
-#app .xterm canvas {
-  background-color: transparent !important;
+#app h1,
+#app h2,
+#app h3 {
+  letter-spacing: -0.02em;
 }
 
 #app ::-webkit-scrollbar,
@@ -257,15 +379,27 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   height: 8px;
 }
 
+#app ::-webkit-scrollbar-track,
+#modal-portal ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 #app ::-webkit-scrollbar-thumb,
 #modal-portal ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--hkz-accent, #a855f7) 45%, var(--hkz-bg-1, #0b0614));
+  background: color-mix(in srgb, var(--hkz-accent, #ef4444) 40%, #1a1d24);
   border-radius: 999px;
+}
+
+#app ::-webkit-scrollbar-thumb:hover,
+#modal-portal ::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--hkz-accent, #ef4444) 55%, #1a1d24);
 }
 
 @media (prefers-reduced-motion: reduce) {
   #app,
   #app::before,
+  #app [class*='ServerContentBlock'],
+  #app [class*='PageContentBlock'],
   [class*='GreyRowBox'],
   #app button,
   #modal-portal [role='dialog'] {

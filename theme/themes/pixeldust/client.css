@@ -63,8 +63,8 @@
 }
 html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
-  background-size: 320% 320% !important;
-  animation: hkz-pixeldust-flow 18s ease infinite !important;
+  background-size: 160% 160% !important;
+  animation: none ease infinite !important;
   background-attachment: fixed !important;
 }
 #app::before {
@@ -74,7 +74,7 @@ html, body, #app, body.bg-neutral-900 {
   pointer-events: none;
   z-index: 0;
   background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(167, 139, 250, 0.04) 2px, rgba(167, 139, 250, 0.04) 4px);
-  animation: hkz-pixeldust-scan 8s linear infinite;
+  
 }
 #app::after {
   content: '';
@@ -86,5 +86,5 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.7), transparent);
   pointer-events: none;
   z-index: 0;
-  animation: hkz-pixeldust-sweep 7s ease-in-out infinite;
+  animation: none ease-in-out infinite;
 }

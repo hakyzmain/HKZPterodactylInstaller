@@ -38,7 +38,7 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
   background-size: 280% 280% !important;
   background-attachment: fixed !important;
-  animation: hkz-deepsea-bg 22s ease infinite !important;
+  animation: none ease infinite !important;
 }
 #app::before {
   content: '';
@@ -53,5 +53,5 @@ html, body, #app, body.bg-neutral-900 {
   position: fixed;
   pointer-events: none;
   z-index: 0;
-  inset: 0; background-image: radial-gradient(2px 2px at 20% 80%, #2dd4bf, transparent), radial-gradient(3px 3px at 60% 90%, #5eead4, transparent), radial-gradient(2px 2px at 85% 70%, #2dd4bf, transparent); animation: hkz-deepsea-glow 4s ease-in-out infinite;
+  inset: 0; background-image: radial-gradient(2px 2px at 20% 80%, #2dd4bf, transparent), radial-gradient(3px 3px at 60% 90%, #5eead4, transparent), radial-gradient(2px 2px at 85% 70%, #2dd4bf, transparent); animation: none ease-in-out infinite;
 }
