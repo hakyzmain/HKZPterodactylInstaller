@@ -172,13 +172,6 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   animation: hkz-fade-up 0.32s var(--hkz-ease-out) both;
 }
 
-#app [class*='chart_container'] {
-  border-radius: var(--hkz-radius-sm) !important;
-  overflow: hidden !important;
-  background: color-mix(in srgb, var(--hkz-card) 80%, #000) !important;
-  border: 1px solid var(--hkz-line) !important;
-}
-
 #app button,
 #modal-portal button,
 #app a[role='button'],

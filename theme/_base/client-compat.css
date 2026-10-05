@@ -21,8 +21,8 @@
   background: var(--hkz-glass) !important;
   border-color: var(--hkz-border) !important;
 }
-#app .bg-neutral-700,
-#app .bg-gray-700,
+#app .bg-neutral-700:not([class*='file_row']):not([class*='chart_container']):not([class*='terminal']),
+#app .bg-gray-700:not([class*='file_row']):not([class*='chart_container']):not([class*='terminal']),
 #modal-portal .bg-neutral-700,
 #modal-portal .bg-gray-700 {
   background: var(--hkz-surface) !important;
@@ -169,22 +169,6 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   border-radius: var(--hkz-radius-panel) !important;
   box-shadow: none !important;
   color: var(--hkz-text) !important;
-}
-#app [class*='file_row'] [class*='details'] {
-  color: inherit !important;
-  background: transparent !important;
-}
-#app [class*='file_row']:hover [class*='details'] {
-  color: inherit !important;
-}
-#app [class*='file_row'] .bg-neutral-600,
-#app [class*='file_row'] .bg-neutral-700,
-#app [class*='file_row'] .bg-gray-600,
-#app [class*='file_row'] .bg-gray-700,
-#app [class*='file_row'] a[class*='details'],
-#app [class*='file_row'] > div {
-  background: transparent !important;
-  background-color: transparent !important;
 }
 #app table thead th,
 #modal-portal table thead th {

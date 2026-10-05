@@ -1,0 +1,107 @@
+#app [class*='file_row'],
+#app [class*='file_row'].bg-neutral-700,
+#app [class*='file_row'].bg-neutral-600,
+#app a[class*='file_row'],
+#app div[class*='style-module'][class*='file_row'] {
+  background: var(--hkz-surface-row) !important;
+  background-color: var(--hkz-surface-row) !important;
+  background-image: none !important;
+  border: 1px solid var(--hkz-line-soft) !important;
+  border-radius: 10px !important;
+  margin-bottom: 6px !important;
+  color: var(--hkz-text) !important;
+  box-shadow: none !important;
+}
+
+#app [class*='file_row']:hover,
+#app [class*='file_row'].bg-neutral-700:hover,
+#app [class*='file_row'].hover\:bg-neutral-600:hover {
+  background: var(--hkz-surface-row-hover) !important;
+  background-color: var(--hkz-surface-row-hover) !important;
+  background-image: none !important;
+  border-color: var(--hkz-border-hover) !important;
+  color: var(--hkz-text) !important;
+}
+
+#app [class*='file_row'] *,
+#app [class*='file_row'] *::before,
+#app [class*='file_row'] *::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#app [class*='chart_container'],
+#app [class*='chart_container'].bg-gray-600,
+#app [class*='chart_container'].bg-neutral-600,
+#app [class*='chart_container'].border-gray-700,
+#app [class*='chart_container'].border-b-4 {
+  background: var(--hkz-surface-panel) !important;
+  background-color: var(--hkz-surface-panel) !important;
+  border: 1px solid var(--hkz-line-soft) !important;
+  border-bottom-width: 1px !important;
+  border-bottom-color: var(--hkz-line-soft) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--hkz-shadow) !important;
+}
+
+#app [class*='chart_container'] .z-10,
+#app [class*='chart_container'] [class*='z-10'],
+#app [class*='chart_container'] > div {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+#app [class*='terminal'],
+#app div[class*='style-module'][class*='terminal'] {
+  background: var(--hkz-surface-console) !important;
+  border: 1px solid var(--hkz-line-soft) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--hkz-shadow) !important;
+  overflow: hidden !important;
+}
+
+#app [class*='terminal'] [class*='container'],
+#app [class*='terminal'] #terminal,
+#app [class*='terminal'] .xterm,
+#app [class*='terminal'] .xterm-viewport,
+#app [class*='terminal'] .xterm-screen,
+#app [class*='terminal'] .bg-black {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#app [class*='command_input'],
+#app input[class*='command_input'] {
+  background: var(--hkz-surface-console-bar) !important;
+  border: none !important;
+  border-top: 1px solid var(--hkz-line-soft) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: var(--hkz-text) !important;
+}
+
+#app [class*='command_input']:focus {
+  border-top-color: var(--hkz-accent-2) !important;
+}
+
+div[class*='SubNavigation'] a,
+div[class*='SubNavigation'] a:focus,
+div[class*='SubNavigation'] a:focus-visible,
+div[class*='SubNavigation'] a.active,
+div[class*='SubNavigation'] a[aria-current='page'] {
+  border: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+}
+
+div[class*='SubNavigation'] a.active,
+div[class*='SubNavigation'] a[aria-current='page'] {
+  background: transparent !important;
+  box-shadow: inset 0 -2px var(--hkz-accent-2) !important;
+  color: var(--hkz-text) !important;
+}

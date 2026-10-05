@@ -195,7 +195,8 @@ hkz_theme_assemble_css() {
         "${THEME_BASE}/client-files.css" \
         "${THEME_BASE}/nook-layout.css" \
         "${THEME_BASE}/client-console.css" \
-        "${THEME_BASE}/thin-guard.css"
+        "${THEME_BASE}/thin-guard.css" \
+        "${THEME_BASE}/nook-final.css"
     } >"$dest"
   else
     {
