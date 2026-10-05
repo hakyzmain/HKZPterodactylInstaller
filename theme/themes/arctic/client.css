@@ -22,42 +22,17 @@
   --hkz-focus-ring: 0 0 0 3px rgba(224, 242, 254, 0.35);
   --hkz-scrollbar: linear-gradient(#e0f2fe, #0ea5e9);
 }
-@keyframes hkz-arctic-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-@keyframes hkz-arctic-frost {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.35; }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(180deg, #0c1929 0%, #163a5f 40%, #0c1929 100%) !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.04) 45%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.04) 55%,
-    transparent 60%
-  );
-  background-size: 200% 100%;
-  animation: hkz-arctic-shimmer 8s linear infinite;
-}
-#app::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 8%),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06) 0%, transparent 6%);
-  animation: hkz-arctic-frost 10s ease-in-out infinite;
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

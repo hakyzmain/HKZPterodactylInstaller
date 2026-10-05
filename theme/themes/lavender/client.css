@@ -22,43 +22,17 @@
   --hkz-focus-ring: 0 0 0 3px rgba(240, 171, 252, 0.3);
   --hkz-scrollbar: linear-gradient(#c084fc, #f0abfc);
 }
-@keyframes hkz-lavender-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-@keyframes hkz-lavender-bg {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(135deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
-  background-size: 250% 250% !important;
-  animation: hkz-lavender-bg 24s ease infinite !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  top: 10%;
-  left: 5%;
-  background: radial-gradient(circle, rgba(240, 171, 252, 0.2), transparent 70%);
-  animation: hkz-lavender-float 8s ease-in-out infinite;
-  pointer-events: none;
+  inset: 0;
+  pointer-events: none !important;
   z-index: 0;
-}
-#app::after {
-  content: '';
-  position: fixed;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  bottom: 15%;
-  right: 8%;
-  background: radial-gradient(circle, rgba(192, 132, 252, 0.18), transparent 70%);
-  animation: hkz-lavender-float 10s ease-in-out infinite reverse;
-  pointer-events: none;
-  z-index: 0;
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

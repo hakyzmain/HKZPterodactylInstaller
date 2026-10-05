@@ -63,7 +63,7 @@ body,
 .modal-content {
   transform: none !important;
   filter: none !important;
-  backdrop-filter: none;
+  backdrop-filter: none !important;
 }
 
 input,
@@ -106,8 +106,35 @@ input[type='file'],
 input[type='checkbox'],
 input[type='radio'],
 .CodeMirror,
-.CodeMirror * {
+.CodeMirror *,
+.btn,
+.btn *,
+#app button,
+#app a[role='button'],
+#app [class*='Button'],
+#modal-portal button,
+#modal-portal [class*='Button'] {
   pointer-events: auto !important;
+}
+
+#app button,
+#app a[role='button'],
+#app [class*='Button'],
+#modal-portal button,
+#modal-portal [class*='Button'],
+.btn,
+.btn-primary,
+.btn-success,
+.btn-danger,
+.btn-warning,
+.btn-info,
+.btn-default {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  clip-path: none !important;
+  -webkit-clip-path: none !important;
 }
 
 input:not([type='checkbox']):not([type='radio']):not([type='file']):not([type='submit']):not([type='button']):not([type='reset']),
@@ -152,7 +179,7 @@ select.form-control {
 select option,
 select optgroup,
 .form-control option {
-  background-color: #14101f !important;
+  background-color: #12151c !important;
   color: #f1f5f9 !important;
   -webkit-text-fill-color: #f1f5f9 !important;
 }
@@ -259,4 +286,43 @@ body.bg-neutral-900,
 #app::before,
 #app::after {
   z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+#app #terminal,
+#app [class*='Console'],
+#app .xterm,
+#app .xterm-viewport,
+#app .xterm-screen {
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+#app #terminal,
+#app [class*='Console'] {
+  overflow: hidden !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+#app [class*='ServerContentBlock'] button,
+#app [class*='PowerButtons'] button,
+#app [class*='power'] button,
+#app button.bg-blue-500,
+#app button.bg-blue-600,
+#app button.bg-green-500,
+#app button.bg-green-600,
+#app button.bg-red-500,
+#app button.bg-red-600,
+#app button.bg-neutral-500,
+#app button.bg-neutral-600,
+#app button.bg-gray-500,
+#app button.bg-gray-600 {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 5 !important;
 }

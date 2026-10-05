@@ -23,25 +23,16 @@
   --hkz-scrollbar: linear-gradient(#a855f7, #38bdf8);
 }
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(160deg, var(--hkz-bg-1) 0%, var(--hkz-bg-2) 45%, var(--hkz-bg-3) 100%) !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
   background:
-    radial-gradient(ellipse 60% 40% at 12% 0%, rgba(168, 85, 247, 0.16), transparent 55%),
-    radial-gradient(ellipse 50% 35% at 90% 80%, rgba(56, 189, 248, 0.1), transparent 50%);
-}
-#app::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

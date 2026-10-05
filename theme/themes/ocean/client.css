@@ -22,49 +22,17 @@
   --hkz-focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.25);
   --hkz-scrollbar: linear-gradient(#06b6d4, #38bdf8);
 }
-@keyframes hkz-ocean-wave {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-@keyframes hkz-ocean-bubble {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 0.4; }
-  90% { opacity: 0.2; }
-  100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(180deg, var(--hkz-bg-2) 0%, var(--hkz-bg-1) 40%, #010a10 100%) !important;
-  background-size: 200% 200% !important;
-  animation: hkz-ocean-wave 16s ease infinite !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 40%;
-  pointer-events: none;
+  inset: 0;
+  pointer-events: none !important;
   z-index: 0;
-  background: linear-gradient(0deg, rgba(6, 182, 212, 0.12), transparent);
-}
-#app::after {
-  content: '';
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  left: 10%;
-  bottom: 5%;
-  box-shadow:
-    20vw 0 0 0 rgba(56, 189, 248, 0.15),
-    45vw 0 0 4px rgba(6, 182, 212, 0.2),
-    70vw 0 0 0 rgba(125, 211, 252, 0.12),
-    90vw 0 0 6px rgba(56, 189, 248, 0.18);
-  animation: hkz-ocean-bubble 14s ease-in infinite;
-  pointer-events: none;
-  z-index: 0;
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

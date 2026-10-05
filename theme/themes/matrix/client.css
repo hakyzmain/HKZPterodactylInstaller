@@ -22,34 +22,17 @@
   --hkz-focus-ring: 0 0 0 2px #00ff41, 0 0 10px rgba(0, 255, 65, 0.4);
   --hkz-scrollbar: #00ff41;
 }
-@keyframes hkz-matrix-fall {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 400px; }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: var(--hkz-bg-1) !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
+  background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
-  opacity: 0.12;
-  background-image: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 18px,
-    rgba(0, 255, 65, 0.15) 18px,
-    rgba(0, 255, 65, 0.15) 19px
-  );
-  animation: hkz-matrix-fall 12s linear infinite;
-}
-#app::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

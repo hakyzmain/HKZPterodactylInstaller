@@ -24,69 +24,17 @@
   --hkz-radius: 16px;
   --hkz-blur: 16px;
 }
-@keyframes hkz-glacier-flow {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes hkz-glacier-pulse {
-  0%, 100% { opacity: 0.45; transform: scale(1); }
-  50% { opacity: 0.9; transform: scale(1.03); }
-}
-@keyframes hkz-glacier-twinkle {
-  0%, 100% { opacity: 0.35; }
-  50% { opacity: 1; }
-}
-@keyframes hkz-glacier-scan {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(4px); }
-}
-@keyframes hkz-glacier-rotate {
-  to { transform: rotate(360deg); }
-}
-@keyframes hkz-glacier-curtain {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes hkz-glacier-hue {
-  to { filter: hue-rotate(360deg); }
-}
-@keyframes hkz-glacier-flash {
-  0%, 92%, 100% { opacity: 0; }
-  93% { opacity: 0.85; }
-  95% { opacity: 0.1; }
-}
-@keyframes hkz-glacier-sweep {
-  0% { left: -200px; opacity: 0; }
-  8% { opacity: 1; }
-  18% { left: 110%; opacity: 0; }
-  100% { left: 110%; opacity: 0; }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
-  background-size: 160% 160% !important;
-  animation: none !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
   background:
-    radial-gradient(ellipse 60% 45% at 12% 8%, rgba(2, 132, 199, 0.28), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 88% 85%, rgba(103, 232, 249, 0.22), transparent 50%);
-  
-}
-#app::after {
-  content: '';
-  position: fixed;
-  width: 180px;
-  height: 2px;
-  top: 25%;
-  left: -200px;
-  background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.7), transparent);
-  pointer-events: none;
-  z-index: 0;
-  animation: none !important;
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

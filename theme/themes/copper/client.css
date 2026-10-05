@@ -22,36 +22,17 @@
   --hkz-focus-ring: 0 0 0 3px rgba(251, 191, 36, 0.25);
   --hkz-scrollbar: linear-gradient(#d97706, #fbbf24);
 }
-@keyframes hkz-copper-bg {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes hkz-copper-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.95; transform: scale(1.03); }
-}
-@keyframes hkz-copper-steam {
-  0% { transform: translateY(0); opacity: 0.2; }
-  100% { transform: translateY(-40vh); opacity: 0; }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
-  background-size: 280% 280% !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
-  animation: none !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
-  background: radial-gradient(ellipse at 50% 100%, rgba(217, 119, 6, 0.25), transparent 55%);
-}
-#app::after {
-  content: '';
-  position: fixed;
-  pointer-events: none;
-  z-index: 0;
-  left: 30%; bottom: 0; width: 40%; height: 60%; background: radial-gradient(ellipse, rgba(251, 191, 36, 0.2), transparent 70%); animation: none !important;
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

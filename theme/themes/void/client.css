@@ -22,32 +22,17 @@
   --hkz-focus-ring: 0 0 0 3px rgba(167, 139, 250, 0.25);
   --hkz-scrollbar: linear-gradient(#7c3aed, #a78bfa);
 }
-@keyframes hkz-void-bg {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-@keyframes hkz-void-pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 0.95; transform: scale(1.03); }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
-  background-size: 280% 280% !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
-  animation: none !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
-  background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.15) 0%, transparent 70%); 
-}
-#app::after {
-  content: '';
-  position: fixed;
-  pointer-events: none;
-  z-index: 0;
-  inset: 0; box-shadow: inset 0 0 120px rgba(124, 58, 237, 0.25);
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }

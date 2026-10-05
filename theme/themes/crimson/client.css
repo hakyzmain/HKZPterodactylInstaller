@@ -22,23 +22,17 @@
   --hkz-focus-ring: 0 0 0 3px rgba(251, 113, 133, 0.3);
   --hkz-scrollbar: linear-gradient(#e11d48, #fb7185);
 }
-@keyframes hkz-crimson-pulse {
-  0%, 100% { box-shadow: inset 0 0 80px rgba(225, 29, 72, 0.08); }
-  50% { box-shadow: inset 0 0 120px rgba(225, 29, 72, 0.16); }
-}
 html, body, #app, body.bg-neutral-900 {
-  background: radial-gradient(ellipse at 50% 100%, #7f1d1d 0%, var(--hkz-bg-1) 55%) !important;
-  animation: hkz-crimson-pulse 6s ease-in-out infinite !important;
+  background: linear-gradient(160deg, var(--hkz-bg-1), var(--hkz-bg-2) 48%, var(--hkz-bg-3)) !important;
   background-attachment: fixed !important;
 }
 #app::before {
   content: '';
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  pointer-events: none !important;
   z-index: 0;
-  background: linear-gradient(180deg, rgba(225, 29, 72, 0.08), transparent 40%);
-}
-h1, h2 {
-  font-family: 'Libre Baskerville', serif !important;
+  background:
+    radial-gradient(ellipse 58% 42% at 8% 0%, color-mix(in srgb, var(--hkz-accent) 20%, transparent), transparent 58%),
+    radial-gradient(ellipse 48% 36% at 92% 88%, color-mix(in srgb, var(--hkz-accent-2) 14%, transparent), transparent 52%);
 }
