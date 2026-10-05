@@ -57,7 +57,6 @@
     var rows = document.querySelectorAll('#app [class*="file_row"]');
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
-      if (row.getAttribute('data-hkz-file') === '1') continue;
       setImp(row, 'position', 'relative');
       setImp(row, 'background', rowBg);
       setImp(row, 'background-color', rowBg);
@@ -79,7 +78,6 @@
         }
         clearPaint(kid);
       }
-      row.setAttribute('data-hkz-file', '1');
     }
   }
 
