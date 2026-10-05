@@ -244,7 +244,7 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   box-shadow: none !important;
 }
 
-#app input[type='text'],
+#app input[type='text']:not([class*='command_input']),
 #app input[type='password'],
 #app input[type='email'],
 #app input[type='number'],
@@ -259,7 +259,7 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
 #modal-portal input[type='search'],
 #modal-portal textarea,
 #modal-portal select,
-.Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']) {
+.Input-sc-19rce1w-0:not([type='checkbox']):not([type='radio']):not([class*='command_input']) {
   background-color: var(--hkz-input-bg, rgba(0, 0, 0, 0.42)) !important;
   border: 1px solid var(--hkz-line) !important;
   color: var(--hkz-text, #e8ecf4) !important;

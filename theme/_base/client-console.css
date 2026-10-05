@@ -1,110 +1,26 @@
-:root {
-  --hkz-stat-ok: color-mix(in srgb, var(--hkz-accent-2) 42%, var(--hkz-surface-panel));
-  --hkz-stat-warn: linear-gradient(180deg, #fbbf24, #d97706);
-  --hkz-stat-danger: var(--hkz-btn-danger);
-  --hkz-chart-accent: var(--hkz-accent-2);
-}
-
-div.server-console-style-module__stat_block,
-#app [class*='stat_block'][class*='style-module'] {
-  background: var(--hkz-surface-panel) !important;
-  border: 1px solid var(--hkz-line-soft) !important;
-  border-radius: 12px !important;
-  box-shadow: var(--hkz-shadow) !important;
-  color: var(--hkz-text) !important;
-}
-
-div.server-console-style-module__stat_block > [class*='status_bar'],
-#app [class*='stat_block'] > [class*='status_bar'] {
-  border-radius: 12px 0 0 12px !important;
-}
-
-div.server-console-style-module__stat_block > [class*='status_bar'].bg-gray-700,
-div.server-console-style-module__stat_block > [class*='icon'].bg-gray-700,
-#app [class*='stat_block'] > [class*='status_bar'].bg-gray-700,
-#app [class*='stat_block'] > [class*='icon'].bg-gray-700 {
-  background: var(--hkz-stat-ok) !important;
-}
-
-div.server-console-style-module__stat_block > [class*='status_bar'].bg-yellow-500,
-div.server-console-style-module__stat_block > [class*='icon'].bg-yellow-500,
-#app [class*='stat_block'] > [class*='status_bar'].bg-yellow-500,
-#app [class*='stat_block'] > [class*='icon'].bg-yellow-500 {
-  background: var(--hkz-stat-warn) !important;
-  border: none !important;
-}
-
-div.server-console-style-module__stat_block > [class*='status_bar'].bg-red-500,
-div.server-console-style-module__stat_block > [class*='icon'].bg-red-500,
-#app [class*='stat_block'] > [class*='status_bar'].bg-red-500,
-#app [class*='stat_block'] > [class*='icon'].bg-red-500 {
-  background: var(--hkz-stat-danger) !important;
-  border: none !important;
-}
-
-div.server-console-style-module__stat_block > .icon,
-div.server-console-style-module__stat_block > [class*='icon']:not(.bg-yellow-500):not(.bg-red-500) {
-  border: 1px solid var(--hkz-line-soft) !important;
-  box-shadow: var(--hkz-shadow) !important;
-}
-
-div.server-console-style-module__stat_block p,
-div.server-console-style-module__stat_block span,
-div.server-console-style-module__stat_block h3,
-#app [class*='stat_block'] p,
-#app [class*='stat_block'] span {
-  color: var(--hkz-text) !important;
-}
-
-div.server-console-style-module__stat_block .text-gray-200,
-div.server-console-style-module__stat_block .text-neutral-400,
-div.server-console-style-module__stat_block .text-neutral-500,
-#app [class*='stat_block'] .text-gray-200,
-#app [class*='stat_block'] .text-neutral-400,
-#app [class*='stat_block'] .text-neutral-500 {
-  color: color-mix(in srgb, var(--hkz-text) 70%, var(--hkz-accent-2)) !important;
-}
-
-div.server-console-style-module__chart_container,
-[class*='style-module_chart_container'],
-#app div[class*='chart_container'],
+#app [class*='chart_container'],
 #app [class*='chart_container'].bg-gray-600,
-#app [class*='chart_container'].border-gray-700 {
+#app [class*='chart_container'].border-gray-700,
+#app [class*='chart_container'].border-b-4 {
   background: var(--hkz-surface-panel) !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
   border: 1px solid var(--hkz-line-soft) !important;
   border-bottom: 1px solid var(--hkz-line-soft) !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   box-shadow: var(--hkz-shadow) !important;
   overflow: hidden !important;
-  padding-top: 0.5rem !important;
+  backdrop-filter: none !important;
 }
 
-#app [class*='chart_container'] > .flex.items-center,
-#app [class*='chart_container'] > div:first-child {
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  padding-top: 0.25rem !important;
-  padding-bottom: 0.5rem !important;
+#app [class*='chart_container'] .z-10,
+#app [class*='chart_container'] [class*='z-10'],
+#app [class*='chart_container'] > div {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 #app [class*='chart_container'] h3,
 #app [class*='chart_container'] .font-header {
-  color: color-mix(in srgb, var(--hkz-text) 78%, transparent) !important;
-  font-size: 0.75rem !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-}
-
-#app [class*='chart_container'].group:hover h3,
-#app [class*='chart_container']:hover h3 {
-  color: var(--hkz-text) !important;
-}
-
-#app [class*='chart_container'] > p,
-#app [class*='chart_container'] .text-sm {
-  color: color-mix(in srgb, var(--hkz-text) 70%, var(--hkz-accent-2)) !important;
+  color: color-mix(in srgb, var(--hkz-text) 80%, transparent) !important;
 }
 
 #app [class*='chart_container'] .text-cyan-400,
@@ -112,160 +28,96 @@ div.server-console-style-module__chart_container,
   color: var(--hkz-accent-2) !important;
 }
 
-#app [class*='chart_container'] .text-yellow-400,
-#app [class*='chart_container'] .text-yellow-500 {
-  color: #facc15 !important;
+#app [class*='stat_block'][class*='style-module'],
+div.server-console-style-module__stat_block {
+  background: var(--hkz-surface-panel) !important;
+  border: 1px solid var(--hkz-line-soft) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--hkz-shadow) !important;
+  color: var(--hkz-text) !important;
 }
 
-#app [class*='chart_container'] .z-10,
-#app [class*='chart_container'] [class*='z-10'] {
-  position: relative !important;
-  z-index: 2 !important;
-  margin-left: 0.5rem !important;
-  padding: 0 0.5rem 0.5rem 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  border-radius: 0 !important;
-}
-
-#app [class*='chart_container'] canvas {
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  background: transparent !important;
-}
-
-#app [class*='terminal'],
-#app [class*='style-module'][class*='terminal'] {
-  position: relative !important;
+#app [class*='style-module'][class*='terminal'].relative,
+#app div[class*='terminal'].relative,
+#app [class*='terminal'].relative {
   display: flex !important;
   flex-direction: column !important;
   width: 100% !important;
-  border: 1px solid var(--hkz-line-soft) !important;
-  border-radius: 12px !important;
+  max-width: 100% !important;
   background: var(--hkz-surface-console) !important;
+  border: 1px solid var(--hkz-line-soft) !important;
+  border-radius: 8px !important;
   box-shadow: var(--hkz-shadow) !important;
   overflow: hidden !important;
   isolation: isolate !important;
 }
 
-#app [class*='terminal']::before,
-#app [class*='terminal']::after,
-#app [class*='style-module'][class*='terminal']::before,
-#app [class*='style-module'][class*='terminal']::after {
-  content: none !important;
-  display: none !important;
-}
-
-#app [class*='terminal']:focus-within {
-  border-color: var(--hkz-border-hover) !important;
-  box-shadow:
-    var(--hkz-shadow),
-    0 0 0 1px color-mix(in srgb, var(--hkz-accent-2) 28%, transparent) !important;
-}
-
+#app [class*='overflows_container'],
 #app [class*='terminal'] [class*='overflows_container'] {
   margin-left: 0 !important;
+  margin-right: 0 !important;
   width: 100% !important;
   max-width: 100% !important;
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
 }
 
 #app [class*='terminal'] [class*='container'],
 #app [class*='terminal'] > [class*='container'] {
-  background: transparent !important;
-  background-color: transparent !important;
+  background: var(--hkz-surface-console) !important;
+  background-color: var(--hkz-surface-console) !important;
   border: none !important;
-  border-bottom: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   min-height: 16rem !important;
   padding: 0.5rem !important;
-  flex: 1 1 auto !important;
-  overflow: hidden !important;
-}
-
-#app [class*='terminal'] [class*='container'] > .h-full,
-#app [class*='terminal'] [class*='container'] > .h-full > div,
-#app [class*='terminal'] #terminal {
-  min-height: 14rem !important;
-  height: 100% !important;
   width: 100% !important;
   max-width: 100% !important;
-  overflow: hidden !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+  margin: 0 !important;
 }
 
 #app [class*='terminal'] .xterm,
-#app [class*='terminal'] .xterm .xterm-viewport,
-#app [class*='terminal'] .xterm .xterm-screen,
+#app [class*='terminal'] .xterm-viewport,
+#app [class*='terminal'] .xterm-screen,
 #app [class*='terminal'] .xterm-rows,
-#app [class*='terminal'] .bg-black,
-#app [class*='terminal'] .bg-neutral-600,
-#app [class*='terminal'] .bg-neutral-700,
-#app [class*='terminal'] .bg-gray-600,
-#app [class*='terminal'] .bg-gray-700,
-#app [class*='terminal'] .bg-gray-900 {
+#app [class*='terminal'] .xterm-rows > div,
+#app [class*='terminal'] .bg-black {
   background: transparent !important;
   background-color: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
 
-#app [class*='terminal'] .xterm {
-  width: 100% !important;
-  max-width: 100% !important;
-  padding: 0 !important;
-}
-
-#app [class*='terminal'] .xterm .xterm-viewport {
+#app [class*='terminal'] .xterm-viewport {
   overflow-y: auto !important;
 }
 
-#app [class*='terminal'] .xterm canvas {
-  display: block !important;
-  max-width: 100% !important;
+#app [class*='terminal'] canvas {
   background: transparent !important;
 }
 
-#app [class*='terminal'] .xterm-helper-textarea {
-  z-index: 1 !important;
-}
-
-#app [class*='command_input'],
-#app [class*='style-module'][class*='command_input'] {
+#app input[class*='command_input'],
+#app [class*='command_input'] {
   background: var(--hkz-surface-console-bar) !important;
+  background-color: var(--hkz-surface-console-bar) !important;
   color: var(--hkz-text) !important;
   border: none !important;
   border-top: 1px solid var(--hkz-line-soft) !important;
-  border-bottom: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   outline: none !important;
+  -webkit-text-fill-color: var(--hkz-text) !important;
 }
 
-#app [class*='command_input']:focus,
-#app [class*='command_input']:active,
-#app [class*='command_input'].peer:focus {
+#app input[class*='command_input']:focus,
+#app [class*='command_input']:focus {
   border-top-color: var(--hkz-accent-2) !important;
-  outline: none !important;
   box-shadow: none !important;
+  outline: none !important;
 }
 
-#app [class*='command_input']::placeholder {
-  color: color-mix(in srgb, var(--hkz-text) 45%, transparent) !important;
-  opacity: 1 !important;
-}
-
-#app [class*='command_icon'],
-#app [class*='style-module'][class*='command_icon'] {
-  color: color-mix(in srgb, var(--hkz-text) 55%, var(--hkz-accent-2)) !important;
-}
-
-#app [class*='command_input']:focus ~ [class*='command_icon'],
-#app .peer:focus ~ [class*='command_icon'] {
+#app [class*='command_icon'] {
   color: var(--hkz-accent-2) !important;
 }
 
@@ -273,11 +125,11 @@ div.server-console-style-module__chart_container,
   width: 8px !important;
 }
 
-#app [class*='terminal'] ::-webkit-scrollbar-track {
-  background: transparent !important;
+#app [class*='terminal'] ::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--hkz-accent) 55%, transparent) !important;
+  border-radius: 999px !important;
 }
 
-#app [class*='terminal'] ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--hkz-accent) 40%, var(--hkz-bg-1)) !important;
-  border-radius: 999px !important;
+#app [class*='terminal'] ::-webkit-scrollbar-track {
+  background: transparent !important;
 }

@@ -1,113 +1,51 @@
 :root {
-  --hkz-surface-row: color-mix(in srgb, var(--hkz-glass) 88%, var(--hkz-bg-1));
-  --hkz-surface-row-hover: color-mix(in srgb, var(--hkz-nav-hover) 70%, var(--hkz-glass));
-  --hkz-surface-panel: color-mix(in srgb, var(--hkz-glass) 92%, var(--hkz-bg-2));
-  --hkz-surface-console: color-mix(in srgb, var(--hkz-input-bg) 82%, #000);
-  --hkz-surface-console-bar: color-mix(in srgb, var(--hkz-glass) 55%, var(--hkz-input-bg));
-  --hkz-line-soft: color-mix(in srgb, var(--hkz-border) 80%, transparent);
-  --hkz-chart-grid: color-mix(in srgb, var(--hkz-accent-2) 12%, transparent);
+  --hkz-surface-row: color-mix(in srgb, var(--hkz-glass) 92%, var(--hkz-bg-1));
+  --hkz-surface-row-hover: color-mix(in srgb, var(--hkz-nav-hover) 85%, var(--hkz-glass));
+  --hkz-surface-panel: color-mix(in srgb, var(--hkz-glass) 90%, var(--hkz-bg-2));
+  --hkz-surface-console: #0a0a0c;
+  --hkz-surface-console-bar: color-mix(in srgb, var(--hkz-input-bg) 88%, #050508);
+  --hkz-line-soft: color-mix(in srgb, var(--hkz-border) 90%, var(--hkz-accent));
+  --hkz-chart-grid: color-mix(in srgb, var(--hkz-accent-2) 14%, transparent);
 }
 
 #app > nav,
 #app nav[class*='Navigation'] {
-  background: color-mix(in srgb, var(--hkz-bg-1) 72%, var(--hkz-glass)) !important;
+  background: color-mix(in srgb, var(--hkz-bg-1) 78%, var(--hkz-glass)) !important;
   border-bottom: 1px solid var(--hkz-line-soft) !important;
   box-shadow: none !important;
-  backdrop-filter: none !important;
 }
 
 div[class*='SubNavigation'] {
-  background: color-mix(in srgb, var(--hkz-bg-1) 72%, var(--hkz-glass)) !important;
-  border-top: none !important;
+  background: color-mix(in srgb, var(--hkz-bg-1) 78%, var(--hkz-glass)) !important;
+  border: none !important;
   border-bottom: 1px solid var(--hkz-line-soft) !important;
   box-shadow: none !important;
-  overflow-x: auto !important;
 }
 
-div[class*='SubNavigation'] > div {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 8px;
-  padding-right: 8px;
-}
-
-div[class*='SubNavigation'] a {
-  display: inline-block !important;
-  padding: 12px 16px !important;
-  margin: 0 0 0 8px !important;
-  border: none !important;
-  border-radius: 0 !important;
-  outline: none !important;
-  background: transparent !important;
-  color: color-mix(in srgb, var(--hkz-text) 72%, transparent) !important;
-  box-shadow: none !important;
-  white-space: nowrap;
-}
-
+div[class*='SubNavigation'] a,
 div[class*='SubNavigation'] a:focus,
 div[class*='SubNavigation'] a:focus-visible {
-  outline: none !important;
   border: none !important;
-  box-shadow: none !important;
-}
-
-div[class*='SubNavigation'] a:first-child {
-  margin-left: 0 !important;
-}
-
-div[class*='SubNavigation'] a:hover {
-  color: var(--hkz-text) !important;
+  outline: none !important;
+  border-radius: 0 !important;
   background: transparent !important;
+  box-shadow: none !important;
+  color: color-mix(in srgb, var(--hkz-text) 75%, transparent) !important;
+  padding: 12px 16px !important;
 }
 
 div[class*='SubNavigation'] a.active,
 div[class*='SubNavigation'] a[aria-current='page'] {
   color: var(--hkz-text) !important;
   background: transparent !important;
-  border: none !important;
-  outline: none !important;
   box-shadow: inset 0 -2px var(--hkz-accent-2) !important;
-}
-
-[class*='GreyRowBox'],
-a[class*='GreyRowBox'],
-div[class*='StatBlock'],
-div[class*='TitledGreyBox'],
-div[class*='ContentBox'],
-div[class*='InformationBox'] {
-  background: var(--hkz-surface-panel) !important;
-  border: 1px solid var(--hkz-line-soft) !important;
-  border-radius: 12px !important;
-  box-shadow: var(--hkz-shadow) !important;
-  filter: none !important;
-  color: var(--hkz-text) !important;
 }
 
 #app button.bg-blue-500,
 #app button.bg-blue-600,
 #modal-portal button.bg-blue-500,
-#modal-portal button.bg-blue-600,
-#app [class*='manager_actions'] button.bg-blue-500,
-#app [class*='manager_actions'] button.bg-blue-600,
-#app [class*='FileManagerContainer'] button.bg-blue-500,
-#app [class*='FileManagerContainer'] button.bg-blue-600 {
+#modal-portal button.bg-blue-600 {
   background: var(--hkz-btn) !important;
-  color: #fff !important;
-  border: none !important;
-  box-shadow: 0 8px 18px color-mix(in srgb, var(--hkz-accent) 22%, transparent) !important;
-}
-
-#app button.bg-green-500,
-#app button.bg-green-600 {
-  background: var(--hkz-btn-success) !important;
-  color: #fff !important;
-  border: none !important;
-}
-
-#app button.bg-red-500,
-#app button.bg-red-600 {
-  background: var(--hkz-btn-danger) !important;
   color: #fff !important;
   border: none !important;
 }
@@ -115,20 +53,20 @@ div[class*='InformationBox'] {
 #app button.bg-neutral-500,
 #app button.bg-neutral-600,
 #app button.bg-gray-500,
-#app button.bg-gray-600,
-#app [class*='manager_actions'] button.bg-neutral-500,
-#app [class*='manager_actions'] button.bg-neutral-600,
-#app [class*='manager_actions'] button.bg-gray-500,
-#app [class*='manager_actions'] button.bg-gray-600 {
-  background: color-mix(in srgb, var(--hkz-glass) 70%, var(--hkz-bg-2)) !important;
+#app button.bg-gray-600 {
+  background: color-mix(in srgb, var(--hkz-glass) 75%, var(--hkz-bg-2)) !important;
   color: var(--hkz-text) !important;
   border: 1px solid var(--hkz-line-soft) !important;
 }
 
-#app [class*='manager_actions'] button,
-#app [class*='FileManagerContainer'] button,
-#app [class*='FileManager'] button {
-  border-radius: 10px !important;
-  font-weight: 600 !important;
-  opacity: 1 !important;
+#app button.bg-green-500,
+#app button.bg-green-600 {
+  background: var(--hkz-btn-success) !important;
+  color: #fff !important;
+}
+
+#app button.bg-red-500,
+#app button.bg-red-600 {
+  background: var(--hkz-btn-danger) !important;
+  color: #fff !important;
 }

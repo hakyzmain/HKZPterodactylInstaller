@@ -1,72 +1,70 @@
-#app [class*='file_row'],
-#app tr[class*='file_row'],
-#app [class*='FileObjectRow'] {
+#app [class*='file_row'] {
+  position: relative !important;
   display: flex !important;
   align-items: center !important;
+  width: 100% !important;
   background: var(--hkz-surface-row) !important;
+  background-color: var(--hkz-surface-row) !important;
   background-image: none !important;
   color: var(--hkz-text) !important;
-  border: 1px solid var(--hkz-line-soft) !important;
-  border-radius: 10px !important;
-  margin-bottom: 6px !important;
-  min-height: 2.75rem !important;
+  border: none !important;
+  outline: none !important;
+  border-radius: 2px !important;
+  margin: 0 0 1px 0 !important;
+  padding: 0 !important;
   box-shadow: none !important;
-  overflow: hidden !important;
+  filter: none !important;
+  min-height: 2.5rem !important;
+  overflow: visible !important;
 }
 
-#app [class*='file_row']:hover,
-#app tr[class*='file_row']:hover {
+#app [class*='file_row']:hover {
   background: var(--hkz-surface-row-hover) !important;
-  background-image: none !important;
+  background-color: var(--hkz-surface-row-hover) !important;
   color: var(--hkz-text) !important;
-  border-color: var(--hkz-border-hover) !important;
 }
 
 #app [class*='file_row'] *,
 #app [class*='file_row'] *::before,
-#app [class*='file_row'] *::after,
-#app [class*='file_row'] > div,
-#app [class*='file_row'] > a,
-#app [class*='file_row'] a,
-#app [class*='file_row'] [class*='details'],
-#app [class*='file_row'] .bg-neutral-600,
-#app [class*='file_row'] .bg-neutral-700,
-#app [class*='file_row'] .bg-gray-600,
-#app [class*='file_row'] .bg-gray-700,
-#app [class*='file_row'] .bg-black,
-#app [class*='file_row'] .bg-neutral-800,
-#app [class*='file_row'] .bg-gray-800 {
+#app [class*='file_row'] *::after {
   background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
-  border-color: transparent !important;
+  border: none !important;
+  outline: none !important;
   box-shadow: none !important;
+  filter: none !important;
 }
 
-#app [class*='file_row'] a,
-#app [class*='file_row'] a:visited,
-#app [class*='file_row'] a[class*='details'],
-#app [class*='file_row'] [class*='details'] {
+#app [class*='file_row'] [class*='details'],
+#app [class*='file_row'] > a,
+#app [class*='file_row'] > div {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
   color: var(--hkz-text) !important;
   text-decoration: none !important;
 }
 
-#app [class*='file_row']:hover a,
-#app [class*='file_row']:hover [class*='details'],
-#app [class*='file_row'] a:hover {
-  color: var(--hkz-text) !important;
-}
-
 #app [class*='file_row'] .text-neutral-300,
-#app [class*='file_row'] .text-neutral-400,
-#app [class*='file_row'] [class*='details'] .text-neutral-300,
-#app [class*='file_row'] [class*='details'] .text-neutral-400 {
-  color: color-mix(in srgb, var(--hkz-text) 72%, var(--hkz-accent-2)) !important;
+#app [class*='file_row'] .text-neutral-400 {
+  color: color-mix(in srgb, var(--hkz-text) 70%, var(--hkz-accent-2)) !important;
 }
 
-#app [class*='file_row'] svg,
-#app [class*='file_row'] [class*='fa-'] {
+#app [class*='file_row'] svg {
   color: var(--hkz-accent-2) !important;
+}
+
+#app [class*='file_row'] input[type='checkbox'],
+#app [class*='file_row'] input[type='checkbox']::before,
+#app [class*='file_row'] input[type='checkbox']::after {
+  background: transparent !important;
+  border: 1px solid color-mix(in srgb, var(--hkz-text) 45%, transparent) !important;
+  box-shadow: none !important;
+}
+
+#app [class*='file_row'] input[type='checkbox']:checked {
+  background: var(--hkz-accent) !important;
+  border-color: var(--hkz-accent) !important;
 }
 
 #app div.bg-white.absolute,
@@ -80,8 +78,6 @@
   z-index: 60 !important;
 }
 
-#app div.bg-white.text-neutral-500,
-#modal-portal div.bg-white.text-neutral-500,
 #app div.bg-white > div span,
 #app div.bg-white > div svg,
 #modal-portal div.bg-white > div span {
@@ -94,23 +90,12 @@
   color: #fff !important;
 }
 
-#app div.bg-white .hover\:bg-red-100:hover,
-#app div.bg-white .hover\:text-red-700:hover {
-  background: color-mix(in srgb, var(--hkz-btn-danger) 35%, var(--hkz-glass)) !important;
-  color: #fff !important;
-}
-
-#app div.bg-white svg {
-  color: var(--hkz-accent-2) !important;
-}
-
 #app .CodeMirror {
   background: var(--hkz-surface-console) !important;
   color: var(--hkz-text) !important;
   border: 1px solid var(--hkz-line-soft) !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   min-height: 16rem !important;
-  font-family: var(--hkz-font-mono, 'IBM Plex Mono', ui-monospace, monospace) !important;
 }
 
 #app .CodeMirror-gutters {
@@ -126,32 +111,8 @@
   border-left-color: var(--hkz-accent) !important;
 }
 
-#app .CodeMirror-selected,
-#app .CodeMirror-focused .CodeMirror-selected {
-  background: color-mix(in srgb, var(--hkz-accent) 32%, transparent) !important;
-}
-
-#app .CodeMirror-activeline-background {
-  background: color-mix(in srgb, var(--hkz-accent) 12%, transparent) !important;
-}
-
-#app .CodeMirror-scroll {
-  min-height: 16rem !important;
-}
-
 #app [class*='EditorContainer'] > div,
 #app [class*='EditorContainer'] .CodeMirror {
   height: calc(100vh - 20rem) !important;
   min-height: 16rem !important;
-}
-
-#app .CodeMirror-hints {
-  background: color-mix(in srgb, var(--hkz-glass) 95%, var(--hkz-input-bg)) !important;
-  border: 1px solid var(--hkz-border) !important;
-  color: var(--hkz-text) !important;
-}
-
-#app .CodeMirror-hint-active {
-  background: var(--hkz-surface-row-hover) !important;
-  color: var(--hkz-text) !important;
 }
