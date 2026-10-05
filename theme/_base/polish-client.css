@@ -125,8 +125,9 @@ div[class*='SubNavigation'] a:hover {
 
 div[class*='SubNavigation'] a.active,
 div[class*='SubNavigation'] a[aria-current='page'] {
-  color: #fff !important;
-  background: var(--hkz-nav-active, color-mix(in srgb, var(--hkz-accent) 48%, transparent)) !important;
+  color: #f4f4f5 !important;
+  background: transparent !important;
+  box-shadow: inset 0 -2px var(--hkz-accent-2, #0891b2) !important;
 }
 
 [class*='GreyRowBox'],
@@ -176,31 +177,6 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   overflow: hidden !important;
   background: color-mix(in srgb, var(--hkz-card) 80%, #000) !important;
   border: 1px solid var(--hkz-line) !important;
-}
-
-#app #terminal,
-#app [class*='Console'] > div,
-#app [class*='console'] > div,
-#app .xterm,
-#app .xterm-screen {
-  border-radius: var(--hkz-radius) !important;
-}
-
-#app #terminal,
-#app [class*='Console'] {
-  overflow: hidden !important;
-  border: 1px solid var(--hkz-line) !important;
-  border-radius: var(--hkz-radius) !important;
-  background: #07080a !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
-}
-
-#app .xterm .xterm-viewport {
-  background-color: #07080a !important;
-}
-
-#app .xterm canvas {
-  background-color: transparent !important;
 }
 
 #app button,

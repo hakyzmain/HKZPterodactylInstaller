@@ -192,7 +192,9 @@ hkz_theme_assemble_css() {
       hkz_theme_client_skin "${THEMES_DIR}/${id}/client.css"
       cat "${THEME_BASE}/polish-client.css" \
         "${THEME_BASE}/client-compat.css" \
+        "${THEME_BASE}/client-files.css" \
         "${THEME_BASE}/nook-layout.css" \
+        "${THEME_BASE}/client-console.css" \
         "${THEME_BASE}/thin-guard.css"
     } >"$dest"
   else

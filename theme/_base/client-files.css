@@ -1,13 +1,18 @@
 #app [class*='file_row'] {
-  background: var(--hkz-chip-bg) !important;
-  color: var(--hkz-text) !important;
-  border: 1px solid color-mix(in srgb, var(--hkz-border) 65%, transparent) !important;
-  border-radius: 6px !important;
+  background: #17171b !important;
+  color: #d4d4d8 !important;
+  border: none !important;
+  border-radius: 2px !important;
 }
 #app [class*='file_row']:hover {
-  background: var(--hkz-surface-hover) !important;
-  color: var(--hkz-text) !important;
-  border-color: var(--hkz-border) !important;
+  background: #262626 !important;
+  color: #f4f4f5 !important;
+}
+#app [class*='file_row'] *,
+#app [class*='file_row'] > div,
+#app [class*='file_row'] a[class*='details'] {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 #app [class*='file_row'] a,
 #app [class*='file_row'] a:visited,

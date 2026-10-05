@@ -3,12 +3,12 @@
   --hkz-stat-warn: linear-gradient(180deg, #fbbf24, #d97706);
   --hkz-stat-danger: var(--hkz-btn-danger);
   --hkz-chart-accent: color-mix(in srgb, var(--hkz-accent-2) 50%, var(--hkz-accent));
-  --hkz-chart-surface: color-mix(in srgb, var(--hkz-glass) 90%, var(--hkz-input-bg));
-  --hkz-chart-plot: color-mix(in srgb, var(--hkz-input-bg) 75%, #060608);
+  --hkz-chart-surface: #212121;
+  --hkz-chart-plot: #212121;
   --hkz-console-bg: #0a0a0c;
   --hkz-console-bar: color-mix(in srgb, var(--hkz-input-bg) 88%, #050508);
-  --hkz-console-frame: var(--hkz-border);
-  --hkz-console-frame-active: var(--hkz-border-hover);
+  --hkz-console-frame: #2a2a2a;
+  --hkz-console-frame-active: var(--hkz-accent-2, #0891b2);
 }
 div.server-console-style-module__stat_block,
 #app [class*='stat_block'][class*='style-module'] {
@@ -74,18 +74,19 @@ div.server-console-style-module__chart_container,
 #app div[class*='chart_container'].group,
 #app [class*='chart_container'].bg-gray-600 {
   background: var(--hkz-chart-surface) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px solid var(--hkz-border) !important;
-  border-bottom: 4px solid var(--hkz-chart-accent) !important;
-  border-radius: 0.5rem !important;
+  border-bottom: 1px solid #2a2a2a !important;
+  border-radius: 8px !important;
   box-shadow: var(--hkz-shadow) !important;
   overflow: hidden !important;
   padding-top: 0.5rem !important;
 }
 div.server-console-style-module__chart_container.border-gray-700,
 #app [class*='chart_container'].border-gray-700 {
-  border-bottom-color: var(--hkz-chart-accent) !important;
+  border-color: #2a2a2a !important;
+  border-bottom-color: #2a2a2a !important;
 }
 #app [class*='chart_container'] > .flex.items-center,
 #app [class*='chart_container'] > div:first-child {
@@ -123,8 +124,8 @@ div.server-console-style-module__chart_container.border-gray-700,
   z-index: 2 !important;
   margin-left: 0.5rem !important;
   padding: 0 0.5rem 0.5rem 0 !important;
-  background: var(--hkz-chart-plot) !important;
-  border-radius: 0 0 0.35rem 0.35rem !important;
+  background: #212121 !important;
+  border-radius: 0 !important;
 }
 #app [class*='chart_container'] canvas {
   display: block !important;
@@ -211,6 +212,19 @@ div.server-console-style-module__chart_container.border-gray-700,
 }
 #app [class*='terminal'] .xterm-helper-textarea {
   z-index: 1 !important;
+}
+#app [class*='terminal'] .bg-neutral-600,
+#app [class*='terminal'] .bg-neutral-700,
+#app [class*='terminal'] .bg-gray-600,
+#app [class*='terminal'] .bg-gray-700,
+#app [class*='terminal'] [class*='container'] > div,
+#app [class*='terminal'] .xterm-rows {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+#app [class*='terminal'] [class*='container'],
+#app [class*='terminal'] .xterm-viewport {
+  background: var(--hkz-console-bg) !important;
 }
 #app [class*='command_input'],
 #app [class*='style-module'][class*='command_input'] {

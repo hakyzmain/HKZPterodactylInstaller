@@ -171,10 +171,20 @@ div[class*='ServerContentBlock'] > div > div.bg-neutral-700:not([class*='chart_c
   color: var(--hkz-text) !important;
 }
 #app [class*='file_row'] [class*='details'] {
-  color: var(--hkz-text-dim) !important;
+  color: inherit !important;
+  background: transparent !important;
 }
 #app [class*='file_row']:hover [class*='details'] {
-  color: var(--hkz-text) !important;
+  color: inherit !important;
+}
+#app [class*='file_row'] .bg-neutral-600,
+#app [class*='file_row'] .bg-neutral-700,
+#app [class*='file_row'] .bg-gray-600,
+#app [class*='file_row'] .bg-gray-700,
+#app [class*='file_row'] a[class*='details'],
+#app [class*='file_row'] > div {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 #app table thead th,
 #modal-portal table thead th {
