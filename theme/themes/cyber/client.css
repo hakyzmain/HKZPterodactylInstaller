@@ -38,7 +38,7 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
   background-size: 280% 280% !important;
   background-attachment: fixed !important;
-  animation: none ease infinite !important;
+  animation: none !important;
 }
 #app::before {
   content: '';
@@ -53,6 +53,6 @@ html, body, #app, body.bg-neutral-900 {
   position: fixed;
   pointer-events: none;
   z-index: 0;
-  inset: 0; background-image: linear-gradient(rgba(0, 255, 136, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 136, 0.15) 1px, transparent 1px); background-size: 40px 40px; animation: none linear infinite;
+  inset: 0; background-image: linear-gradient(rgba(0, 255, 136, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 136, 0.15) 1px, transparent 1px); background-size: 40px 40px; animation: none !important;
 }
 h1, h2 { text-shadow: 0 0 8px #00ff88; color: #00d4ff !important; }

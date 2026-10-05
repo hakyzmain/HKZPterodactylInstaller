@@ -39,7 +39,7 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(145deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3)) !important;
   background-size: 280% 280% !important;
   background-attachment: fixed !important;
-  animation: none ease infinite !important;
+  animation: none !important;
 }
 #app::before {
   content: '';
@@ -64,5 +64,5 @@ html, body, #app, body.bg-neutral-900 {
     radial-gradient(5px 5px at 55% 0%, #f9a8d4, transparent),
     radial-gradient(3px 3px at 75% 0%, #fbcfe8, transparent);
   background-size: 100% 100%;
-  animation: none linear infinite;
+  animation: none !important;
 }

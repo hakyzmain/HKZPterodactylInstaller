@@ -64,7 +64,7 @@
 html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(-45deg, var(--hkz-bg-1), var(--hkz-bg-2), var(--hkz-bg-3), var(--hkz-bg-1)) !important;
   background-size: 160% 160% !important;
-  animation: none ease infinite !important;
+  animation: none !important;
   background-attachment: fixed !important;
 }
 #app::before {
@@ -88,5 +88,5 @@ html, body, #app, body.bg-neutral-900 {
   background: linear-gradient(90deg, transparent, rgba(192, 132, 252, 0.7), transparent);
   pointer-events: none;
   z-index: 0;
-  animation: none ease-in-out infinite;
+  animation: none !important;
 }
