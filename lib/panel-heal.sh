@@ -210,10 +210,17 @@ hkz_panel_heal() {
 hkz_panel_finalize() {
   local attempt=1 max=3
   msg_step "$(hkz_t panel_finalize)"
+  if type hkz_nginx_ensure_latest >/dev/null 2>&1; then
+    hkz_nginx_ensure_latest >>"$LOG_PATH" 2>&1 || true
+  fi
   while [ "$attempt" -le "$max" ]; do
     hkz_panel_heal || true
     hkz_ensure_php_fpm >>"$LOG_PATH" 2>&1 || true
-    hkz_nginx_sync_php_socket || true
+    if type hkz_nginx_apply_panel_config >/dev/null 2>&1; then
+      hkz_nginx_apply_panel_config "${FQDN:-}" >>"$LOG_PATH" 2>&1 || hkz_nginx_sync_php_socket || true
+    else
+      hkz_nginx_sync_php_socket || true
+    fi
     hkz_ensure_panel_services || return 1
     if hkz_panel_artisan_boot_test && hkz_panel_http_probe; then
       msg_ok "$(hkz_t panel_heal_ok)"

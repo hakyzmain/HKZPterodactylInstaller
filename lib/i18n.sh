@@ -293,6 +293,9 @@ hkz_t() {
       panel_pteroq) echo "Queue pteroq" ;;
       panel_pteroq_ok) echo "pteroq started" ;;
       panel_nginx_ok) echo "Nginx configured" ;;
+      nginx_update) echo "updating Nginx to latest" ;;
+      nginx_updated) echo "Nginx updated" ;;
+      nginx_ready) echo "Nginx ready" ;;
       panel_php_fpm_ok) echo "PHP-FPM socket" ;;
       panel_php_fpm_fail) echo "PHP-FPM not running — check php8.3-fpm service" ;;
       panel_finalize) echo "Final panel check" ;;
@@ -690,6 +693,9 @@ hkz_t() {
       panel_pteroq) echo "Очередь pteroq" ;;
       panel_pteroq_ok) echo "pteroq запущен" ;;
       panel_nginx_ok) echo "Nginx настроен" ;;
+      nginx_update) echo "обновление Nginx до последней версии" ;;
+      nginx_updated) echo "Nginx обновлён" ;;
+      nginx_ready) echo "Nginx готов" ;;
       panel_php_fpm_ok) echo "сокет PHP-FPM" ;;
       panel_php_fpm_fail) echo "PHP-FPM не запущен — проверьте службу php8.3-fpm" ;;
       panel_finalize) echo "Финальная проверка панели" ;;

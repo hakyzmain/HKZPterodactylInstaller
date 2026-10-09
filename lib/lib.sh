@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-128}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-129}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -489,6 +489,188 @@ PY
   return 0
 }
 
+hkz_nginx_detect_paths() {
+  [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
+  case "${OS:-}" in
+    rocky|almalinux)
+      NGINX_AVAIL=/etc/nginx/conf.d
+      NGINX_ENABL=/etc/nginx/conf.d
+      ;;
+    *)
+      if [ -d /etc/nginx/sites-available ] || grep -qE 'sites-enabled' /etc/nginx/nginx.conf 2>/dev/null; then
+        mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+        NGINX_AVAIL=/etc/nginx/sites-available
+        NGINX_ENABL=/etc/nginx/sites-enabled
+      else
+        mkdir -p /etc/nginx/conf.d
+        NGINX_AVAIL=/etc/nginx/conf.d
+        NGINX_ENABL=/etc/nginx/conf.d
+      fi
+      ;;
+  esac
+  export NGINX_AVAIL NGINX_ENABL
+}
+
+hkz_nginx_ensure_sites_include() {
+  local conf=/etc/nginx/nginx.conf
+  [ -f "$conf" ] || return 0
+  if [ "${NGINX_ENABL:-}" = /etc/nginx/sites-enabled ]; then
+    mkdir -p /etc/nginx/sites-available /etc/nginx/sites-enabled
+    if ! grep -qE 'include[[:space:]]+/etc/nginx/sites-enabled' "$conf" 2>/dev/null; then
+      if grep -qE 'include[[:space:]]+/etc/nginx/conf\.d/\*\.conf;' "$conf" 2>/dev/null; then
+        sed -i '/include[[:space:]]\+\/etc\/nginx\/conf\.d\/\*\.conf;/a\    include /etc/nginx/sites-enabled/*;' "$conf"
+      else
+        sed -i '/http[[:space:]]*{/a\    include /etc/nginx/sites-enabled/*;' "$conf"
+      fi
+    fi
+  fi
+  return 0
+}
+
+hkz_nginx_add_official_repo() {
+  local codename keyring=/usr/share/keyrings/nginx-archive-keyring.gpg
+  [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
+  case "${OS:-}" in
+    ubuntu|debian)
+      command -v curl >/dev/null 2>&1 || install_packages curl ca-certificates gnupg || true
+      command -v gpg >/dev/null 2>&1 || install_packages gnupg || true
+      codename=$(. /etc/os-release 2>/dev/null; echo "${VERSION_CODENAME:-}")
+      [ -n "$codename" ] || return 1
+      curl -fsSL https://nginx.org/keys/nginx_signing.key | gpg --dearmor -o "$keyring" 2>/dev/null || return 1
+      if [ "$OS" = ubuntu ]; then
+        printf 'deb [signed-by=%s] http://nginx.org/packages/ubuntu %s nginx\n' "$keyring" "$codename" \
+          >/etc/apt/sources.list.d/nginx.list
+      else
+        printf 'deb [signed-by=%s] http://nginx.org/packages/debian %s nginx\n' "$keyring" "$codename" \
+          >/etc/apt/sources.list.d/nginx.list
+      fi
+      printf 'Package: *\nPin: origin nginx.org\nPin-Priority: 900\n' >/etc/apt/preferences.d/99nginx
+      return 0
+      ;;
+    rocky|almalinux)
+      cat >/etc/yum.repos.d/nginx.repo <<EOF
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/\$releasever/\$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+EOF
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+hkz_nginx_ensure_latest() {
+  local before after
+  [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
+  msg_step "$(hkz_t nginx_update 2>/dev/null || echo 'Nginx update')"
+  before=$(nginx -v 2>&1 | sed -n 's/.*nginx\///p' | tr -d '\r' || true)
+
+  case "${OS:-}" in
+    ubuntu|debian)
+      hkz_nginx_add_official_repo || true
+      update_repos || true
+      DEBIAN_FRONTEND=noninteractive hkz_apt_get -y install nginx 2>/dev/null \
+        || install_packages nginx || return 1
+      DEBIAN_FRONTEND=noninteractive hkz_apt_get -y --only-upgrade install nginx 2>/dev/null || true
+      ;;
+    rocky|almalinux)
+      hkz_nginx_add_official_repo || true
+      dnf -y install nginx 2>/dev/null || install_packages nginx || return 1
+      dnf -y upgrade nginx 2>/dev/null || true
+      ;;
+    *)
+      install_packages nginx || return 1
+      ;;
+  esac
+
+  hkz_nginx_detect_paths
+  hkz_nginx_ensure_sites_include
+  after=$(nginx -v 2>&1 | sed -n 's/.*nginx\///p' | tr -d '\r' || true)
+  if [ -n "$after" ]; then
+    if [ -n "$before" ] && [ "$before" != "$after" ]; then
+      msg_ok "$(hkz_t nginx_updated 2>/dev/null || echo 'Nginx updated'): ${before} → ${after}"
+    else
+      msg_ok "$(hkz_t nginx_ready 2>/dev/null || echo 'Nginx ready'): ${after}"
+    fi
+  else
+    msg_ok "$(hkz_t nginx_ready 2>/dev/null || echo 'Nginx ready')"
+  fi
+  return 0
+}
+
+hkz_nginx_apply_panel_config() {
+  local domain="${1:-}" tpl conf mode=http
+  local configs="${CONFIGS_DIR:-}"
+  [ -z "$configs" ] && configs="$(cd "$(dirname "${BASH_SOURCE[0]}")/../configs" 2>/dev/null && pwd)"
+  [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
+  hkz_nginx_detect_paths
+  hkz_resolve_php_fpm_env 2>/dev/null || true
+  hkz_detect_php_socket 2>/dev/null || true
+  [ -n "${PANEL_DIR:-}" ] || hkz_resolve_panel_dir 2>/dev/null || true
+  [ -f "${PANEL_DIR}/artisan" ] || return 1
+
+  if [ -z "$domain" ]; then
+    domain="${FQDN:-}"
+  fi
+  if [ -z "$domain" ] && type hkz_ssl_detect_domain >/dev/null 2>&1; then
+    domain=$(hkz_ssl_detect_domain 2>/dev/null || true)
+  fi
+  if [ -z "$domain" ]; then
+    domain=$(hkz_panel_env_val APP_URL 2>/dev/null | sed -E 's#https?://##; s#/.*##; s/[[:space:]]//g')
+  fi
+  [ -n "$domain" ] || return 1
+
+  if [ -f "/etc/letsencrypt/live/${domain}/fullchain.pem" ] \
+    && [ -f "/etc/letsencrypt/live/${domain}/privkey.pem" ]; then
+    mode=ssl
+  fi
+
+  if [ "$mode" = ssl ]; then
+    tpl="${configs}/nginx_ssl.conf"
+  else
+    tpl="${configs}/nginx.conf"
+  fi
+  [ -f "$tpl" ] || return 1
+
+  mkdir -p "${NGINX_AVAIL}" "${NGINX_ENABL}"
+  conf="${NGINX_AVAIL}/pterodactyl.conf"
+  cp "$tpl" "$conf"
+  sed -i "s|@FQDN@|${domain}|g" "$conf"
+  sed -i "s|@PHP_SOCKET@|${PHP_SOCKET}|g" "$conf"
+  sed -i "s|@PANEL_DIR@|${PANEL_DIR}|g" "$conf"
+
+  if [ "${NGINX_ENABL}" != "${NGINX_AVAIL}" ]; then
+    ln -sfn "$conf" "${NGINX_ENABL}/pterodactyl.conf"
+    rm -f "${NGINX_ENABL}/default" 2>/dev/null || true
+  fi
+
+  hkz_nginx_ensure_sites_include
+  hkz_nginx_utf8_sanitize
+  nginx -t >>"${LOG_PATH:-/dev/null}" 2>&1 || return 1
+  systemctl enable nginx 2>/dev/null || true
+  systemctl reload nginx 2>/dev/null || systemctl restart nginx 2>/dev/null || true
+  msg_ok "$(hkz_t panel_nginx_ok) (${mode})"
+  return 0
+}
+
+hkz_nginx_bootstrap() {
+  local domain="${1:-}"
+  hkz_nginx_ensure_latest || return 1
+  hkz_nginx_detect_paths
+  hkz_nginx_ensure_sites_include
+  hkz_nginx_utf8_sanitize
+  if [ -f "${PANEL_DIR:-}/artisan" ] || [ -n "${FQDN:-}" ]; then
+    hkz_nginx_apply_panel_config "$domain" || true
+  fi
+  return 0
+}
+
 hkz_wings_ensure_certbot_nginx() {
   [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
   if command -v certbot >/dev/null 2>&1 && certbot plugins 2>/dev/null | grep -qi nginx; then
@@ -528,7 +710,10 @@ hkz_wings_configure_nginx() {
   if [ "${OS:-}" = ubuntu ] || [ "${OS:-}" = debian ]; then
     ln -sfn "$conf" "${NGINX_ENABL}/wings-node.conf"
   fi
-  command -v nginx >/dev/null 2>&1 || install_packages nginx || return 1
+  if ! command -v nginx >/dev/null 2>&1; then
+    hkz_nginx_ensure_latest || install_packages nginx || return 1
+  fi
+  hkz_nginx_utf8_sanitize
   nginx -t
   systemctl enable nginx 2>/dev/null || true
   systemctl restart nginx

@@ -65,10 +65,13 @@ dep_install() {
       ;;
   esac
   [ -z "$OS" ] && { msg_err "$(hkz_t panel_os_restart)"; exit 1; }
-  systemctl enable --now mariadb nginx
+  systemctl enable --now mariadb
+  hkz_nginx_ensure_latest || install_packages nginx || true
+  hkz_nginx_detect_paths
   export WEB_USER WEB_GROUP PHP_SOCKET NGINX_AVAIL NGINX_ENABL
   hkz_export_panel_env
   hkz_ensure_php_fpm || exit 1
+  systemctl enable --now nginx 2>/dev/null || true
   msg_ok "$(hkz_t panel_packages_ok)"
 }
 
@@ -287,39 +290,30 @@ setup_queue_worker() {
 
 configure_nginx() {
   msg_step "Nginx"
-  local tpl="nginx.conf"
   hkz_resolve_php_fpm_env || exit 1
   hkz_ensure_php_fpm || exit 1
+  hkz_nginx_ensure_latest || true
+  hkz_nginx_detect_paths
+  export NGINX_AVAIL NGINX_ENABL
   if [ "$ASSUME_SSL" = true ] && [ "$CONFIGURE_LETSENCRYPT" != true ]; then
-    if [ -f "/etc/letsencrypt/live/${FQDN}/fullchain.pem" ]; then
-      tpl="nginx_ssl.conf"
-    else
+    if [ ! -f "/etc/letsencrypt/live/${FQDN}/fullchain.pem" ]; then
       msg_warn "$(hkz_t panel_ssl_assume_missing)"
     fi
   fi
-  rm -f "${NGINX_ENABL}/default" 2>/dev/null || true
-  cp "$CONFIGS_DIR/$tpl" "${NGINX_AVAIL}/pterodactyl.conf"
-  sed -i "s|@FQDN@|${FQDN}|g" "${NGINX_AVAIL}/pterodactyl.conf"
-  sed -i "s|@PHP_SOCKET@|${PHP_SOCKET}|g" "${NGINX_AVAIL}/pterodactyl.conf"
-  sed -i "s|@PANEL_DIR@|${PANEL_DIR}|g" "${NGINX_AVAIL}/pterodactyl.conf"
-  if [ "$OS" = ubuntu ] || [ "$OS" = debian ]; then
-    ln -sf "${NGINX_AVAIL}/pterodactyl.conf" "${NGINX_ENABL}/pterodactyl.conf"
-  fi
-  nginx -t
-  systemctl enable nginx 2>/dev/null || true
-  systemctl restart nginx
-  msg_ok "$(hkz_t panel_nginx_ok)"
+  hkz_nginx_apply_panel_config "$FQDN" || {
+    msg_err "$(hkz_t ssl_nginx_test_fail)"
+    exit 1
+  }
 }
 
 setup_letsencrypt() {
   [ "$CONFIGURE_LETSENCRYPT" != true ] && return 0
   msg_step "SSL"
-  if type hkz_nginx_utf8_sanitize >/dev/null 2>&1; then
-    hkz_nginx_utf8_sanitize
-  fi
+  hkz_nginx_utf8_sanitize 2>/dev/null || true
   if certbot --nginx --redirect --non-interactive --agree-tos --no-eff-email --email "$email" -d "$FQDN"; then
     ASSUME_SSL=true
     export ASSUME_SSL
+    hkz_nginx_apply_panel_config "$FQDN" 2>/dev/null || true
     hkz_panel_ensure_app_url 2>/dev/null || true
     hkz_panel_artisan_clear_caches 2>/dev/null || true
     msg_ok "$(hkz_t panel_ssl_ok)"

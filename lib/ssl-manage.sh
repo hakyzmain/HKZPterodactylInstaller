@@ -206,11 +206,18 @@ hkz_ssl_issue_panel() {
   fi
 
   export FQDN="$domain"
+  if type hkz_nginx_ensure_latest >/dev/null 2>&1; then
+    hkz_nginx_ensure_latest || true
+  fi
   hkz_ssl_ensure_certbot || return 1
 
   if [ ! -f "/etc/letsencrypt/live/${domain}/fullchain.pem" ]; then
     msg_step "$(hkz_t ssl_prepare_http)"
-    hkz_ssl_write_nginx http "$domain" || return 1
+    if type hkz_nginx_apply_panel_config >/dev/null 2>&1; then
+      hkz_nginx_apply_panel_config "$domain" || hkz_ssl_write_nginx http "$domain" || return 1
+    else
+      hkz_ssl_write_nginx http "$domain" || return 1
+    fi
   fi
 
   if type hkz_nginx_utf8_sanitize >/dev/null 2>&1; then
@@ -233,7 +240,11 @@ hkz_ssl_issue_panel() {
     return 1
   fi
 
-  hkz_ssl_write_nginx ssl "$domain" || return 1
+  if type hkz_nginx_apply_panel_config >/dev/null 2>&1; then
+    hkz_nginx_apply_panel_config "$domain" || hkz_ssl_write_nginx ssl "$domain" || return 1
+  else
+    hkz_ssl_write_nginx ssl "$domain" || return 1
+  fi
   hkz_ssl_set_app_url https "$domain"
   msg_ok "$(hkz_t panel_ssl_ok)"
   msg_info "https://${domain}"

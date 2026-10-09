@@ -36,7 +36,11 @@ wings_deps() {
   update_repos
   install_packages docker-ce docker-ce-cli containerd.io
   if [ "$CONFIGURE_LETSENCRYPT" = true ]; then
-    install_packages nginx
+    if type hkz_nginx_ensure_latest >/dev/null 2>&1; then
+      hkz_nginx_ensure_latest || install_packages nginx || true
+    else
+      install_packages nginx
+    fi
     install_packages certbot python3-certbot-nginx
   fi
   [ "$INSTALL_MARIADB" = true ] && install_packages mariadb-server
