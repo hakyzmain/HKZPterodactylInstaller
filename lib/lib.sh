@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-127}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-128}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -447,6 +447,48 @@ hkz_wings_nginx_paths() {
   export NGINX_AVAIL NGINX_ENABL
 }
 
+hkz_nginx_utf8_sanitize() {
+  local f real
+  for f in \
+    /etc/nginx/nginx.conf \
+    /etc/nginx/sites-enabled/* \
+    /etc/nginx/sites-available/* \
+    /etc/nginx/conf.d/*; do
+    [ -e "$f" ] || continue
+    [ -d "$f" ] && continue
+    real=$(readlink -f "$f" 2>/dev/null || echo "$f")
+    [ -f "$real" ] || continue
+    if command -v python3 >/dev/null 2>&1; then
+      python3 - "$real" <<'PY' 2>/dev/null || true
+import pathlib, sys
+p = pathlib.Path(sys.argv[1])
+raw = p.read_bytes()
+text = None
+for enc in ("utf-8", "utf-8-sig", "cp1251", "cp866", "latin-1"):
+    try:
+        text = raw.decode(enc)
+        break
+    except UnicodeDecodeError:
+        continue
+if text is None:
+    text = raw.decode("latin-1", errors="replace")
+text = text.replace("\r\n", "\n").replace("\r", "\n")
+if text.startswith("\ufeff"):
+    text = text.lstrip("\ufeff")
+p.write_bytes(text.encode("utf-8"))
+PY
+    elif command -v iconv >/dev/null 2>&1; then
+      if ! iconv -f UTF-8 -t UTF-8 "$real" >/dev/null 2>&1; then
+        iconv -f CP1251 -t UTF-8 "$real" >"${real}.hkzutf8" 2>/dev/null \
+          && mv -f "${real}.hkzutf8" "$real" \
+          || rm -f "${real}.hkzutf8"
+      fi
+      sed -i 's/\r$//' "$real" 2>/dev/null || true
+    fi
+  done
+  return 0
+}
+
 hkz_wings_ensure_certbot_nginx() {
   [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
   if command -v certbot >/dev/null 2>&1 && certbot plugins 2>/dev/null | grep -qi nginx; then
@@ -506,6 +548,7 @@ hkz_wings_setup_node_ssl() {
   hkz_wings_open_cert_ports
   hkz_wings_ensure_certbot_nginx || return 1
   hkz_wings_configure_nginx "$domain" || return 1
+  hkz_nginx_utf8_sanitize
   if [ -n "$mail" ]; then
     certbot_cmd=(certbot --nginx --redirect --non-interactive --agree-tos --no-eff-email --email "$mail" -d "$domain")
     echo -e "  ${C_DIM}certbot --nginx -d ${domain} --email ${mail}${C_RESET}"

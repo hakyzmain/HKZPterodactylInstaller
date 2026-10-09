@@ -213,6 +213,10 @@ hkz_ssl_issue_panel() {
     hkz_ssl_write_nginx http "$domain" || return 1
   fi
 
+  if type hkz_nginx_utf8_sanitize >/dev/null 2>&1; then
+    hkz_nginx_utf8_sanitize
+  fi
+
   msg_step "$(hkz_t ssl_issue)"
   set +e
   if [ -n "$mail" ]; then

@@ -314,7 +314,10 @@ configure_nginx() {
 setup_letsencrypt() {
   [ "$CONFIGURE_LETSENCRYPT" != true ] && return 0
   msg_step "SSL"
-  if certbot --nginx --redirect --no-eff-email --email "$email" -d "$FQDN"; then
+  if type hkz_nginx_utf8_sanitize >/dev/null 2>&1; then
+    hkz_nginx_utf8_sanitize
+  fi
+  if certbot --nginx --redirect --non-interactive --agree-tos --no-eff-email --email "$email" -d "$FQDN"; then
     ASSUME_SSL=true
     export ASSUME_SSL
     hkz_panel_ensure_app_url 2>/dev/null || true
