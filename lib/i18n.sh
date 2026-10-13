@@ -274,9 +274,9 @@ hkz_t() {
       panel_os_undef) echo "OS not detected" ;;
       panel_composer_ok) echo "Composer installed" ;;
       panel_sys_packages) echo "System packages" ;;
-      sys_upgrade) echo "updating all system packages" ;;
-      sys_upgrade_ok) echo "system packages updated" ;;
-      sys_upgrade_skip) echo "system upgrade skipped" ;;
+      sys_upgrade) echo "apt update" ;;
+      sys_upgrade_ok) echo "apt update done" ;;
+      sys_upgrade_skip) echo "apt update skipped" ;;
       panel_os_restart) echo "OS not detected — restart installer" ;;
       panel_packages_ok) echo "Packages installed" ;;
       panel_fw_ok) echo "Firewall configured" ;;
@@ -684,9 +684,9 @@ hkz_t() {
       panel_os_undef) echo "ОС не определена" ;;
       panel_composer_ok) echo "Composer установлен" ;;
       panel_sys_packages) echo "Пакеты системы" ;;
-      sys_upgrade) echo "обновление всех пакетов системы" ;;
-      sys_upgrade_ok) echo "пакеты системы обновлены" ;;
-      sys_upgrade_skip) echo "обновление системы пропущено" ;;
+      sys_upgrade) echo "apt update" ;;
+      sys_upgrade_ok) echo "apt update выполнен" ;;
+      sys_upgrade_skip) echo "apt update пропущен" ;;
       panel_os_restart) echo "ОС не определена — перезапустите установку" ;;
       panel_packages_ok) echo "Пакеты установлены" ;;
       panel_fw_ok) echo "Firewall настроен" ;;
