@@ -299,6 +299,9 @@ hkz_t() {
       panel_php_fpm_ok) echo "PHP-FPM socket" ;;
       panel_php_fpm_fail) echo "PHP-FPM not running — check php8.3-fpm service" ;;
       panel_finalize) echo "Final panel check" ;;
+      panel_seed_scpsl) echo "creating location + nest + HkzSCPSLEGG egg" ;;
+      panel_seed_scpsl_ok) echo "HKZ location, nest and SCPSL egg ready" ;;
+      panel_seed_scpsl_fail) echo "HKZ SCPSL seed failed (import egg manually)" ;;
       panel_heal) echo "Panel repair" ;;
       panel_heal_key_fail) echo "APP_KEY could not be generated" ;;
       panel_heal_db_fail) echo "MySQL connection failed — check /var/lib/phkz/panel-install.env" ;;
@@ -699,6 +702,9 @@ hkz_t() {
       panel_php_fpm_ok) echo "сокет PHP-FPM" ;;
       panel_php_fpm_fail) echo "PHP-FPM не запущен — проверьте службу php8.3-fpm" ;;
       panel_finalize) echo "Финальная проверка панели" ;;
+      panel_seed_scpsl) echo "создание локации + гнезда + яйца HkzSCPSLEGG" ;;
+      panel_seed_scpsl_ok) echo "локация HKZ, гнездо HKZ и яйцо SCPSL готовы" ;;
+      panel_seed_scpsl_fail) echo "не удалось создать HKZ SCPSL (импортируй яйцо вручную)" ;;
       panel_heal) echo "Восстановление панели" ;;
       panel_heal_key_fail) echo "не удалось сгенерировать APP_KEY" ;;
       panel_heal_db_fail) echo "нет подключения к MySQL — см. /var/lib/phkz/panel-install.env" ;;

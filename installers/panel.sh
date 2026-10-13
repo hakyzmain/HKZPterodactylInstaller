@@ -345,6 +345,7 @@ panel_install_main() {
   configure_nginx
   setup_letsencrypt
   hkz_panel_finalize
+  hkz_panel_seed_hkz_scpsl || true
   hkz_panel_save_install_secrets
   hkz_mark_panel
 }

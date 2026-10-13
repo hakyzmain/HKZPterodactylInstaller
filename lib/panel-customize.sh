@@ -368,3 +368,32 @@ hkz_panel_apply_customization() {
   hkz_panel_apply_locale || return 1
   hkz_panel_patch_settings_password_optional || true
 }
+
+hkz_panel_seed_hkz_scpsl() {
+  local egg_url="${HKZ_SCPSL_EGG_URL:-https://raw.githubusercontent.com/hakyzmain/HkzSCPSLEGG/main/HkzSCPSLEGG.json}"
+  local egg_json="/tmp/HkzSCPSLEGG.json" seed="/tmp/hkz-seed-scpsl.php"
+  [ -f "${PANEL_DIR}/artisan" ] || return 1
+  msg_step "$(hkz_t panel_seed_scpsl 2>/dev/null || echo 'HKZ nest + SCPSL egg')"
+  hkz_panel_ensure_service_author || true
+  if ! curl -fsSL -o "$egg_json" "$egg_url"; then
+    msg_warn "$(hkz_t panel_seed_scpsl_fail 2>/dev/null || echo 'failed to download HkzSCPSLEGG.json')"
+    return 1
+  fi
+  cat >"$seed" <<'PHP'
+$loc=\Pterodactyl\Models\Location::query()->firstOrCreate(['short'=>'HKZ'],['long'=>'HKZ Default']);
+$nest=\Pterodactyl\Models\Nest::query()->where('name','HKZ')->first();
+if(!$nest){$nest=app(\Pterodactyl\Services\Nests\NestCreationService::class)->handle(['name'=>'HKZ','description'=>'HKZ eggs']);}
+$file=new \Illuminate\Http\UploadedFile('/tmp/HkzSCPSLEGG.json','HkzSCPSLEGG.json','application/json',null,true);
+$egg=\Pterodactyl\Models\Egg::query()->where('nest_id',$nest->id)->where('name','HkzSCPSLEGG')->first();
+if($egg){app(\Pterodactyl\Services\Eggs\Sharing\EggUpdateImporterService::class)->handle($egg,$file);echo "ok update egg={$egg->id}\n";}
+else{$egg=app(\Pterodactyl\Services\Eggs\Sharing\EggImporterService::class)->handle($file,$nest->id);echo "ok create egg={$egg->id}\n";}
+PHP
+  if (cd "$PANEL_DIR" && php artisan tinker --execute="$(cat "$seed")") >>"${LOG_PATH:-/dev/null}" 2>&1; then
+    msg_ok "$(hkz_t panel_seed_scpsl_ok 2>/dev/null || echo 'location HKZ + nest HKZ + HkzSCPSLEGG')"
+    rm -f "$seed"
+    return 0
+  fi
+  msg_warn "$(hkz_t panel_seed_scpsl_fail 2>/dev/null || echo 'HKZ SCPSL seed failed')"
+  rm -f "$seed"
+  return 1
+}
