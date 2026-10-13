@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-132}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-133}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -536,7 +536,9 @@ hkz_nginx_add_official_repo() {
       command -v gpg >/dev/null 2>&1 || install_packages gnupg || true
       codename=$(. /etc/os-release 2>/dev/null; echo "${VERSION_CODENAME:-}")
       [ -n "$codename" ] || return 1
-      curl -fsSL https://nginx.org/keys/nginx_signing.key | gpg --dearmor -o "$keyring" 2>/dev/null || return 1
+      rm -f "$keyring"
+      curl -fsSL https://nginx.org/keys/nginx_signing.key | gpg --batch --yes --dearmor -o "$keyring" 2>/dev/null || return 1
+      chmod 644 "$keyring" 2>/dev/null || true
       if [ "$OS" = ubuntu ]; then
         printf 'deb [signed-by=%s] http://nginx.org/packages/ubuntu %s nginx\n' "$keyring" "$codename" \
           >/etc/apt/sources.list.d/nginx.list
@@ -567,6 +569,10 @@ EOF
 
 hkz_nginx_ensure_latest() {
   local before after
+  if [ "${HKZ_NGINX_LATEST_DONE:-0}" = 1 ]; then
+    hkz_nginx_detect_paths
+    return 0
+  fi
   [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
   msg_step "$(hkz_t nginx_update 2>/dev/null || echo 'Nginx update')"
   before=$(nginx -v 2>&1 | sed -n 's/.*nginx\///p' | tr -d '\r' || true)
@@ -601,6 +607,8 @@ hkz_nginx_ensure_latest() {
   else
     msg_ok "$(hkz_t nginx_ready 2>/dev/null || echo 'Nginx ready')"
   fi
+  HKZ_NGINX_LATEST_DONE=1
+  export HKZ_NGINX_LATEST_DONE
   return 0
 }
 

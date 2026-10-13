@@ -292,7 +292,6 @@ configure_nginx() {
   msg_step "Nginx"
   hkz_resolve_php_fpm_env || exit 1
   hkz_ensure_php_fpm || exit 1
-  hkz_nginx_ensure_latest || true
   hkz_nginx_detect_paths
   export NGINX_AVAIL NGINX_ENABL
   if [ "$ASSUME_SSL" = true ] && [ "$CONFIGURE_LETSENCRYPT" != true ]; then

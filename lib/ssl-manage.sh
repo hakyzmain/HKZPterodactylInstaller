@@ -206,7 +206,7 @@ hkz_ssl_issue_panel() {
   fi
 
   export FQDN="$domain"
-  if type hkz_nginx_ensure_latest >/dev/null 2>&1; then
+  if [ "${HKZ_NGINX_LATEST_DONE:-0}" != 1 ] && type hkz_nginx_ensure_latest >/dev/null 2>&1; then
     hkz_nginx_ensure_latest || true
   fi
   hkz_ssl_ensure_certbot || return 1

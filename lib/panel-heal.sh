@@ -210,9 +210,6 @@ hkz_panel_heal() {
 hkz_panel_finalize() {
   local attempt=1 max=3
   msg_step "$(hkz_t panel_finalize)"
-  if type hkz_nginx_ensure_latest >/dev/null 2>&1; then
-    hkz_nginx_ensure_latest >>"$LOG_PATH" 2>&1 || true
-  fi
   while [ "$attempt" -le "$max" ]; do
     hkz_panel_heal || true
     hkz_ensure_php_fpm >>"$LOG_PATH" 2>&1 || true
