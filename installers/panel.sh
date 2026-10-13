@@ -76,10 +76,14 @@ dep_install() {
 }
 
 configure_firewall() {
+  # Wings ports even if user skipped full firewall setup (ufw already on)
+  if type hkz_wings_open_daemon_ports >/dev/null 2>&1; then
+    hkz_wings_open_daemon_ports || true
+  fi
   [ "$CONFIGURE_FIREWALL" != true ] && return 0
   msg_step "Firewall"
   install_firewall
-  firewall_allow_ports "22 80 443"
+  firewall_allow_ports "22 80 443 8080 2022"
   msg_ok "$(hkz_t panel_fw_ok)"
 }
 

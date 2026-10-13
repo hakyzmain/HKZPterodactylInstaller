@@ -50,6 +50,9 @@ wings_deps() {
     firewall_allow_ports "22 8080 2022"
     [ "$CONFIGURE_LETSENCRYPT" = true ] && firewall_allow_ports "80 443"
   fi
+  # Always open Wings ports if ufw/firewalld is already on (even when user skipped "firewall?")
+  hkz_wings_open_daemon_ports || true
+  [ "$CONFIGURE_LETSENCRYPT" = true ] && hkz_wings_open_cert_ports || true
   msg_ok "$(hkz_t wings_docker_ok)"
 }
 

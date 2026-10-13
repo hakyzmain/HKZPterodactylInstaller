@@ -423,6 +423,28 @@ hkz_wings_open_cert_ports() {
   }
 }
 
+# Always open Wings daemon ports when a firewall is already active (panel heart / SFTP).
+hkz_wings_open_daemon_ports() {
+  local opened=0
+  [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
+  if command -v ufw >/dev/null 2>&1 && ufw status 2>/dev/null | grep -qi active; then
+    ufw allow 8080/tcp comment 'Wings API' 2>/dev/null || ufw allow 8080/tcp 2>/dev/null || true
+    ufw allow 2022/tcp comment 'Wings SFTP' 2>/dev/null || ufw allow 2022/tcp 2>/dev/null || true
+    ufw reload 2>/dev/null || true
+    opened=1
+  fi
+  if command -v firewall-cmd >/dev/null 2>&1 && systemctl is-active firewalld >/dev/null 2>&1; then
+    firewall-cmd --permanent --add-port=8080/tcp 2>/dev/null || true
+    firewall-cmd --permanent --add-port=2022/tcp 2>/dev/null || true
+    firewall-cmd --reload 2>/dev/null || true
+    opened=1
+  fi
+  if [ "$opened" = 1 ]; then
+    msg_ok "$(hkz_t wings_fw_ports_ok 2>/dev/null || echo 'firewall: 8080 + 2022 open')"
+  fi
+  return 0
+}
+
 hkz_wings_show_cert_files() {
   local domain="$1" f
   for f in fullchain.pem privkey.pem cert.pem; do
@@ -2268,18 +2290,20 @@ grant_db_all() {
 }
 
 firewall_allow_ports() {
-  case "$OS" in
+  case "${OS:-}" in
     ubuntu|debian)
+      command -v ufw >/dev/null 2>&1 || return 0
       for p in $1; do
         case "$p" in
-          */*) ufw allow "$p" ;;
-          *) ufw allow "${p}/tcp" ;;
+          */*) ufw allow "$p" 2>/dev/null || true ;;
+          *) ufw allow "${p}/tcp" 2>/dev/null || true ;;
         esac
       done
       ufw reload 2>/dev/null || true
       ;;
     rocky|almalinux)
-      for p in $1; do firewall-cmd --permanent --add-port="${p}/tcp" 2>/dev/null; done
+      command -v firewall-cmd >/dev/null 2>&1 || return 0
+      for p in $1; do firewall-cmd --permanent --add-port="${p}/tcp" 2>/dev/null || true; done
       firewall-cmd --reload 2>/dev/null || true
       ;;
   esac

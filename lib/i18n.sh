@@ -394,6 +394,7 @@ hkz_t() {
       wings_logs) echo "wings log:" ;;
       wings_install_start) echo "installing / updating wings" ;;
       wings_fw) echo "firewall? (y/N)" ;;
+      wings_fw_ports_ok) echo "firewall: Wings ports 8080 + 2022 open" ;;
       wings_mysql_q) echo "mysql access for node? (y/N)" ;;
       wings_ssl_q) echo "ssl on node? (y/N)" ;;
       wings_domain_q) echo "node FQDN as in panel (Enter — IP, http only):" ;;
@@ -804,6 +805,7 @@ hkz_t() {
       wings_logs) echo "лог wings:" ;;
       wings_install_start) echo "установка / обновление wings" ;;
       wings_fw) echo "firewall? (y/N)" ;;
+      wings_fw_ports_ok) echo "firewall: порты Wings 8080 + 2022 открыты" ;;
       wings_mysql_q) echo "доступ mysql для ноды? (y/N)" ;;
       wings_ssl_q) echo "ssl на ноде? (y/N)" ;;
       wings_domain_q) echo "FQDN ноды как в панели (Enter — IP, только http):" ;;
