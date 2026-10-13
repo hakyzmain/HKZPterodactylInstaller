@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-131}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-132}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -2339,7 +2339,7 @@ detect_os() {
   SUPPORTED=false
   case "$OS" in
     ubuntu)
-      [[ "$OS_VER_MAJOR" == "22" || "$OS_VER_MAJOR" == "24" ]] && SUPPORTED=true
+      [[ "$OS_VER_MAJOR" == "22" || "$OS_VER_MAJOR" == "24" || "$OS_VER_MAJOR" == "26" ]] && SUPPORTED=true
       export DEBIAN_FRONTEND=noninteractive
       ;;
     debian)
