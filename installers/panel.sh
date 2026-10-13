@@ -39,7 +39,7 @@ debian_php_repo() {
 
 dep_install() {
   msg_step "$(hkz_t panel_sys_packages)"
-  update_repos
+  hkz_system_upgrade || true
   case "$OS" in
     ubuntu)
       ubuntu_php_repo

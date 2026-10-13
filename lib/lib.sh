@@ -10,7 +10,7 @@ export HKZ_LEGACY_OPT_DIRS="/opt/phkz /opt/HKZPanelAutoInstaller"
 export HKZ_INSTALL_DIR="${HKZ_INSTALL_DIR:-}"
 export HKZ_INSTALLER_RAW="${HKZ_INSTALLER_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/install.sh}"
 export HKZ_SHORT_RAW="${HKZ_SHORT_RAW:-https://raw.githubusercontent.com/${HKZ_INSTALLER_REPO}/${HKZ_INSTALLER_BRANCH}/run.sh}"
-export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-130}"
+export HKZ_INSTALLER_REV="${HKZ_INSTALLER_REV:-131}"
 export HKZ_STAMP_DIR="/var/lib/phkz"
 export HKZ_STAMP_THEME="${HKZ_STAMP_DIR}/hkz-aurora-theme"
 export HKZ_STAMP_PANEL="${HKZ_STAMP_DIR}/panel"
@@ -2275,6 +2275,41 @@ update_repos() {
       ;;
     rocky|almalinux) true ;;
   esac
+}
+
+hkz_system_upgrade() {
+  [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
+  msg_step "$(hkz_t sys_upgrade 2>/dev/null || echo 'system package upgrade')"
+  case "${OS:-}" in
+    ubuntu|debian)
+      export DEBIAN_FRONTEND=noninteractive
+      if declare -F hkz_stop_unattended_upgrades >/dev/null 2>&1; then
+        hkz_stop_unattended_upgrades 2>/dev/null || true
+      fi
+      update_repos || true
+      hkz_apt_get -y \
+        -o Dpkg::Options::="--force-confdef" \
+        -o Dpkg::Options::="--force-confold" \
+        upgrade || true
+      hkz_apt_get -y \
+        -o Dpkg::Options::="--force-confdef" \
+        -o Dpkg::Options::="--force-confold" \
+        dist-upgrade || true
+      hkz_apt_get -y autoremove --purge || true
+      hkz_apt_get -y autoclean || true
+      ;;
+    rocky|almalinux)
+      dnf -y makecache || true
+      dnf -y upgrade --refresh || true
+      dnf -y autoremove || true
+      ;;
+    *)
+      msg_warn "$(hkz_t sys_upgrade_skip 2>/dev/null || echo 'system upgrade skipped')"
+      return 0
+      ;;
+  esac
+  msg_ok "$(hkz_t sys_upgrade_ok 2>/dev/null || echo 'system packages updated')"
+  return 0
 }
 
 install_packages() {
