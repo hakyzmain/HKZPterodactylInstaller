@@ -612,14 +612,139 @@ hkz_nginx_ensure_latest() {
   return 0
 }
 
+hkz_nginx_disable_default_site() {
+  rm -f /etc/nginx/sites-enabled/default 2>/dev/null || true
+  if [ -f /etc/nginx/conf.d/default.conf ]; then
+    mv -f /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.disabled 2>/dev/null || true
+  fi
+}
+
+# nginx.org packages run as user "nginx"; Ubuntu PHP-FPM sockets are www-data → 502
+hkz_nginx_align_web_user() {
+  local conf=/etc/nginx/nginx.conf want cur
+  [ -f "$conf" ] || return 0
+  hkz_set_web_user 2>/dev/null || true
+  want="${WEB_USER:-www-data}"
+  case "${OS:-}" in
+    ubuntu|debian) want=www-data ;;
+  esac
+  cur=$(awk '/^[[:space:]]*user[[:space:]]/ {gsub(/;/,""); print $2; exit}' "$conf" 2>/dev/null || true)
+  if [ -n "$want" ] && [ "$cur" != "$want" ]; then
+    if grep -qE '^[[:space:]]*user[[:space:]]' "$conf" 2>/dev/null; then
+      sed -i -E "s|^[[:space:]]*user[[:space:]]+[^;]+;|user ${want};|" "$conf"
+    else
+      sed -i "1i user ${want};" "$conf"
+    fi
+  fi
+  if id nginx >/dev/null 2>&1 && [ "$want" = www-data ]; then
+    usermod -aG www-data nginx 2>/dev/null || true
+  fi
+  return 0
+}
+
+hkz_php_socket_fix_access() {
+  local pool s
+  hkz_detect_php_socket 2>/dev/null || return 0
+  s="$PHP_SOCKET"
+  chown "${WEB_USER:-www-data}:${WEB_GROUP:-www-data}" "$s" 2>/dev/null || true
+  chmod 0660 "$s" 2>/dev/null || true
+  for pool in /etc/php/*/fpm/pool.d/www.conf /etc/php-fpm.d/www.conf /etc/php-fpm.d/pterodactyl.conf; do
+    [ -f "$pool" ] || continue
+    if grep -qE '^[[:space:]]*;?listen\.owner[[:space:]]*=' "$pool" 2>/dev/null; then
+      sed -i -E "s|^[[:space:]]*;?listen\.owner[[:space:]]*=.*|listen.owner = ${WEB_USER:-www-data}|" "$pool"
+    else
+      echo "listen.owner = ${WEB_USER:-www-data}" >>"$pool"
+    fi
+    if grep -qE '^[[:space:]]*;?listen\.group[[:space:]]*=' "$pool" 2>/dev/null; then
+      sed -i -E "s|^[[:space:]]*;?listen\.group[[:space:]]*=.*|listen.group = ${WEB_GROUP:-www-data}|" "$pool"
+    else
+      echo "listen.group = ${WEB_GROUP:-www-data}" >>"$pool"
+    fi
+    if grep -qE '^[[:space:]]*;?listen\.mode[[:space:]]*=' "$pool" 2>/dev/null; then
+      sed -i -E 's|^[[:space:]]*;?listen\.mode[[:space:]]*=.*|listen.mode = 0660|' "$pool"
+    else
+      echo 'listen.mode = 0660' >>"$pool"
+    fi
+  done
+  if id nginx >/dev/null 2>&1; then
+    usermod -aG "${WEB_GROUP:-www-data}" nginx 2>/dev/null || true
+  fi
+  return 0
+}
+
+hkz_nginx_verify_panel() {
+  local host code url attempt=1
+  msg_step "$(hkz_t panel_nginx_verify 2>/dev/null || echo 'Nginx verify')"
+  hkz_nginx_align_web_user
+  hkz_nginx_disable_default_site
+  hkz_ensure_php_fpm || {
+    msg_err "$(hkz_t panel_php_fpm_fail)"
+    return 1
+  }
+  hkz_php_socket_fix_access
+  hkz_nginx_sync_php_socket 2>/dev/null || true
+  hkz_nginx_utf8_sanitize 2>/dev/null || true
+  if ! nginx -t >>"${LOG_PATH:-/dev/null}" 2>&1; then
+    msg_err "$(hkz_t ssl_nginx_test_fail)"
+    nginx -t 2>&1 | tail -n 20 >>"${LOG_PATH:-/dev/null}" || true
+    return 1
+  fi
+  systemctl enable nginx 2>/dev/null || true
+  systemctl restart nginx 2>/dev/null || systemctl reload nginx 2>/dev/null || true
+  sleep 1
+
+  host="${FQDN:-localhost}"
+  host=${host#http://}
+  host=${host#https://}
+  host=${host%%/*}
+
+  while [ "$attempt" -le 3 ]; do
+    if type hkz_panel_http_probe >/dev/null 2>&1 && hkz_panel_http_probe; then
+      msg_ok "$(hkz_t panel_nginx_verify_ok 2>/dev/null || echo 'Nginx OK (no 502)')"
+      return 0
+    fi
+    code=0
+    for url in "https://127.0.0.1/" "http://127.0.0.1/"; do
+      code=$(curl -sk -o /dev/null -w '%{http_code}' --connect-timeout 3 -H "Host: ${host}" "$url" 2>/dev/null) || code=0
+      [ "$code" != 000 ] && [ "$code" != 0 ] && break
+    done
+    case "$code" in
+      502|503)
+        msg_warn "$(hkz_t panel_nginx_502 2>/dev/null || echo '502/503 — fixing PHP-FPM socket') (${code})"
+        hkz_nginx_align_web_user
+        hkz_php_socket_fix_access
+        hkz_ensure_php_fpm || true
+        hkz_nginx_sync_php_socket 2>/dev/null || true
+        systemctl restart nginx 2>/dev/null || true
+        sleep 2
+        ;;
+      *)
+        break
+        ;;
+    esac
+    attempt=$((attempt + 1))
+  done
+
+  if type hkz_panel_http_probe >/dev/null 2>&1 && hkz_panel_http_probe; then
+    msg_ok "$(hkz_t panel_nginx_verify_ok 2>/dev/null || echo 'Nginx OK (no 502)')"
+    return 0
+  fi
+  msg_warn "$(hkz_t panel_nginx_verify_fail 2>/dev/null || echo 'Nginx verify failed — check PHP-FPM / socket')"
+  return 1
+}
+
 hkz_nginx_apply_panel_config() {
   local domain="${1:-}" tpl conf mode=http
   local configs="${CONFIGS_DIR:-}"
   [ -z "$configs" ] && configs="$(cd "$(dirname "${BASH_SOURCE[0]}")/../configs" 2>/dev/null && pwd)"
   [ -z "${OS:-}" ] && detect_os 2>/dev/null || true
   hkz_nginx_detect_paths
+  hkz_set_web_user 2>/dev/null || true
   hkz_resolve_php_fpm_env 2>/dev/null || true
+  hkz_nginx_align_web_user
+  hkz_ensure_php_fpm 2>/dev/null || true
   hkz_detect_php_socket 2>/dev/null || true
+  hkz_php_socket_fix_access 2>/dev/null || true
   [ -n "${PANEL_DIR:-}" ] || hkz_resolve_panel_dir 2>/dev/null || true
   [ -f "${PANEL_DIR}/artisan" ] || return 1
 
@@ -657,13 +782,22 @@ hkz_nginx_apply_panel_config() {
     ln -sfn "$conf" "${NGINX_ENABL}/pterodactyl.conf"
     rm -f "${NGINX_ENABL}/default" 2>/dev/null || true
   fi
+  hkz_nginx_disable_default_site
+
+  # nginx 1.25+: listen ... http2 is deprecated — normalize if template still has it
+  if nginx -v 2>&1 | grep -qE 'nginx/1\.(2[5-9]|[3-9])|/2\.'; then
+    if grep -qE 'listen[[:space:]]+443[[:space:]]+ssl[[:space:]]+http2' "$conf" 2>/dev/null; then
+      sed -i -E 's/listen[[:space:]]+443[[:space:]]+ssl[[:space:]]+http2;/listen 443 ssl;\n    http2 on;/' "$conf"
+    fi
+  fi
 
   hkz_nginx_ensure_sites_include
   hkz_nginx_utf8_sanitize
   nginx -t >>"${LOG_PATH:-/dev/null}" 2>&1 || return 1
   systemctl enable nginx 2>/dev/null || true
-  systemctl reload nginx 2>/dev/null || systemctl restart nginx 2>/dev/null || true
+  systemctl restart nginx 2>/dev/null || systemctl reload nginx 2>/dev/null || true
   msg_ok "$(hkz_t panel_nginx_ok) (${mode})"
+  hkz_nginx_verify_panel || true
   return 0
 }
 
@@ -1571,15 +1705,21 @@ hkz_install_php_fpm_pool() {
 
 hkz_detect_php_socket() {
   local s
+  if [ -n "${PHP_SOCKET:-}" ] && [ -S "$PHP_SOCKET" ]; then
+    export PHP_SOCKET
+    return 0
+  fi
+  # shellcheck disable=SC2086,SC2068
   for s in \
-    "${PHP_SOCKET:-}" \
-    /run/php/php8.3-fpm.sock \
-    /var/run/php/php8.3-fpm.sock \
+    /run/php/php*-fpm.sock \
+    /var/run/php/php*-fpm.sock \
+    /run/php/php-fpm.sock \
+    /var/run/php/php-fpm.sock \
     /run/php-fpm/pterodactyl.sock \
     /var/run/php-fpm/pterodactyl.sock \
     /run/php-fpm/www.sock \
     /var/run/php-fpm/www.sock; do
-    [ -n "$s" ] && [ -S "$s" ] || continue
+    [ -S "$s" ] || continue
     PHP_SOCKET="$s"
     export PHP_SOCKET
     return 0
@@ -1587,24 +1727,60 @@ hkz_detect_php_socket() {
   return 1
 }
 
-hkz_ensure_php_fpm() {
+hkz_nginx_sync_php_socket() {
+  local conf
   hkz_resolve_php_fpm_env 2>/dev/null || true
-  case "$OS" in
-    ubuntu|debian)
-      systemctl enable php8.3-fpm 2>/dev/null || systemctl enable php-fpm 2>/dev/null || true
-      systemctl restart php8.3-fpm 2>/dev/null || systemctl restart php-fpm 2>/dev/null || true
-      ;;
+  hkz_detect_php_socket 2>/dev/null || return 1
+  for conf in \
+    "${NGINX_AVAIL:-/etc/nginx/sites-available}/pterodactyl.conf" \
+    "${NGINX_ENABL:-/etc/nginx/sites-enabled}/pterodactyl.conf" \
+    /etc/nginx/conf.d/pterodactyl.conf; do
+    [ -f "$conf" ] || continue
+    grep -q 'fastcgi_pass unix:' "$conf" || continue
+    sed -i "s|fastcgi_pass unix:[^;]*|fastcgi_pass unix:${PHP_SOCKET}|" "$conf"
+  done
+  nginx -t >>"${LOG_PATH:-/dev/null}" 2>&1 && systemctl restart nginx >>"${LOG_PATH:-/dev/null}" 2>&1
+  return 0
+}
+
+hkz_php_fpm_service_units() {
+  local u
+  for u in php8.4-fpm php8.3-fpm php8.2-fpm php8.1-fpm php-fpm; do
+    systemctl list-unit-files "${u}.service" 2>/dev/null | grep -q "${u}.service" || continue
+    echo "$u"
+  done
+}
+
+hkz_ensure_php_fpm() {
+  local unit started=0
+  hkz_resolve_php_fpm_env 2>/dev/null || true
+  case "${OS:-}" in
     rocky|almalinux)
       hkz_install_php_fpm_pool
-      systemctl enable php-fpm 2>/dev/null || true
-      systemctl restart php-fpm 2>/dev/null || true
       ;;
   esac
+  for unit in $(hkz_php_fpm_service_units) php8.3-fpm php-fpm; do
+    [ -n "$unit" ] || continue
+    systemctl enable "$unit" 2>/dev/null || true
+    if systemctl restart "$unit" 2>/dev/null; then
+      started=1
+      break
+    fi
+  done
+  [ "$started" = 1 ] || systemctl restart php-fpm 2>/dev/null || true
   sleep 1
   hkz_detect_php_socket || {
     msg_err "$(hkz_t panel_php_fpm_fail)"
     return 1
   }
+  # Keep resolve default in sync with reality (avoids writing stale 8.3 path)
+  case "${OS:-}" in
+    ubuntu|debian)
+      PHP_SOCKET="$PHP_SOCKET"
+      export PHP_SOCKET
+      ;;
+  esac
+  hkz_php_socket_fix_access 2>/dev/null || true
   msg_ok "$(hkz_t panel_php_fpm_ok): ${PHP_SOCKET}"
   return 0
 }

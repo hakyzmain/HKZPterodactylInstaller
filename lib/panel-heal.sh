@@ -119,22 +119,6 @@ hkz_panel_ensure_drivers() {
   return 0
 }
 
-hkz_nginx_sync_php_socket() {
-  local conf
-  hkz_resolve_php_fpm_env 2>/dev/null || return 0
-  hkz_detect_php_socket 2>/dev/null || return 0
-  for conf in \
-    "${NGINX_AVAIL:-/etc/nginx/sites-available}/pterodactyl.conf" \
-    "${NGINX_ENABL:-/etc/nginx/sites-enabled}/pterodactyl.conf" \
-    /etc/nginx/conf.d/pterodactyl.conf; do
-    [ -f "$conf" ] || continue
-    grep -q 'fastcgi_pass unix:' "$conf" || continue
-    sed -i "s|fastcgi_pass unix:[^;]*|fastcgi_pass unix:${PHP_SOCKET}|" "$conf"
-  done
-  nginx -t >>"$LOG_PATH" 2>&1 && systemctl restart nginx >>"$LOG_PATH" 2>&1
-  return 0
-}
-
 hkz_panel_artisan_boot_test() {
   [ -f "${PANEL_DIR}/artisan" ] || return 1
   (cd "$PANEL_DIR" && php artisan about --no-interaction >>"$LOG_PATH" 2>&1)
@@ -217,6 +201,9 @@ hkz_panel_finalize() {
       hkz_nginx_apply_panel_config "${FQDN:-}" >>"$LOG_PATH" 2>&1 || hkz_nginx_sync_php_socket || true
     else
       hkz_nginx_sync_php_socket || true
+    fi
+    if type hkz_nginx_verify_panel >/dev/null 2>&1; then
+      hkz_nginx_verify_panel >>"$LOG_PATH" 2>&1 || true
     fi
     hkz_ensure_panel_services || return 1
     if hkz_panel_artisan_boot_test && hkz_panel_http_probe; then
