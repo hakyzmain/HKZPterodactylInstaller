@@ -31,6 +31,15 @@ hkz_panel_ensure_admin_user() {
   [ -f "${PANEL_DIR}/artisan" ] || return 1
   [ -n "${user_email:-}" ] || return 1
   [ -n "${user_password:-}" ] || return 1
+  # broken %q / non-latin usernames break p:user:make
+  if ! hkz_username_ok "${user_username:-}"; then
+    user_username=admin
+    export user_username
+  fi
+  if ! hkz_admin_password_ok "${user_password}"; then
+    msg_err "$(hkz_t ui_pass_short 2>/dev/null || echo 'admin password min 8 chars')"
+    return 1
+  fi
   msg_step "$(hkz_t panel_admin_setup)"
   if hkz_panel_admin_exists; then
     msg_info "$(hkz_t panel_admin_pass_reset)"

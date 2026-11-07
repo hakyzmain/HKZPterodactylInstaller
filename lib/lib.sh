@@ -1511,8 +1511,16 @@ email_input() {
   hkz_set_var "$__resultvar" "$result"
 }
 
+hkz_username_ok() {
+  [[ "$1" =~ ^[a-zA-Z0-9_][a-zA-Z0-9_-]{2,31}$ ]]
+}
+
+hkz_admin_password_ok() {
+  [ "${#1}" -ge 8 ]
+}
+
 password_input() {
-  local __resultvar=$1 result='' default="${4:-}" use_default_on_empty="${5:-0}"
+  local __resultvar=$1 result='' default="${4:-}" use_default_on_empty="${5:-0}" min_len="${6:-0}"
   while [ -z "$result" ]; do
     echo -en "  ${2}: "
     result=''
@@ -1526,7 +1534,34 @@ password_input() {
       result="$default"
       [ "$use_default_on_empty" = 1 ] && msg_info "$(hkz_t ui_mysql_random_used)"
     fi
-    [ -z "$result" ] && msg_err "${3}"
+    if [ -z "$result" ]; then
+      msg_err "${3}"
+      continue
+    fi
+    if [ "$min_len" -gt 0 ] && [ "${#result}" -lt "$min_len" ]; then
+      msg_err "$(hkz_t ui_pass_short 2>/dev/null || echo "password min ${min_len} chars")"
+      result=''
+      continue
+    fi
+  done
+  hkz_set_var "$__resultvar" "$result"
+}
+
+username_input() {
+  local __resultvar=$1 result='' default="${4:-admin}"
+  while true; do
+    echo -en "  ${2}: "
+    read -r result
+    [ -z "$result" ] && [ -n "$default" ] && result="$default"
+    if [ -z "$result" ]; then
+      msg_err "${3:-$(hkz_t input_required)}"
+      continue
+    fi
+    if ! hkz_username_ok "$result"; then
+      msg_err "$(hkz_t ui_username_bad 2>/dev/null || echo 'username: a-z A-Z 0-9 _ - (3-32 chars, latin only)')"
+      continue
+    fi
+    break
   done
   hkz_set_var "$__resultvar" "$result"
 }

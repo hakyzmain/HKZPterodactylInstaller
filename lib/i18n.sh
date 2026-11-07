@@ -202,6 +202,8 @@ hkz_t() {
       ui_mysql_pass) echo "mysql password (Enter — random)" ;;
       ui_mysql_random_used) echo "random mysql password selected" ;;
       ui_pass_required) echo "password required" ;;
+      ui_pass_short) echo "password must be at least 8 characters" ;;
+      ui_username_bad) echo "bad username: only a-z A-Z 0-9 _ - (3-32 chars, latin only)" ;;
       panel_db_conn_fail) echo "mysql connection failed — see /var/log/HKZPterodactylInstaller.log" ;;
       panel_mysql_root_fail) echo "cannot connect to mysql as root — check mariadb service" ;;
       panel_mysql_ok) echo "mysql ready" ;;

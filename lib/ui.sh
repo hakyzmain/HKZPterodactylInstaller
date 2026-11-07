@@ -48,8 +48,8 @@ run_ui() {
   password_input MYSQL_PASSWORD "$(hkz_t ui_mysql_pass)" "$(hkz_t ui_pass_required)" "$MYSQL_PASSWORD" 1
   email_input email "$(hkz_t ui_ssl_email)" "$(hkz_t ui_bad_email)"
   email_input user_email "$(hkz_t ui_admin_email)" "$(hkz_t ui_bad_email)"
-  password_input user_password "$(hkz_t ui_admin_pass)" "$(hkz_t ui_pass_required)"
-  required_input user_username "$(hkz_t ui_username)" "" "$user_username"
+  password_input user_password "$(hkz_t ui_admin_pass)" "$(hkz_t ui_pass_required)" "" 0 8
+  username_input user_username "$(hkz_t ui_username)" "$(hkz_t ui_username_bad)" "${user_username:-admin}"
   required_input user_firstname "$(hkz_t ui_firstname)" "" "$user_firstname"
   required_input user_lastname "$(hkz_t ui_lastname)" "" "$user_lastname"
   print_rule
